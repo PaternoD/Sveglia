@@ -12,5 +12,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_LONG).show();
+        //secondo commit
     }
 }
