@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/buttonTransitButton_1"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="95dp">
+
+                <ImageView
+                    android:id="@+id/arrow_imageView_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="-12dp"
+                    android:layout_marginStart="5dp"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    app:srcCompat="@drawable/icons8_left_48" />
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/arrow_imageView_ID">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7">
+
+                        <ImageView
+                            android:id="@+id/dot_ImageView_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            app:srcCompat="@drawable/icons8_round_filled_24" />
+
+                        <ImageView
+                            android:id="@+id/menu_icon_ImageView_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            app:srcCompat="@drawable/icons8_menu_vertical_24" />
+
+                        <ImageView
+                            android:id="@+id/location_ImageView_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            app:srcCompat="@drawable/icons8_marker_48" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="-5dp"
+                    android:layout_toEndOf="@+id/relativeLayout"
+                    android:layout_toStartOf="@+id/relativeLayout3">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toStartOf="@+id/relativeLayout3"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/autocomp_origin_Card_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="8dp"
+                            android:layout_toEndOf="@+id/imageView3"
+                            app:cardBackgroundColor="@color/AutocompleteCardGoogle"
+                            app:cardCornerRadius="4dp"
+                            app:cardElevation="0dp">
+
+                            <TextView
+                                android:id="@+id/text_origin_ID"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="16dp"
+                                android:fontFamily="@font/fira_sans_light"
+                                android:singleLine="true"
+                                android:text="Origine" />
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/autocomp_destination_Card_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="14dp"
+                            app:cardBackgroundColor="@color/AutocompleteCardGoogle"
+                            app:cardCornerRadius="4dp"
+                            app:cardElevation="0dp">
+
+                            <TextView
+                                android:id="@+id/text_destination_ID"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginRight="16dp"
+                                android:fontFamily="@font/fira_sans_light"
+                                android:singleLine="true"
+                                android:text="Destinazione" />
+                        </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true">
+
+                    <ImageView
+                        android:id="@+id/arrow_switch_ImageView_ID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="6dp"
+                        android:scaleX="0.7"
+                        android:scaleY="0.7"
+                        app:srcCompat="@drawable/icons8_up_down_arrow_48" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton_car_ID"
+                    android:layout_width="130dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/roundcorner_white"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    app:srcCompat="@drawable/icons8_car_24" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_transit_ID"
+                    android:layout_width="130dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/roundcorner_trasparent"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    app:srcCompat="@drawable/icons8_train_24" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_walking_ID"
+                    android:layout_width="130dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/roundcorner_trasparent"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    app:srcCompat="@drawable/icons8_walking_24" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cardView2"
+        app:cardBackgroundColor="@color/layoutTransit"
+        app:cardCornerRadius="0dp"
+        android:id="@+id/cardView3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/time_clock_Image_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:adjustViewBounds="true"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:srcCompat="@drawable/icons8_clock_48" />
+
+            <Button
+                android:id="@+id/btn_arrival_time_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/time_clock_Image_ID"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/fira_sans_light"
+                android:text="Arrivo alle ..."
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/buttonTransitButton_2" />
+
+            <Button
+                android:id="@+id/btn_search_Google_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/fira_sans_light"
+                android:text="CERCA"
+                android:textColor="@color/buttonTransitButton_2"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewData_ID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cardView3"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/relative_Layout_no_result_ID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cardView3"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/fira_sans_light"
+            android:text="Nessun Risultato Trovato"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

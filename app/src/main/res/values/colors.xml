@@ -2,5 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="layoutTransit">#0047a4</color>
+    <color name="searchPositionMaps">#689df6</color>
+    <color name="buttonTransitButton_1">#3371d6</color>
+    <color name="buttonTransitButton_2">#ffffff</color>
+    <color name="my_DarkerGrey">#9E9E9E</color>
+    <color name="ErrorText">#dd2c00</color>
+    <color name="AutocompleteCardGoogle">#719fff</color>
+    <color name="Notification_Action">#eeeeee</color>
 </resources>

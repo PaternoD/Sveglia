@@ -8,4 +8,39 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Add_Alarm Style -->
+    <style name="AppTheme.Add_Alarm">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- TimePicker_Alarm Style -->
+    <style name="TimePicker_Alarm">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/fira_sans_light</item>
+    </style>
+
+    <!-- Add_Repetitions Style -->
+    <style name="Add_Repetitions">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- TimePicker_Google -->
+    <style name="TimePicker_Google">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/fira_sans_light</item>
+    </style>
+
+    <!-- Notification -->
+    <style name="Notification_Style">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>
