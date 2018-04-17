@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         //quarto
         //quinto
         //sesto
+        //settimo
 
         Button btn_add = (Button)findViewById(R.id.btn_1);
 
