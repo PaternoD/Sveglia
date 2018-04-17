@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         //terzo commit
         //quarto
         //quinto
+        //sesto
 
         Button btn_add = (Button)findViewById(R.id.btn_1);
 
