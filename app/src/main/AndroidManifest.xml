@@ -8,6 +8,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +37,11 @@
         <activity android:name=".TimePicker_Google"
             android:theme="@style/TimePicker_Google"></activity>
         <activity android:name=".add_alarm_music"></activity>
-        <activity android:name=".alarm_screen_test"></activity>
+        <activity android:name=".FullScreen_Notification"
+            android:theme="@style/FullScreen_Notification"
+            android:showOnLockScreen="true"></activity>
+
+        <service android:name=".Notification_Sound_Service"></service>
 
         <receiver
             android:name=".AlarmReceiver"

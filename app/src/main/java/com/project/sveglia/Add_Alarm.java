@@ -36,6 +36,7 @@ public class Add_Alarm extends AppCompatActivity {
     String end_address_detail;
     Boolean disable_modify_time = false;
     int listPositionMusic = 2;
+    String alarm_Name = "Sveglia";
     String alarm_music;
     int alarm_music_ID;
     boolean delay_Alarm = true;
@@ -203,7 +204,7 @@ public class Add_Alarm extends AppCompatActivity {
         btn_save_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetAlarmManager.SetAlarmManager(Add_Alarm.this, alarm_time, alarm_music_ID, delay_Alarm, alarm_music, repetitionsArray, false);
+                SetAlarmManager.SetAlarmManager(Add_Alarm.this, alarm_time, alarm_music_ID, delay_Alarm, alarm_Name, repetitionsArray, false);
 
             }
         });
@@ -224,6 +225,7 @@ public class Add_Alarm extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 String new_name = data.getExtras().getString("new_name");
+                alarm_Name = new_name;
                 TextView etichetta_new_name = (TextView)findViewById(R.id.etichetta_name_ID);
                 etichetta_new_name.setText(new_name);
             }

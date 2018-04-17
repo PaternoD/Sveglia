@@ -9,24 +9,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by simonerigon on 15/03/18.
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
+
+    // Variabili Globali --
+    int delayTimeForCancelForNotification;
+    MediaPlayer mediaPlayer;
+    long alarmTimeInMillis = 0;
+    boolean isRepetitionDayAlarm;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -35,10 +42,16 @@ public class AlarmReceiver extends BroadcastReceiver {
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarmName = intent.getExtras().getString("alarmName");
+        isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
+
+        if(isRepetitionDayAlarm){
+            alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
+        }
 
         // Recupero dati da impostazioni nel database ------------
         // ----> recupero informazioni sulla vibrazione
         boolean enableVibrate = true;
+        delayTimeForCancelForNotification = 600000;
 
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
@@ -71,7 +84,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             // Aggiungo azione cancella alla notifica --------------------------
             Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
             cancelAction.putExtra("notification_ID", NOT_ID);
-            cancelAction.putExtra("notification_Channel", "");
+            cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -83,12 +97,18 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("notification_Channel", "");
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
-
-            // ----> test di fullScreen notification
-            Intent fullScreen = new Intent(context, alarm_screen_test.class);
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
             fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", isDelayAlarm);
+            fullScreen.putExtra("alarm_name", alarmName);
+            fullScreen.putExtra("notification_Channel", "");
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            // Creo la notifica ------------------------------------------------
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle("Notification Alarm")
                     .setContentText(alarmName)
@@ -99,6 +119,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .addAction(0, "CANCELLA", cancelPendingIntent)
                     .setFullScreenIntent(fullScreenPendingIntent, true)
                     .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setUsesChronometer(true);
 
             if(enableVibrate){
@@ -108,21 +129,27 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification mNotification = notificationBuilder.build();
             mNotification.flags |= Notification.FLAG_INSISTENT;
             notificationManager.notify(NOT_ID, mNotification);
-            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName);
+            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent);
 
         } else {
 
             Calendar cal = Calendar.getInstance();
             int NOT_ID = createID(cal.getTimeInMillis());
 
-            String not_Channel_ID = "com.project.sveglia.Channel.ONE.one";
+            String not_Channel_ID = "com.project.sveglia.Channel.one";
 
             Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/" + alarmMusic_ID);
+
+            // Attivo servizio per attivare la musica della notifica -----------
+            Intent service_intent = new Intent(context, Notification_Sound_Service.class);
+            service_intent.putExtra("alarm_music_ID", alarmMusic_ID);
+            context.startService(service_intent);
 
             // Aggiungo azione cancella alla notifica --------------------------
             Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
             cancelAction.putExtra("notification_ID", NOT_ID);
-            cancelAction.putExtra("notification_Channel", not_Channel_ID);
+            cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -135,12 +162,23 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Creo un notification Channel ------------------------------------
-            NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "not_channel_one", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "Alarm Notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setSound(null, null);
             notificationChannel.setShowBadge(true);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
+            fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", isDelayAlarm);
+            fullScreen.putExtra("alarm_name", alarmName);
+            fullScreen.putExtra("notification_Channel", not_Channel_ID);
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
                     .setContentTitle("Notification Alarm")
@@ -149,19 +187,23 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .addAction(0, "RITARDA", delayPendingIntent)
                     .addAction(0, "CANCELLA", cancelPendingIntent)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
                     .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setUsesChronometer(true);
 
             if(enableVibrate){
                 notificationBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
             }
 
+
+
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification mNotification = notificationBuilder.build();
             mNotification.flags |= Notification.FLAG_INSISTENT;
             notificationManager.notify(NOT_ID, mNotification);
             notificationManager.createNotificationChannel(notificationChannel);
-            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName);
+            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent);
 
         }
     }
@@ -187,8 +229,17 @@ public class AlarmReceiver extends BroadcastReceiver {
             // Aggiungo azione cancella alla notifica --------------------------
             Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
             cancelAction.putExtra("notification_ID", NOT_ID);
-            cancelAction.putExtra("notification_Channel", "");
+            cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
+
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
+            fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("notification_Channel", "");
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle("Notification Alarm")
@@ -196,9 +247,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setSmallIcon(R.drawable.icons8_alarm_clock_24)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setSound(uriSong)
-                    .setOngoing(true)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
                     .addAction(0, "CANCELLA", cancelPendingIntent)
                     .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setUsesChronometer(true);
 
             if(enableVibrate){
@@ -215,31 +267,47 @@ public class AlarmReceiver extends BroadcastReceiver {
             Calendar cal = Calendar.getInstance();
             int NOT_ID = createID(cal.getTimeInMillis());
 
-            String not_Channel_ID = "com.project.sveglia.Channel.ONE.tre";
+            String not_Channel_ID = "com.project.sveglia.Channel.one";
 
             Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/" + alarmMusic_ID);
+
+            // Attivo servizio per attivare la musica della notifica -----------
+            Intent service_intent = new Intent(context, Notification_Sound_Service.class);
+            service_intent.putExtra("alarm_music_ID", alarmMusic_ID);
+            context.startService(service_intent);
 
             // Aggiungo azione cancella alla notifica --------------------------
             Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
             cancelAction.putExtra("notification_ID", NOT_ID);
-            cancelAction.putExtra("notification_Channel", not_Channel_ID);
+            cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Creo un notification Channel ------------------------------------
-            NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "not_channel_id", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "Alarm Notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             notificationChannel.enableLights(true);
-            notificationChannel.setSound(uriSong, null);
+            notificationChannel.setSound(null, null);
             notificationChannel.setShowBadge(true);
+
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
+            fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("notification_Channel", not_Channel_ID);
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
                     .setContentTitle("Notification Alarm")
                     .setContentText(alarmName)
                     .setSound(uriSong)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
                     .setSmallIcon(R.drawable.icons8_alarm_clock_24)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .addAction(0, "CANCELLA", cancelPendingIntent)
                     .setAutoCancel(true)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setUsesChronometer(true);
 
             if(enableVibrate){
@@ -266,16 +334,18 @@ public class AlarmReceiver extends BroadcastReceiver {
                                     final Context context,
                                     final boolean isDelayAlarm,
                                     final int alarm_music_ID,
-                                    final String alarm_name) {
+                                    final String alarm_name,
+                                         final PendingIntent fullScreenPendingIntent) {
         Handler handler = new Handler();
-        final long delayInMilliseconds = 600000;
+        final long delayInMilliseconds = delayTimeForCancelForNotification;
         handler.postDelayed(new Runnable() {
             public void run() {
                 if(isNotificationActive(id, context)){
                     notificationManager.cancel(id);
                     Toast.makeText(context, "posso cancellare la notificata", Toast.LENGTH_LONG).show();
+
                     // Risetto la sveglia dopo un certo tempo indicato dall'utente ...
-                    long delayAlarm = 600000;
+                    long delayAlarm = 40000;
                     Calendar cal = Calendar.getInstance();
                     long timeToSetDelayAlarm = cal.getTimeInMillis() + delayAlarm;
 

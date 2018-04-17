@@ -11,4 +11,5 @@
     <color name="ErrorText">#dd2c00</color>
     <color name="AutocompleteCardGoogle">#719fff</color>
     <color name="Notification_Action">#eeeeee</color>
+    <color name="Notification_Background_Button">#66ffffff</color>
 </resources>

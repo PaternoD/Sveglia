@@ -76,7 +76,8 @@ public class SetAlarmManager {
         startPrincipalAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
         startPrincipalAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
         startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
@@ -157,6 +158,8 @@ public class SetAlarmManager {
                 startRepeatAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
                 startRepeatAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
                 startRepeatAlarmIntent.putExtra("alarmName", alarm_name);
+                startRepeatAlarmIntent.putExtra("isRepetitionDayAlarm", true);
+                startRepeatAlarmIntent.putExtra("alarmTimeInMillis", timeInMilllis);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 
