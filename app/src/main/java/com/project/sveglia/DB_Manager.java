@@ -31,7 +31,7 @@ public class DB_Manager {
         db_helper.close();
     }
 
-    public void insert(Long id, Long time, int suoneria, String nome, String ripetizioni, Boolean ritarda, Boolean travel_to, String From, String To, Boolean on_off, String mezzo ){
+    public void insert(Long id, Long time, int suoneria, String nome_suoneria, String nome_sveglia, String ripetizioni, Boolean ritarda, Boolean travel_to, String From, String To, Boolean on_off, String mezzo ){
         //boolean ritarda, travel_to, on_off
         int ritarda_input;
         if (ritarda){
@@ -55,7 +55,7 @@ public class DB_Manager {
         contentValues.put(DB_Helper.ID, id);
         contentValues.put(DB_Helper.TIME, time);
         contentValues.put(DB_Helper.SONG, suoneria);
-        contentValues.put(DB_Helper.NOME, nome);
+        contentValues.put(DB_Helper.NOME_SVEGLIA, nome_sveglia);
         contentValues.put(DB_Helper.REPEAT, ripetizioni);
         contentValues.put(DB_Helper.RITARDA, ritarda_input);
         contentValues.put(DB_Helper.TRAVEL_TO, travel_to_input);
@@ -63,11 +63,12 @@ public class DB_Manager {
         contentValues.put(DB_Helper.TO, To);
         contentValues.put(DB_Helper.ON_OFF, on_off_input);
         contentValues.put(DB_Helper.TRAVEL_BY, mezzo);
+        contentValues.put(DB_Helper.NOME_SUONERIA, nome_suoneria);
         database.insert(DB_Helper.TABLE_NAME,null,contentValues);
     }
 
     public Cursor fetch(){
-        String columns[] = new String[] {DB_Helper.ID, DB_Helper.TIME, DB_Helper.SONG, DB_Helper.NOME, DB_Helper.REPEAT, DB_Helper.RITARDA, DB_Helper.TRAVEL_TO, DB_Helper.FROM, DB_Helper.TO, DB_Helper.ON_OFF, DB_Helper.TRAVEL_BY};
+        String columns[] = new String[] {DB_Helper.ID, DB_Helper.TIME, DB_Helper.SONG, DB_Helper.NOME_SVEGLIA, DB_Helper.REPEAT, DB_Helper.RITARDA, DB_Helper.TRAVEL_TO, DB_Helper.FROM, DB_Helper.TO, DB_Helper.ON_OFF, DB_Helper.TRAVEL_BY, DB_Helper.NOME_SUONERIA};
         Cursor cursor = database.query(DB_Helper.TABLE_NAME,columns,null,null,null,null,null);
         if (cursor != null){
             cursor.moveToFirst();
@@ -75,7 +76,7 @@ public class DB_Manager {
         return cursor;
     }
 
-    public int update(Long id, Long time, int suoneria, String nome, String ripetizioni, Boolean ritarda, Boolean travel_to, String From, String To, Boolean on_off, String mezzo ){
+    public int update(Long id, Long time, int suoneria, String nome_suoneria, String nome_sveglia, String ripetizioni, Boolean ritarda, Boolean travel_to, String From, String To, Boolean on_off, String mezzo ){
         //boolean ritarda, travel_to, on_off
         int ritarda_input;
         if (ritarda){
@@ -99,7 +100,7 @@ public class DB_Manager {
         contentValues.put(DB_Helper.ID, id);
         contentValues.put(DB_Helper.TIME, time);
         contentValues.put(DB_Helper.SONG, suoneria);
-        contentValues.put(DB_Helper.NOME, nome);
+        contentValues.put(DB_Helper.NOME_SVEGLIA, nome_sveglia);
         contentValues.put(DB_Helper.REPEAT, ripetizioni);
         contentValues.put(DB_Helper.RITARDA, ritarda_input);
         contentValues.put(DB_Helper.TRAVEL_TO, travel_to_input);
@@ -107,6 +108,7 @@ public class DB_Manager {
         contentValues.put(DB_Helper.TO, To);
         contentValues.put(DB_Helper.ON_OFF, on_off_input);
         contentValues.put(DB_Helper.TRAVEL_BY, mezzo);
+        contentValues.put(DB_Helper.NOME_SUONERIA, nome_suoneria);
         int i = database.update(DB_Helper.TABLE_NAME,contentValues,DB_Helper.ID + " = " + id,null);
         return i;
     }

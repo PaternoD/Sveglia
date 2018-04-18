@@ -18,7 +18,7 @@ public class DB_Helper extends SQLiteOpenHelper {
     //Colonne DB
     public static final String ID = "_id";
     public static final String TIME = "time";
-    public static final String NOME = "nome";
+    public static final String NOME_SVEGLIA = "nome_sveglia";
     public static final String SONG = "song";
     public static final String REPEAT = "repeat";
     public static final String RITARDA = "ritarda";
@@ -27,13 +27,14 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String TO = "to";
     public static final String ON_OFF = "on_off";
     public static final String TRAVEL_BY = "travel_by";
+    public static final String NOME_SUONERIA = "nome_suoneria";
 
     //query creazione tabella
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " ( " +
                     ID + " INTEGER PRIMARY KEY NOT NULL UNIQUE, " +
                     TIME + " INTEGER NOT NULL, " +
-                    NOME + " TEXT, " +
+                    NOME_SVEGLIA + " TEXT, " +
                     SONG + " INTEGER, " +
                     REPEAT + " TEXT, " +
                     RITARDA + " INTEGER, " +
@@ -41,7 +42,8 @@ public class DB_Helper extends SQLiteOpenHelper {
                     FROM + " TEXT, " +
                     TO + " TEXT, " +
                     ON_OFF + " INTEGER, " +
-                    TRAVEL_BY + "TEXT " +
+                    TRAVEL_BY + " TEXT " +
+                    NOME_SUONERIA + " TEXT " +
                     ");";
 
 
