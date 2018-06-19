@@ -12,4 +12,6 @@
     <color name="AutocompleteCardGoogle">#719fff</color>
     <color name="Notification_Action">#eeeeee</color>
     <color name="Notification_Background_Button">#66ffffff</color>
+    <color name="DefaultColorText">#424242</color>
+    <color name="White">#ffffff</color>
 </resources>

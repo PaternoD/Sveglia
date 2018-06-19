@@ -1,9 +1,12 @@
 package com.project.sveglia;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -29,17 +32,23 @@ import java.util.Calendar;
 public class Add_Alarm extends AppCompatActivity {
 
     // Variabili globali ------------------------------------------
+    int modify_alarm_id;
     boolean modify_alarm = false;
     boolean[] repetitionsArray = fill_Ripetition_Array(modify_alarm);
     long alarm_time;
     String start_address_detail;
     String end_address_detail;
-    Boolean disable_modify_time = false;
+    boolean disable_modify_time = false;
+    boolean disable_repetition_days = false;
     int listPositionMusic = 2;
     String alarm_Name = "Sveglia";
-    String alarm_music;
+    String alarm_music_name;
     int alarm_music_ID;
     boolean delay_Alarm = true;
+
+    // TextView
+    TextView repetition_Text;
+    TextView day_info;
 
 
     @Override
@@ -52,6 +61,8 @@ public class Add_Alarm extends AppCompatActivity {
         final TextView time = (TextView)findViewById(R.id.time_text_ID);
         final TextView etichetta_name = (TextView)findViewById(R.id.etichetta_name_ID);
         final TextView music_name = (TextView)findViewById(R.id.music_name_ID);
+        repetition_Text = (TextView)findViewById(R.id.text_ripetizione_ID);
+        day_info = (TextView)findViewById(R.id.text_day_info_alarm_time_ID);
 
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
@@ -73,7 +84,19 @@ public class Add_Alarm extends AppCompatActivity {
         final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
 
         // Recupero dati da Intent chiamante -----------------------
-        // ----> settare modify_alarm!!!!!
+        // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente
+        //modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
+
+        if(modify_alarm) {
+            modify_alarm_id = getIntent().getExtras().getInt("modify_alarm_id");
+        }
+
+        // Setto testo bottone salva/modifica allarme --------------
+        if(modify_alarm){
+            btn_save_alarm.setText("Modifica");
+        }else{
+            btn_save_alarm.setText("Salva");
+        }
 
         // Attivo o disattivo visualizzazione Detail_Transit_Card in base a variabile modify_alarm --
         if(modify_alarm){
@@ -85,16 +108,29 @@ public class Add_Alarm extends AppCompatActivity {
         }
 
         // Recupero Musica di default per l'allarme ----------------
-        String[] res = getMusicData.getDefaultMusic(Add_Alarm.this);
-        alarm_music = res[0];
-        alarm_music_ID = Integer.parseInt(res[1]);
+
+
+
+        if(modify_alarm){
+            // Se modifico l'allarme gia esistente recupero musica dal database
+            //alarm_music_name = getMusicNameFromDatabase(modify_alarm_id);
+            //alarm_music_ID = getMusicIDFromDatabase(modify_alarm_id);
+        }else{
+            String[] res = getMusicData.getDefaultMusic(Add_Alarm.this);
+            alarm_music_name = res[0];
+            alarm_music_ID = Integer.parseInt(res[1]);
+        }
+
+
 
         // Setto nome musica nel layout ----------------------------
-        music_name.setText(alarm_music);
+        music_name.setText(alarm_music_name);
 
         // Setto l'ora corrente ------------------------------------
         String date = getTime();
+        String currentDayTime = getDayTimeFromMillis(0);
         time.setText(date);
+        day_info.setText(currentDayTime);
 
         // Aggiungo azione per cambiare nome all'etichetta ---------
         etichetta_name_card.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +155,7 @@ public class Add_Alarm extends AppCompatActivity {
 
                     Intent timePicker_intent = new Intent(Add_Alarm.this, TimePicker_Alarm.class);
                     startActivityForResult(timePicker_intent, TIME_PICKER_ID);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }
         });
@@ -127,34 +164,57 @@ public class Add_Alarm extends AppCompatActivity {
         ripetizione_Card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int RIPETIZIONE_INTENT_ID = 3;
+                if(disable_repetition_days){
 
-                Intent ripetizione_intent = new Intent(Add_Alarm.this, Add_Repetitions.class);
-                ripetizione_intent.putExtra("array_giorni", repetitionsArray);
-                startActivityForResult(ripetizione_intent, RIPETIZIONE_INTENT_ID);
+                    Toast.makeText(Add_Alarm.this, "Non puoi usare questa funzione se utilizzi Travel To", Toast.LENGTH_LONG).show();
+
+                }else {
+
+                    repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
+
+                    int RIPETIZIONE_INTENT_ID = 3;
+
+                    Intent ripetizione_intent = new Intent(Add_Alarm.this, Add_Repetitions.class);
+                    ripetizione_intent.putExtra("array_giorni", repetitionsArray);
+                    startActivityForResult(ripetizione_intent, RIPETIZIONE_INTENT_ID);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
 
-        // Aggiungo azione a bottone/Switch per la funzione travel_to -----
+        // Aggiungo azione a bottone/Switch per la funzione Travel_To -----
         btn_travel_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(travel_to_switch.isChecked()){
-                    travel_to_switch.setChecked(false);
-                    detail_transit_Layout.getLayoutParams().height = 0;
-                    line_transit.getLayoutParams().height = 0;
-                    detail_transit_Layout.requestLayout();
-                    line_transit.requestLayout();
-                    disable_modify_time = false;
+
+                if(isNetworkAvailable()) {
+
+                    if (travel_to_switch.isChecked()) {
+                        travel_to_switch.setChecked(false);
+                        detail_transit_Layout.getLayoutParams().height = 0;
+                        line_transit.getLayoutParams().height = 0;
+                        detail_transit_Layout.requestLayout();
+                        line_transit.requestLayout();
+                        disable_modify_time = false;
+                        disable_repetition_days = false;
+                        repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
+                    } else {
+                        int GOOGLE_MAPS_ID = 4;
+
+                        Intent googleMapsIntent = new Intent(Add_Alarm.this, MapsActivity.class);
+                        googleMapsIntent.putExtra("modify_intent", false);
+                        startActivityForResult(googleMapsIntent, GOOGLE_MAPS_ID);
+
+                        // modifico layout inserendo i dettagli di travel_to
+                        travel_to_switch.setChecked(true);
+                    }
                 }else{
-                    int GOOGLE_MAPS_ID = 4;
 
-                    Intent googleMapsIntent = new Intent(Add_Alarm.this, MapsActivity.class);
-                    googleMapsIntent.putExtra("modify_intent", false);
-                    startActivityForResult(googleMapsIntent, GOOGLE_MAPS_ID);
+                    Log.i("***** No Internet *****", "Non puoi utilizzare Travel-To, nessuna connessione a Internet");
 
-                    // modifico layout inserendo i dettagli di travel_to
-                    travel_to_switch.setChecked(true);
+                    Intent no_internet_conn_intent = new Intent(Add_Alarm.this, NoInternetConnectionActivity.class);
+                    startActivity(no_internet_conn_intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
 
             }
@@ -182,7 +242,7 @@ public class Add_Alarm extends AppCompatActivity {
 
                 Intent musicIntent = new Intent(Add_Alarm.this, add_alarm_music.class);
                 musicIntent.putExtra("listPositionMusic", listPositionMusic);
-                musicIntent.putExtra("music_name", alarm_music);
+                musicIntent.putExtra("music_name", alarm_music_name);
                 musicIntent.putExtra("alarm_music_ID", alarm_music_ID);
                 startActivityForResult(musicIntent, MUSIC_ID);
             }
@@ -204,12 +264,19 @@ public class Add_Alarm extends AppCompatActivity {
         btn_save_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetAlarmManager.SetAlarmManager(Add_Alarm.this, alarm_time, alarm_music_ID, delay_Alarm, alarm_Name, repetitionsArray, false);
+                SetAlarmManager.SetAlarmManager(Add_Alarm.this,
+                        alarm_time,
+                        alarm_music_ID,
+                        delay_Alarm,
+                        alarm_Name,
+                        repetitionsArray,
+                        false,
+                        listPositionMusic,
+                        start_address_detail,
+                        end_address_detail);
 
             }
         });
-
-
 
     }
 
@@ -241,7 +308,8 @@ public class Add_Alarm extends AppCompatActivity {
                 alarm_time = data.getExtras().getLong("timeInMillis");
                 TextView time = (TextView)findViewById(R.id.time_text_ID);
                 time.setText(newTime);
-                Toast.makeText(Add_Alarm.this, "timeInMillis: " + alarm_time, Toast.LENGTH_LONG).show();
+                String day_time = getDayTimeFromMillis(alarm_time);
+                day_info.setText(day_time);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
@@ -267,35 +335,53 @@ public class Add_Alarm extends AppCompatActivity {
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
                 String traffic_model_result = data.getExtras().getString("transit_model");
-                ImageView detail_transit_imageView = (ImageView)findViewById(R.id.detail_transit_image);
+
                 start_address_detail = data.getExtras().getString("start_address");
                 end_address_detail = data.getExtras().getString("end_address");
 
-                // Recupero riferimenti layout
+                // Recupero riferimenti layout ------------------------
+                // TextView
                 TextView time = (TextView)findViewById(R.id.time_text_ID);
-                TextView detail_route_textView = (TextView)findViewById(R.id.text_detail_transit);
+                TextView detail_origin_textView = (TextView)findViewById(R.id.text_detail_transit_origin);
+                TextView detail_destination_textView = (TextView)findViewById(R.id.text_detail_transit_destination);
 
-                // Setto i parametri
+                // ImageView
+                ImageView detail_transit_imageView = (ImageView)findViewById(R.id.detail_transit_image);
+                ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_transit_image);
+                ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_transit_image);
+
+                // Setto i parametri -----------------------------------
                 String google_maps_time = getFormattedTimeFromMillis(google_maps_time_in_millis);
                 time.setText(google_maps_time);
 
-                String detail_route_text = "FROM: " + start_address_detail + "\n" + "TO: " + end_address_detail;
-                detail_route_textView.setText(detail_route_text);
+                Bitmap place_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_marker_24);
+                place_detail_ImageView.setImageBitmap(place_image);
+                place_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.buttonTransitButton_1));
+
+                Bitmap point_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_menu_vertical_24);
+                point_detail_ImageView.setImageBitmap(point_image);
+                point_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
+
+                detail_origin_textView.setText(start_address_detail);
+                detail_destination_textView.setText(end_address_detail);
 
                 disable_modify_time = true;
+                disable_repetition_days = true;
+
+                String day_time = getDayTimeFromMillis(google_maps_time_in_millis);
+                day_info.setText(day_time);
+
+                repetition_Text.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
 
                 if(traffic_model_result.equals("DRIVING")){
                     Bitmap detail_driving_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_car_24);
                     detail_transit_imageView.setImageBitmap(detail_driving_image);
-                    detail_transit_imageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
                 }else if(traffic_model_result.equals("TRANSIT")){
                     Bitmap detail_transit_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_train_24);
                     detail_transit_imageView.setImageBitmap(detail_transit_image);
-                    detail_transit_imageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
                 }else if(traffic_model_result.equals("WALKING")){
                     Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
-                    detail_transit_imageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
                 }
 
 
@@ -333,15 +419,16 @@ public class Add_Alarm extends AppCompatActivity {
                 // Recupero riferimento layout
                 TextView music_name = (TextView)findViewById(R.id.music_name_ID);
 
-                alarm_music = data.getExtras().getString("music_name");
+                alarm_music_name = data.getExtras().getString("music_name");
                 alarm_music_ID = data.getExtras().getInt("music_ID");
                 listPositionMusic = data.getExtras().getInt("listPositionMusic");
 
-                music_name.setText(alarm_music);
+                music_name.setText(alarm_music_name);
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
+                Toast.makeText(Add_Alarm.this, "Utilizza la freccia in alto per confermare la scelta della musica.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -529,6 +616,75 @@ public class Add_Alarm extends AppCompatActivity {
         detail_transit_Layout.requestLayout();
         line_transit.requestLayout();
 
+    }
+
+    /**
+     * Funzione che restituisce vero se la connessione a internet è abilitata, false in caso contrario
+     * @return true if the connection is available
+     */
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    /**
+     * Funzione per ricavare il giorno (es. Lunedì  23-04-2018) da time in millis in input
+     * @param time
+     * @return current date (es. Lunedì  23-04-2018)
+     */
+    private String getDayTimeFromMillis(long time){
+
+        Calendar cal = Calendar.getInstance();
+        if(time != 0) {
+            cal.setTimeInMillis(time);
+        }
+
+        DateFormat dateFormat_dayOfWeek = new SimpleDateFormat("E");
+        DateFormat dateFormat = new SimpleDateFormat("dd - MM - YYYY");
+        String dayofWeekEnglish = dateFormat_dayOfWeek.format(cal.getTime());
+        String dayOfYear = dateFormat.format(cal.getTime());
+
+        String dayOfWeekIta = getdayOfWeekIta(dayofWeekEnglish);
+
+        String res = dayOfWeekIta + "  " + dayOfYear;
+
+        return res;
+    }
+
+    /**
+     * Funzione la quale mi ritorna il nome completo del giorno della settimana in input
+     * @param dayOfWeek
+     * @return long day name
+     */
+    private String getdayOfWeekIta(String dayOfWeek){
+        String dayTime = "";
+        switch(dayOfWeek){
+            case "Lun":
+                dayTime = "Lunedì";
+                break;
+            case "Mar":
+                dayTime = "Martedì";
+                break;
+            case "Mer":
+                dayTime = "Mercoledì";
+                break;
+            case "Gio":
+                dayTime = "Giovedì";
+                break;
+            case "Ven":
+                dayTime = "Venerdì";
+                break;
+            case "Sab":
+                dayTime = "Sabato";
+                break;
+            case "Dom":
+                dayTime = "Domenica";
+                break;
+        }
+
+        return dayTime;
     }
 
 

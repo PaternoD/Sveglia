@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -35,8 +36,12 @@ public class SetGoogleMapsResult {
 
     private static ArrayList<DataModelGoogleMaps> data;
     private static RecyclerView.Adapter adapter;
+    private static RelativeLayout relativeLayout;
 
-    public static void setDataModelGoogleMaps(DirectionsResult result, TravelMode travel_Model, RecyclerView recyclerView, RelativeLayout relLay_noResult, Activity myActivity, DateTime arrival_time){
+
+    public static void setDataModelGoogleMaps(DirectionsResult result, TravelMode travel_Model, RecyclerView recyclerView, RelativeLayout relLay_noResult, Activity myActivity, DateTime arrival_time, RelativeLayout relativeLayout_progressBar){
+
+        relativeLayout = relativeLayout_progressBar;
 
         if(travel_Model == TravelMode.DRIVING){
             setDataModelForDriving(result, recyclerView, relLay_noResult, myActivity, arrival_time);
@@ -90,6 +95,8 @@ public class SetGoogleMapsResult {
             adapter = new CustomAdapterDriving(data, myActivity);
 
             recyclerView.setAdapter(adapter);
+
+            relativeLayout.setVisibility(View.GONE);
         }
 
     }
@@ -174,11 +181,15 @@ public class SetGoogleMapsResult {
                 adapter = new CustomAdapterTransit(data, myActivity);
 
                 recyclerView.setAdapter(adapter);
+
+                relativeLayout.setVisibility(View.GONE);
             }catch(Exception e){
                 String TAG = "GoogleMapsResponse";
                 Log.e(TAG, "setDataModelForTransit: <ToDateTime>", e);
 
                 Toast.makeText(myActivity, "Risposta di Google Maps errata, prova a cambiare origine o destinazione", Toast.LENGTH_LONG).show();
+
+                relativeLayout.setVisibility(View.GONE);
             }
 
         }
@@ -223,9 +234,12 @@ public class SetGoogleMapsResult {
 
             }
 
+
             adapter = new CustomAdapterWalking(data, myActivity);
 
             recyclerView.setAdapter(adapter);
+
+            relativeLayout.setVisibility(View.GONE);
         }
 
     }

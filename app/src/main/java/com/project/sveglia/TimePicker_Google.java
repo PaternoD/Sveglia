@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -32,6 +35,7 @@ public class TimePicker_Google extends Activity {
     int date_day;
     int time_hour;
     int time_min;
+    int animationTime = 400;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +63,12 @@ public class TimePicker_Google extends Activity {
         // TextView
         final TextView datePicker_button = (TextView)findViewById(R.id.datePicker_text_ID);
 
+        // CardView
+        CardView cardViewTimePicker = (CardView)findViewById(R.id.cardView_TimePickerGoogle_ID);
+
+        // Inizializzo animazine cardViewTimePicker ----------------------
+        timePickerGoogleAnimationIn(cardViewTimePicker);
+
 
         // Recupero immagini da assegnare al layout ----------------------
         Bitmap calendar_image = BitmapFactory.decodeResource(TimePicker_Google.this.getResources(), R.drawable.icons8_calendar_24);
@@ -83,6 +93,7 @@ public class TimePicker_Google extends Activity {
             public void onClick(View v) {
                 time_layout.setVisibility(View.GONE);
                 date_layout.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -90,8 +101,16 @@ public class TimePicker_Google extends Activity {
         btn_cancel_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                date_layout.setVisibility(View.GONE);
-                time_layout.setVisibility(View.VISIBLE);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        date_layout.setVisibility(View.GONE);
+                        time_layout.setVisibility(View.VISIBLE);
+                    }
+                }, 500);
+
+
             }
         });
 
@@ -105,8 +124,13 @@ public class TimePicker_Google extends Activity {
                 String date = date_day + "/" + date_month + "/" + date_year;
                 datePicker_button.setText(date);
 
-                date_layout.setVisibility(View.GONE);
-                time_layout.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        date_layout.setVisibility(View.GONE);
+                        time_layout.setVisibility(View.VISIBLE);
+                    }
+                }, 500);
             }
         });
 
@@ -116,7 +140,16 @@ public class TimePicker_Google extends Activity {
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, resultIntent);
-                TimePicker_Google.this.finish();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        TimePicker_Google.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 500);
+
+
             }
         });
 
@@ -131,7 +164,13 @@ public class TimePicker_Google extends Activity {
                 resultIntent.putExtra("arrival_time", arrival_time);
                 setResult(Activity.RESULT_OK, resultIntent);
 
-                TimePicker_Google.this.finish();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        TimePicker_Google.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 500);
             }
         });
 
@@ -176,6 +215,15 @@ public class TimePicker_Google extends Activity {
         String res =  date_day +"/"+ date_month +"/"+ date_year;
 
         return res;
+    }
+
+    private void timePickerGoogleAnimationIn(CardView cardView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0,0,1500, 0);
+        translateAnimation.setDuration(animationTime);
+        translateAnimation.setFillAfter(true);
+        cardView.startAnimation(translateAnimation);
+
     }
 
 }

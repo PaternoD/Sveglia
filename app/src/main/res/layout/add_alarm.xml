@@ -18,20 +18,38 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/Show_time_Card_ID"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:cardElevation="0dp">
 
-                <TextView
-                    android:id="@+id/time_text_ID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/fira_sans_light"
-                    android:text="Time"
-                    android:textAlignment="center"
-                    android:textSize="68sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/time_text_ID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/fira_sans_light"
+                        android:text="Time"
+                        android:textAlignment="center"
+                        android:textColor="@color/DefaultColorText"
+                        android:textSize="120sp" />
+
+                    <TextView
+                        android:id="@+id/text_day_info_alarm_time_ID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/time_text_ID"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/fira_sans_light"
+                        android:text="TextView" />
+                </RelativeLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -81,6 +99,7 @@
                         android:singleLine="true"
                         android:text="Etichetta"
                         android:textAllCaps="false"
+                        android:textColor="@color/DefaultColorText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -135,6 +154,7 @@
                             android:fontFamily="@font/fira_sans_light"
                             android:singleLine="true"
                             android:text="Travel to"
+                            android:textColor="@color/DefaultColorText"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -174,19 +194,49 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <ImageView
-                            android:id="@+id/detail_transit_image"
+                        <RelativeLayout
+                            android:id="@+id/relLay_transit_info"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignBottom="@+id/text_detail_transit_destination"
                             android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="10dp"
-                            android:scaleX="0.6"
-                            android:scaleY="0.6"
-                            app:srcCompat="@drawable/icons8_car_24" />
+                            android:layout_alignTop="@+id/text_detail_transit_origin"
+                            android:layout_marginStart="12dp">
+
+                            <ImageView
+                                android:id="@+id/detail_transit_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:scaleX="0.6"
+                                android:scaleY="0.6"
+                                app:srcCompat="@drawable/icons8_car_24" />
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentStart="true"
+                                android:scaleX="0.8"
+                                android:scaleY="0.8"
+                                app:srcCompat="@drawable/icons8_marker_24" />
+
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:scaleX="0.5"
+                                android:scaleY="0.5"
+                                app:srcCompat="@drawable/icons8_menu_vertical_24" />
+
+                        </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/text_detail_transit"
+                            android:id="@+id/text_detail_transit_origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -194,7 +244,7 @@
                             android:layout_marginEnd="16dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:layout_toEndOf="@+id/detail_transit_image"
+                            android:layout_toEndOf="@+id/relLay_transit_info"
                             android:layout_toStartOf="@+id/arrowChancgeInfo"
                             android:fontFamily="@font/fira_sans_light"
                             android:singleLine="false"
@@ -206,14 +256,29 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_alignTop="@+id/text_detail_transit"
                             android:layout_centerInParent="false"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="16dp"
+                            android:layout_marginEnd="16dp"
                             android:fontFamily="@font/fira_sans_light"
                             android:text=">"
                             android:textSize="18sp"
                             android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/text_detail_transit_destination"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text_detail_transit_origin"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toEndOf="@+id/relLay_transit_info"
+                            android:layout_toStartOf="@+id/arrowChancgeInfo"
+                            android:fontFamily="@font/fira_sans_light"
+                            android:text="Detail transit destination"
+                            android:textSize="16sp" />
+
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -245,6 +310,7 @@
                         android:fontFamily="@font/fira_sans_light"
                         android:singleLine="true"
                         android:text="Suono"
+                        android:textColor="@color/DefaultColorText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -308,6 +374,7 @@
                         android:fontFamily="@font/fira_sans_light"
                         android:singleLine="true"
                         android:text="Ripetizione"
+                        android:textColor="@color/DefaultColorText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -367,6 +434,7 @@
                         android:fontFamily="@font/fira_sans_light"
                         android:singleLine="true"
                         android:text="Ritarda"
+                        android:textColor="@color/DefaultColorText"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -395,14 +463,16 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="32dp"
-                    android:background="@drawable/button_roundcorner"
+                    android:background="@drawable/ripple_effect"
                     android:elevation="0dp"
                     android:fontFamily="@font/fira_sans_light"
                     android:text="Salva"
-                    android:textStyle="bold" />
+                    android:textColor="@color/DefaultColorText"
+                    android:textStyle="bold"
+                    android:stateListAnimator="@null"/>
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/btn_abort_alarm_ID"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
@@ -411,10 +481,12 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/button_roundcorner"
+                    android:background="@drawable/ripple_effect"
                     android:elevation="0dp"
                     android:fontFamily="@font/fira_sans_light"
-                    android:text="Annulla" />
+                    android:text="Annulla"
+                    android:textColor="@color/DefaultColorText"
+                    android:stateListAnimator="@null"/>
 
             </RelativeLayout>
 

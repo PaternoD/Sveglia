@@ -10,6 +10,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +60,9 @@ public class FullScreen_Notification extends Activity {
         // ImageView
         ImageView snooze_ImageView = (ImageView)findViewById(R.id.imageView_snooze_notification);
         ImageView delete_ImageView = (ImageView)findViewById(R.id.imageView_delete_notification);
-        ImageView blurImageView_For_layout = (ImageView)findViewById(R.id.blurImageView_ID);
+
+        // Layout
+        RelativeLayout gradient_anim_layout = (RelativeLayout)findViewById(R.id.gradient_anim_layout_id);
 
         // TextView
         TextView alarmTime_TextView = (TextView)findViewById(R.id.text_time_alarm_notificatino_ID);
@@ -68,15 +72,19 @@ public class FullScreen_Notification extends Activity {
         alarmTime_TextView.setText(getTime());
         alarmName_TextView.setText(alarm_Name);
 
+        // Setto animazione layout -----------------------
+        AnimationDrawable animationDrawable = (AnimationDrawable)gradient_anim_layout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.start();
+
         // Recupero immagini da usare nel layout ---------
         Bitmap snooze_Image = BitmapFactory.decodeResource(FullScreen_Notification.this.getResources(), R.drawable.alarm_snooze);
         Bitmap delete_Image = BitmapFactory.decodeResource(FullScreen_Notification.this.getResources(), R.drawable.alarm_off);
-        final Bitmap fullScreenImage = BitmapFactory.decodeResource(FullScreen_Notification.this.getResources(), R.drawable.full_screen_image_for_layout_1);
 
         // Aggiungo immagini a ImageView -----------------
         snooze_ImageView.setImageBitmap(snooze_Image);
         delete_ImageView.setImageBitmap(delete_Image);
-        blurImageView_For_layout.setImageBitmap(fullScreenImage);
 
         snooze_ImageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
         delete_ImageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));

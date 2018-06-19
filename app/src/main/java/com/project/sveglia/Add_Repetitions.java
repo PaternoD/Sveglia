@@ -3,9 +3,12 @@ package com.project.sveglia;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 
@@ -14,6 +17,9 @@ import android.widget.CheckBox;
  */
 
 public class Add_Repetitions extends Activity {
+
+    long animationTime = 400;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,12 @@ public class Add_Repetitions extends Activity {
         Button btn_cancel = (Button)findViewById(R.id.btn_cancel_ripetition_ID);
         Button btn_save = (Button)findViewById(R.id.btn_save_ripetition_ID);
 
+        // CardView
+        CardView card_repetition = (CardView)findViewById(R.id.cardView_repetition_ID);
+
+        // Setto animazione Entrata -------------------------------
+        cardView_Animation(card_repetition);
+
         // setto i checkBox ---------------------------------------
         set_CheckBox_days(ripetition_array,
                 checkbox_lunedì,
@@ -52,7 +64,16 @@ public class Add_Repetitions extends Activity {
             public void onClick(View v) {
                 Intent result_intent = new Intent();
                 setResult(Activity.RESULT_CANCELED, result_intent);
-                Add_Repetitions.this.finish();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Add_Repetitions.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 500);
+
+
             }
         });
 
@@ -70,7 +91,14 @@ public class Add_Repetitions extends Activity {
                 Intent result_intent = new Intent();
                 result_intent.putExtra("res_repetitions_array", res_ripetition_array);
                 setResult(Activity.RESULT_OK, result_intent);
-                Add_Repetitions.this.finish();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Add_Repetitions.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 500);
 
             }
         });
@@ -154,5 +182,14 @@ public class Add_Repetitions extends Activity {
         }
 
         return res;
+    }
+
+    private void cardView_Animation(CardView cardView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 1000, 0);
+        translateAnimation.setDuration(animationTime);
+        translateAnimation.setFillAfter(true);
+        cardView.startAnimation(translateAnimation);
+
     }
 }

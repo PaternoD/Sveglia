@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,9 @@ public class MapsActivity extends FragmentActivity {
     private TravelMode travel_Mode = TravelMode.DRIVING;
     private boolean modify_intent = false;
     private boolean arrivalTimeClick = false;
+    RecyclerView recyclerView_Data;
+    RelativeLayout relativeLayout_ProgressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,15 @@ public class MapsActivity extends FragmentActivity {
         // TextView
         final TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
         final TextView destination_TextView = (TextView)findViewById(R.id.text_destination_ID);
+
+        // RecyclerView
+        final RecyclerView recyclerView_Data = (RecyclerView)findViewById(R.id.recyclerViewData_ID);
+
+        // Relative Layout
+        relativeLayout_ProgressBar = (RelativeLayout)findViewById(R.id.progressBar_Relative_Layout_ID);
+
+        // Setto visualizzazione "relativeLayout_ProgressBar" -----------------
+        relativeLayout_ProgressBar.setVisibility(View.GONE);
 
         // Recupero informazioni da activity chiamante ------------------------
         modify_intent = getIntent().getExtras().getBoolean("modify_intent");
@@ -120,6 +134,7 @@ public class MapsActivity extends FragmentActivity {
         menu_Icon_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
         location_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
         arrow_switch_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
+
 
 
         // Aggiungo azioni a bottoni di selezione veicolo per il viaggio ------
@@ -207,6 +222,7 @@ public class MapsActivity extends FragmentActivity {
 
                 Intent arrival_time_intent = new Intent(MapsActivity.this, TimePicker_Google.class);
                 startActivityForResult(arrival_time_intent, GOOGLE_TIME_DATE_ID);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -250,7 +266,7 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-        // Aggiungo azione al bottone per cercare le indicazione tramite google Maps --
+        // Aggiungo azione al bottone per cercare le indicazioni tramite google Maps --
         btn_search_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,11 +286,21 @@ public class MapsActivity extends FragmentActivity {
                     if(isHistoryTime(arrival_DateTime)){
                         Toast.makeText(MapsActivity.this, "La data non deve essere nel passato", Toast.LENGTH_LONG).show();
                     }else {
-                        getDirectionResult();
+                        // resetto recyclerView
+                        relativeLayout_ProgressBar.setVisibility(View.VISIBLE);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getDirectionResult();
+                            }
+                        }, 1500);
+
                     }
                 }
             }
         });
+
 
         // Aggiungo azione per annullare activity
         arrow_ImageView.setOnClickListener(new View.OnClickListener() {
@@ -287,6 +313,14 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("modify_result_intent", modify_intent);
+        setResult(Activity.RESULT_CANCELED, resultIntent);
+        super.onBackPressed();
     }
 
     /**
@@ -362,7 +396,7 @@ public class MapsActivity extends FragmentActivity {
     private void getDirectionResult(){
 
         // Recupero riferimento a recyclerView nel Layout ----------
-        RecyclerView recyclerView_Data = (RecyclerView)findViewById(R.id.recyclerViewData_ID);
+        recyclerView_Data = (RecyclerView)findViewById(R.id.recyclerViewData_ID);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView_Data.setLayoutManager(linearLayoutManager);
 
@@ -401,7 +435,7 @@ public class MapsActivity extends FragmentActivity {
             relativeLayout_noResult.setVisibility(View.GONE);
 
             // Invio dati a SetGoogleMapsResult()
-            SetGoogleMapsResult.setDataModelGoogleMaps(result, travel_Mode, recyclerView_Data, relativeLayout_noResult, MapsActivity.this, arrival_DateTime);
+            SetGoogleMapsResult.setDataModelGoogleMaps(result, travel_Mode, recyclerView_Data, relativeLayout_noResult, MapsActivity.this, arrival_DateTime, relativeLayout_ProgressBar);
         }
 
     }

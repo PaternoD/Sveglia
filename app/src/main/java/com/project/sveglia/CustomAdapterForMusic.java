@@ -31,6 +31,9 @@ public class CustomAdapterForMusic extends RecyclerView.Adapter<CustomAdapterFor
     public int music_ID_result;
     private MediaPlayer mediaPlayer;
 
+    // dati da restituire
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView music_name;
@@ -121,11 +124,16 @@ public class CustomAdapterForMusic extends RecyclerView.Adapter<CustomAdapterFor
             }
         });
 
+
+
+
     }
 
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
+
+
 
 }
