@@ -26,8 +26,8 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String ID_SUONERIA = "id_suoneria";
     public static final String POSIZIONE_SUONERIA = "posizione_suoneria";
     public static final String TRAVEL_TO = "travel_to";
-    public static final String FROM = "from";
-    public static final String TO = "to";
+    public static final String GOOGLE_FROM = "google_from";
+    public static final String GOOGLE_TO = "google_to";
     public static final String MEZZO = "mezzo";
     public static final String ARRAY_ID_SVEGLIE = "array_id_sveglie";
 
@@ -47,8 +47,8 @@ public class DB_Helper extends SQLiteOpenHelper {
             ID_SUONERIA + " INTEGER, " +
             POSIZIONE_SUONERIA + " INTEGER, " +
             TRAVEL_TO + " INTEGER, " +
-            FROM + " TEXT, " +
-            TO + " TEXT, " +
+            GOOGLE_FROM + " TEXT, " +
+            GOOGLE_TO + " TEXT, " +
             MEZZO + " TEXT, " +
             ARRAY_ID_SVEGLIE + " TEXT " +
             ");";

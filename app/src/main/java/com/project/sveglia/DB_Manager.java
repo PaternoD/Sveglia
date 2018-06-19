@@ -34,30 +34,31 @@ public class DB_Manager {
                             Long time,
                             String nome,
                             String boolean_day,
-                            int on_off,
+                            //int on_off,
                             int ritarda,
                             int id_suoneria,
                             int posizione_suoneria,
                             int travel_to,
                             String from,
                             String to,
-                            String mezzo,
-                            String array_id
+                            String mezzo
+                            //String array_id
     ){
+        System.out.println("inizio funzione");
         ContentValues cv = new ContentValues();
         cv.put(DB_Helper.ID_VIEW,id);
         cv.put(DB_Helper.TIME_VIEW,time);
         cv.put(DB_Helper.NOME, nome);
         cv.put(DB_Helper.BOOLEAN_DAY, boolean_day);
-        cv.put(DB_Helper.ON_OFF,on_off);
+        //cv.put(DB_Helper.ON_OFF,on_off);
         cv.put(DB_Helper.RITARDA,ritarda);
         cv.put(DB_Helper.ID_SUONERIA,id_suoneria);
         cv.put(DB_Helper.POSIZIONE_SUONERIA,posizione_suoneria);
         cv.put(DB_Helper.TRAVEL_TO,travel_to);
-        cv.put(DB_Helper.FROM, from);
-        cv.put(DB_Helper.TO, to);
+        cv.put(DB_Helper.GOOGLE_FROM, from);
+        cv.put(DB_Helper.GOOGLE_TO, to);
         cv.put(DB_Helper.MEZZO,mezzo);
-        cv.put(DB_Helper.ARRAY_ID_SVEGLIE,array_id);
+        //cv.put(DB_Helper.ARRAY_ID_SVEGLIE,array_id);
         database.insert(DB_Helper.TABLE_VIEW,null,cv);
     }
 
@@ -73,7 +74,7 @@ public class DB_Manager {
                 DB_Helper.BOOLEAN_DAY, DB_Helper.ON_OFF,
                 DB_Helper.RITARDA, DB_Helper.ID_SUONERIA,
                 DB_Helper.POSIZIONE_SUONERIA, DB_Helper.TRAVEL_TO,
-                DB_Helper.FROM, DB_Helper.TO,
+                DB_Helper.GOOGLE_FROM, DB_Helper.GOOGLE_TO,
                 DB_Helper.MEZZO, DB_Helper.ARRAY_ID_SVEGLIE};
         Cursor cursor = database.query(DB_Helper.TABLE_VIEW,columns,null,null,null,null,null);
         if (cursor != null){

@@ -45,6 +45,8 @@ public class Add_Alarm extends AppCompatActivity {
     String alarm_music_name;
     int alarm_music_ID;
     boolean delay_Alarm = true;
+    String traffic_model;
+
 
     // TextView
     TextView repetition_Text;
@@ -273,7 +275,8 @@ public class Add_Alarm extends AppCompatActivity {
                         false,
                         listPositionMusic,
                         start_address_detail,
-                        end_address_detail);
+                        end_address_detail,
+                        traffic_model);
 
             }
         });
@@ -334,7 +337,7 @@ public class Add_Alarm extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
-                String traffic_model_result = data.getExtras().getString("transit_model");
+                traffic_model = data.getExtras().getString("transit_model");
 
                 start_address_detail = data.getExtras().getString("start_address");
                 end_address_detail = data.getExtras().getString("end_address");
@@ -373,13 +376,13 @@ public class Add_Alarm extends AppCompatActivity {
 
                 repetition_Text.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
 
-                if(traffic_model_result.equals("DRIVING")){
+                if(traffic_model.equals("DRIVING")){
                     Bitmap detail_driving_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_car_24);
                     detail_transit_imageView.setImageBitmap(detail_driving_image);
-                }else if(traffic_model_result.equals("TRANSIT")){
+                }else if(traffic_model.equals("TRANSIT")){
                     Bitmap detail_transit_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_train_24);
                     detail_transit_imageView.setImageBitmap(detail_transit_image);
-                }else if(traffic_model_result.equals("WALKING")){
+                }else if(traffic_model.equals("WALKING")){
                     Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
                 }
@@ -642,7 +645,7 @@ public class Add_Alarm extends AppCompatActivity {
         }
 
         DateFormat dateFormat_dayOfWeek = new SimpleDateFormat("E");
-        DateFormat dateFormat = new SimpleDateFormat("dd - MM - YYYY");
+        DateFormat dateFormat = new SimpleDateFormat("dd - MM - yyyy");
         String dayofWeekEnglish = dateFormat_dayOfWeek.format(cal.getTime());
         String dayOfYear = dateFormat.format(cal.getTime());
 

@@ -16,6 +16,8 @@ import java.util.Vector;
 
 public class SetAlarmManager {
 
+    static int PRIMARY_ALARM_ID;
+
     public static void SetAlarmManager(Context context,
                                        long timeInMillis,
                                        int alarm_music_ID,
@@ -25,10 +27,14 @@ public class SetAlarmManager {
                                        boolean isTravelToAlarm,
                                        int listPositionMusic,
                                        String start_address_detail,
-                                       String end_address_detail){
+                                       String end_address_detail,
+                                       String traffic_model){
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
 
         // Inizializzo allarme principale
         if(!there_Are_Repetitions_Days(repetitionArray)){
@@ -43,7 +49,9 @@ public class SetAlarmManager {
                     alarmManager,
                     listPositionMusic,
                     start_address_detail,
-                    end_address_detail);
+                    end_address_detail,
+                    traffic_model,
+                    db_manager);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -56,7 +64,9 @@ public class SetAlarmManager {
                     alarmManager,
                     listPositionMusic,
                     start_address_detail,
-                    end_address_detail);
+                    end_address_detail,
+                    traffic_model,
+                    db_manager);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -65,7 +75,8 @@ public class SetAlarmManager {
                     alarm_name,
                     context,
                     repetitionArray,
-                    alarmManager);
+                    alarmManager,
+                    db_manager);
         }
 
     }
@@ -99,7 +110,9 @@ public class SetAlarmManager {
                                    AlarmManager alarmManager,
                                    int listPositionMusic,
                                    String start_address_detail,
-                                   String end_address_detail){
+                                   String end_address_detail,
+                                   String traffic_model,
+                                   DB_Manager db_manager){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
@@ -109,20 +122,46 @@ public class SetAlarmManager {
             }
         }
 
-        int ALARM_ID = createID(timeInMillis);
+        PRIMARY_ALARM_ID = createID(timeInMillis);
 
         Intent startPrincipalAlarmIntent = new Intent(context, AlarmReceiver.class);
         startPrincipalAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
         startPrincipalAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
         startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, PRIMARY_ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
          * ------> ******* Qui bisogna salavare la sveglia nel database *******
          */
 
+        int isTravelTo;
+        if(isTravelToAlarm){
+            isTravelTo = 1;
+        }else{
+            isTravelTo = 0;
+        }
+
+        int isDelay;
+        if(isDelayAlarm){
+            isDelay = 1;
+        }else{
+            isDelay = 0;
+        }
+
+        db_manager.insert_view(PRIMARY_ALARM_ID,
+                timeInMillis,
+                alarm_name,
+                repetitionArray.toString(),
+                isDelay,
+                alarm_music_ID,
+                listPositionMusic,
+                isTravelTo,
+                start_address_detail,
+                end_address_detail,
+                traffic_model);
+        System.out.println("RepetitionArray: " + repetitionArray.toString());
 
 
     }
@@ -144,15 +183,15 @@ public class SetAlarmManager {
                                         String alarm_name,
                                         Context context,
                                         boolean[] repetitionsArray,
-                                        AlarmManager alarmManager){
+                                        AlarmManager alarmManager,
+                                        DB_Manager db_manager){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
         long repeatTimeInMillis = timeInMilllis;
         Vector<Integer> vector_id_sveglia = new Vector<>(2);
 
-        DB_Manager db_manager = new DB_Manager(context);
-        db_manager.open();
+
 
         for(int i=0; i<repetitionsArray.length; i++){
             if(repetitionsArray[i]){
