@@ -152,6 +152,7 @@ public class SetAlarmManager {
         Vector<Integer> vector_id_sveglia = new Vector<>(2);
 
         DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
 
         for(int i=0; i<repetitionsArray.length; i++){
             if(repetitionsArray[i]){
@@ -169,7 +170,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_tuesday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 2){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
@@ -177,7 +178,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_wednesday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 3){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
@@ -185,7 +186,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_thursday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 4){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
@@ -193,7 +194,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_friday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 5){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
@@ -201,7 +202,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_saturday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 6){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
@@ -209,7 +210,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_sunday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }
 
                 Intent startRepeatAlarmIntent = new Intent(context, AlarmReceiver.class);
