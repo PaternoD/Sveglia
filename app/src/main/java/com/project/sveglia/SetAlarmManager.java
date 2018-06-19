@@ -161,7 +161,7 @@ public class SetAlarmManager {
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_monday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
-                    //db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                    db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
                 }else if(i == 1){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
