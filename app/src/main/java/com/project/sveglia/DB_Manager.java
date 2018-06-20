@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Vector;
+
 /**
  * Created by Pat on 05/06/18.
  */
@@ -62,26 +64,19 @@ public class DB_Manager {
         database.insert(DB_Helper.TABLE_VIEW,null,cv);
     }
 
-    //per inserire l'array delle ripetizioni, gli si passa l'id della sveglia della tabella view
-    //e l'arraay di booleani
 
-    public void insert_array_repetitions(int id, boolean[] array){
+
+    public void insert_repetition_id(int id, Vector<Integer> vector){
         String str="";
-        for(int i=0; i<7;i++){
-            String ch = "";
-            if (!array[i]){
-                str.concat("0");
-            }
-            if (array[i]){
-                str.concat("1");
-            }
-        }
+        str = vector.toString();
 
         String sql = "UPDATE TABLE_VIEW "  +
                 " SET array_id_sveglie = '"+ str +"' " +
                 " WHERE _id_view = "+ id +";";
         database.execSQL(sql);
     }
+
+
     public void insert_sveglia(int id, Long time){
         ContentValues cv = new ContentValues();
         cv.put(DB_Helper.ID_SVEGLIA, id);
