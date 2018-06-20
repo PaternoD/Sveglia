@@ -60,6 +60,7 @@ public class DB_Helper extends SQLiteOpenHelper {
             TIME_SVEGLIA + " INTEGER " +
             ");";
 
+
     public DB_Helper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
