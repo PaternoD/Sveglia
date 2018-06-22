@@ -16,8 +16,6 @@ import java.util.Vector;
 
 public class SetAlarmManager {
 
-    static int PRIMARY_ALARM_ID;
-
     public static void SetAlarmManager(Context context,
                                        long timeInMillis,
                                        int alarm_music_ID,
@@ -32,6 +30,8 @@ public class SetAlarmManager {
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+
 
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
@@ -71,11 +71,16 @@ public class SetAlarmManager {
             starRepeatAlarm(timeInMillis,
                     currentTime,
                     alarm_music_ID,
+                    listPositionMusic,
+                    isTravelToAlarm,
                     isDelayAlarm,
                     alarm_name,
                     context,
                     repetitionArray,
                     alarmManager,
+                    start_address_detail,
+                    end_address_detail,
+                    traffic_model,
                     db_manager);
         }
 
@@ -122,14 +127,14 @@ public class SetAlarmManager {
             }
         }
 
-        PRIMARY_ALARM_ID = createID(timeInMillis);
+        int ALARM_ID = createID(timeInMillis);
 
         Intent startPrincipalAlarmIntent = new Intent(context, AlarmReceiver.class);
         startPrincipalAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
         startPrincipalAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
         startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, PRIMARY_ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
@@ -150,7 +155,7 @@ public class SetAlarmManager {
             isDelay = 0;
         }
 
-        db_manager.insert_view(PRIMARY_ALARM_ID,
+        db_manager.insert_view(ALARM_ID,
                 timeInMillis,
                 alarm_name,
                 repetitionArray.toString(),
@@ -161,7 +166,12 @@ public class SetAlarmManager {
                 start_address_detail,
                 end_address_detail,
                 traffic_model);
-        System.out.println("RepetitionArray: " + repetitionArray.toString());
+
+        Vector<Integer> vector_id_alarm = new Vector<>();
+        vector_id_alarm.add(ALARM_ID);
+
+        db_manager.insert_repetition_id(ALARM_ID, vector_id_alarm);
+        db_manager.insert_sveglia(ALARM_ID, timeInMillis);
 
 
     }
@@ -179,17 +189,49 @@ public class SetAlarmManager {
     private static void starRepeatAlarm(long timeInMilllis,
                                         long currentTime,
                                         int alarm_music_ID,
+                                        int listPositionMusic,
+                                        boolean isTravelToAlarm,
                                         boolean isDelayAlarm,
                                         String alarm_name,
                                         Context context,
                                         boolean[] repetitionsArray,
                                         AlarmManager alarmManager,
+                                        String start_address_detail,
+                                        String end_address_detail,
+                                        String traffic_model,
                                         DB_Manager db_manager){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
+        int PRIMARY_ALARM_ID = ALARM_ID;
         long repeatTimeInMillis = timeInMilllis;
         Vector<Integer> vector_id_sveglia = new Vector<>(2);
+
+        int isTravelTo;
+        if(isTravelToAlarm){
+            isTravelTo = 1;
+        }else{
+            isTravelTo = 0;
+        }
+
+        int isDelay;
+        if(isDelayAlarm){
+            isDelay = 1;
+        }else{
+            isDelay = 0;
+        }
+
+        db_manager.insert_view(PRIMARY_ALARM_ID,
+                timeInMilllis,
+                alarm_name,
+                repetitionsArray.toString(),
+                isDelay,
+                alarm_music_ID,
+                listPositionMusic,
+                isTravelTo,
+                start_address_detail,
+                end_address_detail,
+                traffic_model);
 
 
 
@@ -198,6 +240,7 @@ public class SetAlarmManager {
                 if(i == 0){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    ALARM_ID += 1;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_monday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -205,7 +248,7 @@ public class SetAlarmManager {
                 }else if(i == 1){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-                    ALARM_ID += 1;
+                    ALARM_ID += 2;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_tuesday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -213,7 +256,7 @@ public class SetAlarmManager {
                 }else if(i == 2){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-                    ALARM_ID += 2;
+                    ALARM_ID += 3;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_wednesday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -221,7 +264,7 @@ public class SetAlarmManager {
                 }else if(i == 3){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-                    ALARM_ID += 3;
+                    ALARM_ID += 4;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_thursday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -229,7 +272,7 @@ public class SetAlarmManager {
                 }else if(i == 4){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
-                    ALARM_ID += 4;
+                    ALARM_ID += 5;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_friday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -237,7 +280,7 @@ public class SetAlarmManager {
                 }else if(i == 5){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                    ALARM_ID += 5;
+                    ALARM_ID += 6;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_saturday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -245,7 +288,7 @@ public class SetAlarmManager {
                 }else if(i == 6){
                     calendar.setTimeInMillis(timeInMilllis);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                    ALARM_ID += 6;
+                    ALARM_ID += 7;
                     repeatTimeInMillis = checkRepeatTimeInMillis(calendar.getTimeInMillis(), currentTime);
                     Log.i("Alarm_sunday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
@@ -267,6 +310,8 @@ public class SetAlarmManager {
                 /**
                  * ------> ******* Qui bisogna salavare la sveglia nel database *******
                  */
+
+                db_manager.insert_repetition_id(PRIMARY_ALARM_ID, vector_id_sveglia);
 
 
 
