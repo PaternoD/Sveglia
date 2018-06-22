@@ -200,7 +200,7 @@ public class TimePicker_Google extends Activity {
         Calendar cal = Calendar.getInstance();
         Date dateTime = cal.getTime();
 
-        DateFormat dateFormat_Year = new SimpleDateFormat("YYY");
+        DateFormat dateFormat_Year = new SimpleDateFormat("yyyy");
         DateFormat dateFormat_Month = new SimpleDateFormat("M");
         DateFormat dateFormat_Day = new SimpleDateFormat("d");
 

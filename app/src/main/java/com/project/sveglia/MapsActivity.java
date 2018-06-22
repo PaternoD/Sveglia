@@ -382,7 +382,7 @@ public class MapsActivity extends FragmentActivity {
     private String getDateFormattedFromMillis(long time){
         String date = null;
         Calendar calendar = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm   d/M/YYYY");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm   d/M/yyyy");
         calendar.setTimeInMillis(time);
         date = dateFormat.format(calendar.getTime());
         arrival_DateTime = new DateTime(calendar);
