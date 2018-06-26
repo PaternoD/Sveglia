@@ -32,10 +32,41 @@ public class DB_Manager {
         db_helper.close();
     }
 
+
+    //funzione di appoggio per convertire vettore di boolean in string per inserirle nel DB
+    public String bool_to_string(boolean[] array){
+        String str = "";
+        for(int i=0;i<7;i++){
+            if(array[i]){
+                str=str+"1";
+            }else{
+                str=str+"0";
+            }
+        }
+        System.out.println(str);
+        return str;
+    }
+
+    //funz di appoggio per convertire stringa in bool_day del db
+    //in un array di booleani
+    //DA VERIFICARE FUNZIONAMENTO!!!!!
+    public boolean [] string_to_bool(String str){
+        boolean [] array  = new boolean[7];
+        for(int i=0;i<7;i++){
+            if(str.charAt(i)=='0'){
+                array[i]=false;
+            }
+            if(str.charAt(i)=='1'){
+                array[i]=true;
+            }
+        }
+        return array;
+    }
+
     public void insert_view(int id,
                             Long time,
                             String nome,
-                            String boolean_day,
+                            boolean [] boolean_day,
                             //int on_off,
                             int ritarda,
                             int id_suoneria,
@@ -51,7 +82,7 @@ public class DB_Manager {
         cv.put(DB_Helper.ID_VIEW,id);
         cv.put(DB_Helper.TIME_VIEW,time);
         cv.put(DB_Helper.NOME, nome);
-        cv.put(DB_Helper.BOOLEAN_DAY, boolean_day);
+        cv.put(DB_Helper.BOOLEAN_DAY, bool_to_string(boolean_day));
         //cv.put(DB_Helper.ON_OFF,on_off);
         cv.put(DB_Helper.RITARDA,ritarda);
         cv.put(DB_Helper.ID_SUONERIA,id_suoneria);
@@ -72,7 +103,7 @@ public class DB_Manager {
         System.out.println(id);
         String sql = "UPDATE TABLE_VIEW "  +
                 " SET array_id_sveglie = '"+ str +"' " +
-                " WHERE _id_view = "+ id +";";
+                " WHERE _id = "+ id +";";
         database.execSQL(sql);
     }
 

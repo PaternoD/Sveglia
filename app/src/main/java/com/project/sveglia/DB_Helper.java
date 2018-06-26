@@ -17,7 +17,7 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String TABLE_SVEGLIE = "TABLE_SVEGLIE";
 
     //Colonne table_view
-    public static final String ID_VIEW = "_id_view";
+    public static final String ID_VIEW = "_id";
     public static final String TIME_VIEW = "time_view";
     public static final String NOME = "nome_view";
     public static final String BOOLEAN_DAY = "boolean_day";
