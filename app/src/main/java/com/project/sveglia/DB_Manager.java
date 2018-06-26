@@ -103,7 +103,7 @@ public class DB_Manager {
         System.out.println(id);
         String sql = "UPDATE TABLE_VIEW "  +
                 " SET array_id_sveglie = '"+ str +"' " +
-                " WHERE _id_view = "+ id +";";
+                " WHERE _id = "+ id +";";
         database.execSQL(sql);
     }
 

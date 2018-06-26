@@ -277,6 +277,9 @@ public class Add_Alarm extends AppCompatActivity {
                         start_address_detail,
                         end_address_detail,
                         traffic_model);
+                Intent  main= new Intent(Add_Alarm.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(main);
+                Add_Alarm.this.finish();
 
             }
         });
