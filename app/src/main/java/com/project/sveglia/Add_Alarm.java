@@ -86,7 +86,7 @@ public class Add_Alarm extends AppCompatActivity {
         final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
 
         // Recupero dati da Intent chiamante -----------------------
-        // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente
+        // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente.
         modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
 
         if(modify_alarm) {
