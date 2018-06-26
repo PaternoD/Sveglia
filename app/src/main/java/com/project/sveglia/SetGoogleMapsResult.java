@@ -60,6 +60,7 @@ public class SetGoogleMapsResult {
 
         if(route_size == 0){
             recyclerView.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.GONE);
             relLay_noResult.setVisibility(View.VISIBLE);
         }else {
             recyclerView.setVisibility(View.VISIBLE);
@@ -108,6 +109,7 @@ public class SetGoogleMapsResult {
 
         if(route_size == 0){
             recyclerView.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.GONE);
             relLay_noResult.setVisibility(View.VISIBLE);
         }else {
 
@@ -202,6 +204,7 @@ public class SetGoogleMapsResult {
 
         if(route_size == 0){
             recyclerView.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.GONE);
             relLay_noResult.setVisibility(View.VISIBLE);
         }else {
             recyclerView.setVisibility(View.VISIBLE);

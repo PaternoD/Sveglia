@@ -318,8 +318,6 @@ public class SetAlarmManager {
             }
         }
 
-        // Salvo vector_id_sveglia nel database -----------------
-
     }
 
     /**

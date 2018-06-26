@@ -427,6 +427,7 @@ public class MapsActivity extends FragmentActivity {
         if(result == null){
             //Toast.makeText(MapsActivity.this, "Nessuna rotta trovata", Toast.LENGTH_LONG).show();
             recyclerView_Data.setVisibility(View.GONE);
+            relativeLayout_ProgressBar.setVisibility(View.GONE);
             relativeLayout_noResult.setVisibility(View.VISIBLE);
 
         }else{
