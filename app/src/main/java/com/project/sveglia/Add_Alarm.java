@@ -87,7 +87,7 @@ public class Add_Alarm extends AppCompatActivity {
 
         // Recupero dati da Intent chiamante -----------------------
         // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente
-        //modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
+        modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
 
         if(modify_alarm) {
             modify_alarm_id = getIntent().getExtras().getInt("modify_alarm_id");

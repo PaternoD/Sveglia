@@ -446,7 +446,6 @@ public class MapsActivity extends FragmentActivity {
      * @return true, is the input time is in the past
      */
     private boolean isHistoryTime(DateTime time){
-
         boolean res = false;
 
         Calendar cal = Calendar.getInstance();

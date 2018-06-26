@@ -97,6 +97,7 @@ public class TimePicker_Google extends Activity {
             }
         });
 
+
         // Setto azioni bottoni cancel e save di datePicker
         btn_cancel_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +119,7 @@ public class TimePicker_Google extends Activity {
             @Override
             public void onClick(View v) {
                 date_year = datePicker_google.getYear();
-                date_month = datePicker_google.getMonth();
+                date_month = datePicker_google.getMonth() + 1;
                 date_day = datePicker_google.getDayOfMonth();
 
                 String date = date_day + "/" + date_month + "/" + date_year;
@@ -161,6 +162,7 @@ public class TimePicker_Google extends Activity {
 
                 Intent resultIntent = new Intent();
                 long arrival_time = getArrivalTime();
+
                 resultIntent.putExtra("arrival_time", arrival_time);
                 setResult(Activity.RESULT_OK, resultIntent);
 
@@ -185,7 +187,11 @@ public class TimePicker_Google extends Activity {
     private long getArrivalTime(){
         Calendar cal = Calendar.getInstance();
 
-        cal.set(date_year, date_month, date_day, time_hour, time_min, 0);
+        cal.set(Calendar.YEAR, date_year);
+        cal.set(Calendar.MONTH, date_month -1);
+        cal.set(Calendar.DAY_OF_MONTH, date_day);
+        cal.set(Calendar.HOUR_OF_DAY, time_hour);
+        cal.set(Calendar.MINUTE, time_min);
 
         long res = cal.getTimeInMillis();
 
