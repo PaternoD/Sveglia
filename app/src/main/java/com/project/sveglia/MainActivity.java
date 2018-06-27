@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 String id = id_TV.getText().toString();
                 Intent modify_intent = new Intent(getApplicationContext(),Add_Alarm.class);
                 modify_intent.putExtra("id", id);
-                modify_intent.putExtra("isModifyAlarm",false);
+                modify_intent.putExtra("isModifyAlarm",true);
                 startActivity(modify_intent);
 
             }
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.add_record) {
 
             Intent add_mem = new Intent(this, Add_Alarm.class);
+            add_mem.putExtra("isModifyAlarm", false);
             startActivity(add_mem);
 
         }

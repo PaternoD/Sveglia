@@ -10,7 +10,12 @@
 
     <!-- Add_Alarm Style -->
     <style name="AppTheme.Add_Alarm">
-        <item name="android:windowNoTitle">true</item>
+        <!-- Questo è il modo per eliminare il titolo all'attività utilizzando AppCompat-->
+        <item name="windowNoTitle">true</item>
+
+        <!-- Item da aggiungere per cambiare il colore della status bar -->
+        <item name="android:statusBarColor">@color/White</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <!-- TimePicker_Alarm Style -->

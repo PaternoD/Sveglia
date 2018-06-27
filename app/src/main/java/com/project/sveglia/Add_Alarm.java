@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,20 +37,19 @@ public class Add_Alarm extends AppCompatActivity {
 
     // Variabili globali ------------------------------------------
     int modify_alarm_id;
+    int listPositionMusic = 2;
+    int alarm_music_ID;
     boolean modify_alarm = false;
     boolean[] repetitionsArray = fill_Ripetition_Array(modify_alarm);
+    boolean disable_modify_time = false;
+    boolean disable_repetition_days = false;
+    boolean delay_Alarm = true;
     long alarm_time;
     String start_address_detail;
     String end_address_detail;
-    boolean disable_modify_time = false;
-    boolean disable_repetition_days = false;
-    int listPositionMusic = 2;
     String alarm_Name = "Sveglia";
     String alarm_music_name;
-    int alarm_music_ID;
-    boolean delay_Alarm = true;
     String traffic_model;
-
 
     // TextView
     TextView repetition_Text;
@@ -87,7 +90,7 @@ public class Add_Alarm extends AppCompatActivity {
 
         // Recupero dati da Intent chiamante -----------------------
         // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente.
-        //modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
+        modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
 
         if(modify_alarm) {
             modify_alarm_id = getIntent().getExtras().getInt("modify_alarm_id");
