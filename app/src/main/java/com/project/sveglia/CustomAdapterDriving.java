@@ -1,7 +1,6 @@
 package com.project.sveglia;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -36,7 +33,7 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
         public MyViewHolder(View itemView){
 
             super(itemView);
-            route_detail = (TextView)itemView.findViewById(R.id.detail_driving_route_ID);
+            route_detail = (TextView)itemView.findViewById(R.id.time_sveglia);
             duration_detail = (TextView)itemView.findViewById(R.id.detail_driving_duration_ID);
             distance_detail = (TextView)itemView.findViewById(R.id.detail_driving_distance_ID);
             btn_save_data = (TextView)itemView.findViewById(R.id.detail_driving_save_ID);

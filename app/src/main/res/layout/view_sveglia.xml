@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/_idView"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dp"
-        android:padding="3dp"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:visibility="visible" />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/timeView"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/_idView"
-        android:maxLines="1"
-        android:padding="3dp"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/nome_sveglia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/time_sveglia"
+                android:layout_below="@+id/time_sveglia"
+                android:layout_marginEnd="17dp"
+                android:layout_marginTop="18dp"
+                android:text="nome_sveglia" />
 
-    <TextView
-        android:id="@+id/booleanDayView"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/timeView"
-        android:maxLines="1"
-        android:padding="3dp"
-        android:textAlignment="center"
-        android:textSize="10dp"
-        android:textStyle="bold" />
+            <Switch
+                android:id="@+id/on_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="320dp"
+                android:layout_marginTop="16dp"
+                android:checked="false" />
 
+            <TextView
+                android:id="@+id/time_sveglia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:text="time_sveglia"
+                android:textSize="24sp" />
+        </RelativeLayout>
 
-</RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
