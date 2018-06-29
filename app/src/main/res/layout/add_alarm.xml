@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_default"
     android:orientation="vertical">
 
     <ScrollView
@@ -19,6 +20,9 @@
                 android:id="@+id/Show_time_Card_ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <RelativeLayout
@@ -32,7 +36,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="12dp"
                         android:fontFamily="@font/fira_sans_light"
                         android:text="Time"
                         android:textAlignment="center"
@@ -58,10 +62,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <RelativeLayout
@@ -128,10 +133,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
-                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -290,9 +296,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <RelativeLayout
@@ -350,11 +358,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
                 android:minHeight="50dp"
-                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <RelativeLayout
@@ -413,10 +422,11 @@
                 android:id="@+id/Ritarda_Card_ID"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
-                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
                 <RelativeLayout
@@ -466,10 +476,10 @@
                     android:background="@drawable/ripple_effect"
                     android:elevation="0dp"
                     android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
                     android:text="Salva"
                     android:textColor="@color/DefaultColorText"
-                    android:textStyle="bold"
-                    android:stateListAnimator="@null"/>
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_abort_alarm_ID"
@@ -484,9 +494,9 @@
                     android:background="@drawable/ripple_effect"
                     android:elevation="0dp"
                     android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
                     android:text="Annulla"
-                    android:textColor="@color/DefaultColorText"
-                    android:stateListAnimator="@null"/>
+                    android:textColor="@color/DefaultColorText" />
 
             </RelativeLayout>
 

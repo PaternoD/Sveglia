@@ -40,6 +40,7 @@ public class Add_Alarm extends AppCompatActivity {
     int listPositionMusic = 2;
     int alarm_music_ID;
     boolean modify_alarm = false;
+    boolean modify_alarm_with_transit = false;
     boolean[] repetitionsArray = fill_Ripetition_Array(modify_alarm);
     boolean disable_modify_time = false;
     boolean disable_repetition_days = false;
@@ -83,6 +84,7 @@ public class Add_Alarm extends AppCompatActivity {
         // Button
         Button btn_travel_switch = (Button)findViewById(R.id.btn_travel_svitch);
         Button btn_save_alarm = (Button)findViewById(R.id.btn_save_alarm_ID);
+        Button btn_abort_alarm = (Button)findViewById(R.id.btn_abort_alarm_ID);
 
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
@@ -93,18 +95,21 @@ public class Add_Alarm extends AppCompatActivity {
         modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
 
         if(modify_alarm) {
-            modify_alarm_id = getIntent().getExtras().getInt("modify_alarm_id");
+            modify_alarm_id = getIntent().getExtras().getInt("id");
+            System.out.println("Alarm_id_modify:" + modify_alarm_id);
         }
 
         // Setto testo bottone salva/modifica allarme --------------
         if(modify_alarm){
             btn_save_alarm.setText("Modifica");
+            btn_abort_alarm.setText("Cancella");
         }else{
             btn_save_alarm.setText("Salva");
+            btn_abort_alarm.setText("Annulla");
         }
 
         // Attivo o disattivo visualizzazione Detail_Transit_Card in base a variabile modify_alarm --
-        if(modify_alarm){
+        if(modify_alarm_with_transit){
             detail_transit_Layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
             line_transit.getLayoutParams().height = 1;
         }else{
@@ -113,7 +118,6 @@ public class Add_Alarm extends AppCompatActivity {
         }
 
         // Recupero Musica di default per l'allarme ----------------
-
 
 
         if(modify_alarm){
@@ -125,7 +129,6 @@ public class Add_Alarm extends AppCompatActivity {
             alarm_music_name = res[0];
             alarm_music_ID = Integer.parseInt(res[1]);
         }
-
 
 
         // Setto nome musica nel layout ----------------------------
@@ -269,6 +272,11 @@ public class Add_Alarm extends AppCompatActivity {
         btn_save_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(modify_alarm){
+
+                    // ----> Aggiungere le sveglie da cancellare ---
+                    //Cancel_Alarm_Class.cancel_Alarm();
+                }
                 SetAlarmManager.SetAlarmManager(Add_Alarm.this,
                         alarm_time,
                         alarm_music_ID,

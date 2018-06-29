@@ -14,4 +14,8 @@
     <color name="Notification_Background_Button">#66ffffff</color>
     <color name="DefaultColorText">#424242</color>
     <color name="White">#ffffff</color>
+
+    <color name="CircleRepetitionAlarm">#eeb614</color>
+    <color name="CardDefaultColor">#eeeef6</color>
+    <color name="statusBarColor">#535E75</color>
 </resources>
