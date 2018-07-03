@@ -17,7 +17,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/booleanDayView"
+                android:id="@+id/nome_sveglia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/booleanDayView"
+                android:layout_below="@+id/nome_sveglia"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="0dp"
                 android:gravity="center_horizontal"
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignStart="@+id/ce"
-                    android:layout_below="@+id/booleanDayView"
+                    android:layout_below="@+id/nome_sveglia"
                     android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
                     android:orientation="horizontal"
@@ -111,10 +111,10 @@
                         android:id="@+id/Mer_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_below="@+id/booleanDayView"
+                        android:layout_below="@+id/nome_sveglia"
                         android:layout_marginEnd="7dp"
                         android:layout_marginStart="7dp"
-                        android:layout_toEndOf="@+id/booleanDayView"
+                        android:layout_toEndOf="@+id/nome_sveglia"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="0dp">

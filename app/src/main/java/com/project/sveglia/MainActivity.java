@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -17,28 +20,41 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private DB_Manager db_manager;
-    private ListView listView;
-    private SimpleCursorAdapter adapter;
+    //private ListView listView;
+    //private SimpleCursorAdapter adapter;
 
-    final String[] from = new String[]{DB_Helper.ID_VIEW, DB_Helper.TIME_VIEW, DB_Helper.BOOLEAN_DAY};
-    final int[] to = new int[] { R.id._idView, R.id.timeView, R.id.booleanDayView};
+    //final String[] from = new String[]{DB_Helper.ID_VIEW, DB_Helper.TIME_VIEW, DB_Helper.BOOLEAN_DAY};
+    //final int[] to = new int[] { R.id._idView, R.id.timeView, R.id.booleanDayView};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_vuota);
+        setContentView(R.layout.activity_main);
 
         db_manager = new DB_Manager(this);
         db_manager.open();
-        Cursor cursor = db_manager.fetch_view();
+        //Cursor cursor = db_manager.fetch_view();
+        RecyclerView recyclerView;
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewID);
 
-        listView = (ListView) findViewById(R.id.list_view);
-        listView.setEmptyView(findViewById(R.id.empty));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new SimpleCursorAdapter(this, R.layout.view_sveglia, cursor, from, to,0);
-        adapter.notifyDataSetChanged();
-        listView.setAdapter(adapter);
+        SetViewSveglie set_sveglie = new SetViewSveglie();
+        set_sveglie.setViewSveglie(recyclerView, this);
 
+
+
+
+        //listView = (ListView) findViewById(R.id.list_view);
+        //listView.setEmptyView(findViewById(R.id.empty));
+
+
+        //adapter = new SimpleCursorAdapter(this, R.layout.view_sveglia, cursor, from, to,0);
+        //adapter.notifyDataSetChanged();
+        //listView.setAdapter(adapter);
+/**
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -52,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+ **/
+
 
 
     }

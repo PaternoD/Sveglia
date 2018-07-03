@@ -3,9 +3,11 @@ package com.project.sveglia;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -17,6 +19,7 @@ public class DB_Manager {
     private Context context;
     private DB_Helper db_helper;
     private SQLiteDatabase database;
+    private SQLiteDatabase databaseRead;
 
     public DB_Manager(Context c){
         context = c;
@@ -25,6 +28,7 @@ public class DB_Manager {
     public DB_Manager open () throws SQLException {
         db_helper = new DB_Helper(context);
         database = db_helper.getWritableDatabase();
+        databaseRead = db_helper.getReadableDatabase();
         return this;
     }
 
@@ -153,6 +157,91 @@ public class DB_Manager {
 
     public void delete_sveglia(int id){
         database.delete(DB_Helper.TABLE_SVEGLIE, DB_Helper.ID_SVEGLIA + " = " + id, null);
+    }
+
+    public Cursor getData(int id){
+        SQLiteDatabase db = db_helper.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from TABLE_VIEW where _id = "+id+"", null );
+        return res;
+    }
+
+    public int numberOfRows(){
+        SQLiteDatabase db = db_helper.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
+        return numRows;
+    }
+
+    public ArrayList<String>getAllTimeView(){
+        ArrayList<String> array_time = new ArrayList<>();
+
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM TABLE_VIEW", null);
+
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_time.add(res.getString(res.getColumnIndex(db_helper.TIME_VIEW)));
+            res.moveToNext();
+        }
+
+
+       // array_time.add("uno");
+       // array_time.add("due");
+
+        for (int i=0; i<array_time.size();i++){
+            System.out.println(array_time.get(i));
+        }
+
+        return array_time;
+
+    }
+
+    public ArrayList<String>getAllNameView(){
+        ArrayList<String> array_name = new ArrayList<>();
+
+        Cursor res = databaseRead.rawQuery("SELECT * FROM TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_name.add(res.getString(res.getColumnIndex(db_helper.NOME)));
+            res.moveToNext();
+        }
+
+        return array_name;
+
+    }
+
+    public ArrayList<String>getAllOn_Off(){
+        ArrayList<String> array_on = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_on.add(res.getString(res.getColumnIndex(db_helper.ON_OFF)));
+            res.moveToNext();
+        }
+
+        return array_on;
+
+    }
+
+    public ArrayList<String>getAllRepetitionsDay(){
+        ArrayList<String> array_repetitions = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_repetitions.add(res.getString(res.getColumnIndex(db_helper.BOOLEAN_DAY)));
+            res.moveToNext();
+        }
+
+        return array_repetitions;
+
     }
 }
 

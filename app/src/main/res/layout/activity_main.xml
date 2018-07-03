@@ -7,5 +7,10 @@
     tools:context="com.project.sveglia.MainActivity">
 
 
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 </android.support.constraint.ConstraintLayout>
