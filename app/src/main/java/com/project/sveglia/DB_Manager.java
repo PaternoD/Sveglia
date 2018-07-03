@@ -71,7 +71,7 @@ public class DB_Manager {
                             Long time,
                             String nome,
                             boolean [] boolean_day,
-                            //int on_off,
+                            String on_off,
                             int ritarda,
                             int id_suoneria,
                             int posizione_suoneria,
@@ -87,7 +87,7 @@ public class DB_Manager {
         cv.put(DB_Helper.TIME_VIEW,time);
         cv.put(DB_Helper.NOME, nome);
         cv.put(DB_Helper.BOOLEAN_DAY, bool_to_string(boolean_day));
-        //cv.put(DB_Helper.ON_OFF,on_off);
+        cv.put(DB_Helper.ON_OFF,on_off);
         cv.put(DB_Helper.RITARDA,ritarda);
         cv.put(DB_Helper.ID_SUONERIA,id_suoneria);
         cv.put(DB_Helper.POSIZIONE_SUONERIA,posizione_suoneria);
@@ -119,37 +119,6 @@ public class DB_Manager {
         database.insert(DB_Helper.TABLE_SVEGLIE, null, cv);
     }
 
-    public Cursor fetch_view(){
-        String columns [] = new String[]{   DB_Helper.ID_VIEW, DB_Helper.TIME_VIEW,
-                DB_Helper.BOOLEAN_DAY, DB_Helper.ON_OFF,
-                DB_Helper.RITARDA, DB_Helper.ID_SUONERIA,
-                DB_Helper.POSIZIONE_SUONERIA, DB_Helper.TRAVEL_TO,
-                DB_Helper.GOOGLE_FROM, DB_Helper.GOOGLE_TO,
-                DB_Helper.MEZZO, DB_Helper.ARRAY_ID_SVEGLIE};
-        Cursor cursor = database.query(DB_Helper.TABLE_VIEW,columns,null,null,null,null,null);
-        if (cursor != null){
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
-
-    public Cursor fetch_sveglie(){
-        String columns [] = new String[]{DB_Helper.ID_SUONERIA, DB_Helper.TIME_SVEGLIA,};
-        Cursor cursor = database.query(DB_Helper.TABLE_SVEGLIE,columns,null,null,null,null,null);
-        if (cursor != null){
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
-/*
-    public int update_sveglia(int id, String time){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DB_Helper.ID_SVEGLIA, id);
-        contentValues.put(DB_Helper.TIME_SVEGLIA, time);
-        int i = database.update(DB_Helper.TABLE_SVEGLIE,contentValues,DB_Helper.ID_SVEGLIA + " = " + id,null);
-        return i;
-    }
-**/
 
     public void delete_view(int id){
         database.delete(DB_Helper.TABLE_VIEW, DB_Helper.ID_VIEW + " = " + id, null);
@@ -184,10 +153,6 @@ public class DB_Manager {
             array_time.add(res.getString(res.getColumnIndex(db_helper.TIME_VIEW)));
             res.moveToNext();
         }
-
-
-       // array_time.add("uno");
-       // array_time.add("due");
 
         for (int i=0; i<array_time.size();i++){
             System.out.println(array_time.get(i));

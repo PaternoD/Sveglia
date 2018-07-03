@@ -42,7 +42,7 @@ public class DB_Helper extends SQLiteOpenHelper {
             TIME_VIEW + " INTEGER, " +
             NOME + " TEXT, " +
             BOOLEAN_DAY + " TEXT, " +
-            ON_OFF + " INTEGER, " +
+            ON_OFF + " TEXT, " +
             RITARDA + " INTEGER, " +
             ID_SUONERIA + " INTEGER, " +
             POSIZIONE_SUONERIA + " INTEGER, " +
