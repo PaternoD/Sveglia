@@ -18,4 +18,6 @@
     <color name="CircleRepetitionAlarm">#eeb614</color>
     <color name="CardDefaultColor">#eeeef6</color>
     <color name="statusBarColor">#535E75</color>
+    <color name="DefaultLightTextColor">#f1f1f1</color>
+    <color name="DefaultMapsSearch">#babbc4</color>
 </resources>
