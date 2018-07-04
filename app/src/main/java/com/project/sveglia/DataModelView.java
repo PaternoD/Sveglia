@@ -15,12 +15,11 @@ public class DataModelView {
     boolean on_off;
     boolean [] repetitions_day;
 
-    public DataModelView(String time, String nome_sveglia, boolean on_off//, boolean [] repetitions_day
-    ){
+    public DataModelView(String time, String nome_sveglia, boolean on_off, boolean [] repetitions_day){
         this.time=time;
         this.nome_sveglia=nome_sveglia;
         this.on_off=on_off;
-        //this.repetitions_day=repetitions_day;
+        this.repetitions_day=repetitions_day;
     }
 
 
@@ -32,13 +31,10 @@ public class DataModelView {
         return nome_sveglia;
     }
 
-    public boolean isOn_off() {
-        return on_off;
-    }
+    public boolean isOn_off() { return on_off; }
 
-    public void toooString(){
-        String str ="";
-        str= str + "TIME: " + this.time + ", NOME: " + this.nome_sveglia;
-System.out.println(str);    }
+    public boolean [] getRepetitions_day(){ return repetitions_day; }
+
+
 }
 

@@ -32,29 +32,44 @@ public class SetViewSveglie {
         data = new ArrayList<DataModelView>();
 
         ArrayList<String> array_nomi = db.getAllNameView();
-
         ArrayList<String> array_time = db.getAllTimeView();
         ArrayList<String> array_on_off = db.getAllOn_Off();
+        ArrayList<String> array_repetitions_day = db.getAllRepetitionsDay();
 
 
         for(int i=0;i<db.numberOfRows();i++) {
             String time = array_time.get(i);
             String name = array_nomi.get(i);
             String on_off_string = array_on_off.get(i);
+            String repetitions_day_string = array_repetitions_day.get(i);
+
             boolean on_off = true;
-
-
+            boolean [] repetitions_day_array;
+            repetitions_day_array = new boolean[7];
+//2 if che mi settano lo switch
             if (on_off_string=="1") {
                 on_off = true;
             }
             if (on_off_string=="0") {
                 on_off = false;
             }
+//ciclo che mi restituisce il vettore di booleani
+            for (int j=0;j<7;j++){
+                boolean day=true;
+                Character character;
+                character = repetitions_day_string.charAt(j);
+
+                if (character.equals((Character)'0')){
+                    day=false;
+                }
+                if (character.equals((Character)'1')){
+                    day=true;
+                }
+                repetitions_day_array[j]=day;
+            }
 
 
-
-
-            DataModelView view = new DataModelView(getFormattedTimeFromMillis(array_time.get(i)), array_nomi.get(i), on_off);
+            DataModelView view = new DataModelView(getFormattedTimeFromMillis(time), name, on_off,repetitions_day_array);
 
             data.add(view);
 
