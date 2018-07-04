@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,6 +26,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/fira_sans_light"
                 android:text="Route Detail"
+                android:textColor="@color/DefaultColorText"
                 android:textSize="18sp" />
 
             <TextView
@@ -48,24 +53,35 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/fira_sans_light"
-                android:text="Departure Info" />
+                android:text="Departure Info"
+                android:textColor="@color/DefaultColorText" />
 
-            <TextView
-                android:id="@+id/detail_transit_save_ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+            <android.support.v7.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
                 android:layout_below="@+id/detail_transit_departure_ID"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/fira_sans_light"
-                android:text="Seleziona"
-                android:textAllCaps="true"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="18dp"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:id="@+id/detail_transit_save_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/detail_transit_departure_ID"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="Seleziona"
+                    android:textAllCaps="true"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
 
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

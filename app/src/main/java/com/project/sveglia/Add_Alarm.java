@@ -1,11 +1,13 @@
 package com.project.sveglia;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -33,7 +36,7 @@ import java.util.Calendar;
  * Created by simonerigon on 21/02/18.
  */
 
-public class Add_Alarm extends AppCompatActivity {
+public class Add_Alarm extends Activity {
 
     // Variabili globali ------------------------------------------
     int modify_alarm_id;
@@ -62,6 +65,7 @@ public class Add_Alarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_alarm);
 
+
         // Recupero i riferimenti nel layout -----------------------
         // TextView
         final TextView time = (TextView)findViewById(R.id.time_text_ID);
@@ -89,6 +93,13 @@ public class Add_Alarm extends AppCompatActivity {
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
         final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
+
+        // ImageButton
+        ImageButton infoImageButton = (ImageButton)findViewById(R.id.info_image_button_ID);
+
+        // Recupero Immagine info per infoImageButton --------------
+        Bitmap infoImage = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.information_outline_24);
+        infoImageButton.setImageBitmap(infoImage);
 
         // Recupero dati da Intent chiamante -----------------------
         // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente.
@@ -364,8 +375,8 @@ public class Add_Alarm extends AppCompatActivity {
 
                 // ImageView
                 ImageView detail_transit_imageView = (ImageView)findViewById(R.id.detail_transit_image);
-                ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_transit_image);
-                ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_transit_image);
+                ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_location_image);
+                ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_dot_image);
 
                 // Setto i parametri -----------------------------------
                 String google_maps_time = getFormattedTimeFromMillis(google_maps_time_in_millis);
@@ -373,11 +384,11 @@ public class Add_Alarm extends AppCompatActivity {
 
                 Bitmap place_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_marker_24);
                 place_detail_ImageView.setImageBitmap(place_image);
-                place_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.buttonTransitButton_1));
+                //place_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.buttonTransitButton_1));
 
                 Bitmap point_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_menu_vertical_24);
                 point_detail_ImageView.setImageBitmap(point_image);
-                point_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
+                //point_detail_ImageView.setImageTintList(Add_Alarm.this.getColorStateList(R.color.my_DarkerGrey));
 
                 detail_origin_textView.setText(start_address_detail);
                 detail_destination_textView.setText(end_address_detail);

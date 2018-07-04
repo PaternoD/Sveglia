@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:name=".Add_Alarm"
-            android:theme="@style/AppTheme.Add_Alarm"></activity>
+            android:theme="@style/Add_Alarm"></activity>
         <activity android:name=".Add_Alarm_Name"></activity>
         <activity
             android:name=".TimePicker_Alarm"
@@ -77,7 +77,8 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"
+            android:theme="@style/Maps_Activity"></activity>
     </application>
 
 </manifest>

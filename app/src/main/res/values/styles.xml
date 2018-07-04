@@ -9,19 +9,29 @@
     </style>
 
     <!-- Add_Alarm Style -->
-    <style name="AppTheme.Add_Alarm">
-        <!-- Questo è il modo per eliminare il titolo all'attività utilizzando AppCompat-->
-        <!--<item name="windowNoTitle">true</item> -->
-
+    <style name="Add_Alarm" >
         <!-- Item da aggiungere per cambiare il colore della status bar -->
         <item name="android:statusBarColor">@color/statusBarColor</item>
-        <item name="android:actionBarStyle">@style/Default_ActionBar</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Default_ActionBar">
-        <item name="android:textColor">@color/White</item>
+    <!-- Maps Style -->
+    <style name="Maps_Activity" >
+        <!-- Item da aggiungere per cambiare il colore della status bar -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Default_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:titleTextStyle">@style/ActionBar_Text_Style</item>
         <item name="android:background">@color/statusBarColor</item>
+        <item name="android:icon">@android:color/transparent</item>
+    </style>
+
+    <style name="ActionBar_Text_Style" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:textColor">@color/White</item>
     </style>
 
     <!-- TimePicker_Alarm Style -->

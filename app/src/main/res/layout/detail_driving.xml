@@ -7,11 +7,39 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/detail_driving_distance_ID"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="18dp"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:id="@+id/detail_driving_save_ID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/detail_driving_distance_ID"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:text="Seleziona"
+                    android:textAllCaps="true"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/textView2"
@@ -32,6 +60,7 @@
                 android:fontFamily="@font/fira_sans_light"
                 android:singleLine="true"
                 android:text="Route_Detail"
+                android:textColor="@color/DefaultColorText"
                 android:textSize="18sp" />
 
             <TextView
@@ -58,23 +87,8 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/fira_sans_light"
                 android:text="Distance"
+                android:textColor="@color/DefaultColorText"
                 android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/detail_driving_save_ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/detail_driving_distance_ID"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/fira_sans_light"
-                android:text="Seleziona"
-                android:textAllCaps="true"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15sp"
-                android:textStyle="bold" />
 
         </RelativeLayout>
 

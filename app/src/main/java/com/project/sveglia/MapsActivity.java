@@ -2,6 +2,7 @@ package com.project.sveglia;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -60,9 +61,10 @@ public class MapsActivity extends FragmentActivity {
         // CardView
         CardView origin_Card_autocomplete = (CardView)findViewById(R.id.autocomp_origin_Card_ID);
         CardView destination_Card_autocomplete = (CardView)findViewById(R.id.autocomp_destination_Card_ID);
+        CardView btn_arrival_time = (CardView) findViewById(R.id.Arrival_time_Card);
 
         // Button
-        final Button btn_arrival_time = (Button)findViewById(R.id.btn_arrival_time_ID);
+        //final Button btn_arrival_time = (Button)findViewById(R.id.btn_arrival_time_ID);
         Button btn_search_google = (Button)findViewById(R.id.btn_search_Google_ID);
 
         // ImageButton
@@ -81,6 +83,7 @@ public class MapsActivity extends FragmentActivity {
         // TextView
         final TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
         final TextView destination_TextView = (TextView)findViewById(R.id.text_destination_ID);
+        final TextView departure_textView = (TextView)findViewById(R.id.text_arrival_time_ID);
 
         // RecyclerView
         final RecyclerView recyclerView_Data = (RecyclerView)findViewById(R.id.recyclerViewData_ID);
@@ -123,28 +126,12 @@ public class MapsActivity extends FragmentActivity {
         location_ImageView.setImageBitmap(location_image);
         arrow_switch_ImageView.setImageBitmap(arrow_switch_image);
 
-
-        // Setto visualizzazione del Layout -----------------------------------
-        car_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_1));
-        train_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        walking_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        time_imageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        arrow_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        dot_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        menu_Icon_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        location_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-        arrow_switch_ImageView.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-
-
+        arrow_ImageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
         // Aggiungo azioni a bottoni di selezione veicolo per il viaggio ------
         car_imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                car_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_1));
-                train_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-                walking_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
 
                 car_imageButton.setBackgroundResource(R.drawable.roundcorner_white);
                 train_imageButton.setBackgroundResource(R.drawable.roundcorner_trasparent);
@@ -159,10 +146,6 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
 
-                car_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-                train_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_1));
-                walking_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-
                 car_imageButton.setBackgroundResource(R.drawable.roundcorner_trasparent);
                 train_imageButton.setBackgroundResource(R.drawable.roundcorner_white);
                 walking_imageButton.setBackgroundResource(R.drawable.roundcorner_trasparent);
@@ -175,10 +158,6 @@ public class MapsActivity extends FragmentActivity {
         walking_imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                car_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-                train_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_2));
-                walking_imageButton.setImageTintList(MapsActivity.this.getColorStateList(R.color.buttonTransitButton_1));
 
                 car_imageButton.setBackgroundResource(R.drawable.roundcorner_trasparent);
                 train_imageButton.setBackgroundResource(R.drawable.roundcorner_trasparent);
@@ -218,7 +197,7 @@ public class MapsActivity extends FragmentActivity {
 
                 arrivalTimeClick = true;
 
-                setNormalTextColor(null, btn_arrival_time);
+                setNormalTextColor(departure_textView, null);
 
                 Intent arrival_time_intent = new Intent(MapsActivity.this, TimePicker_Google.class);
                 startActivityForResult(arrival_time_intent, GOOGLE_TIME_DATE_ID);
@@ -280,7 +259,7 @@ public class MapsActivity extends FragmentActivity {
                         setErrorTextColor(destination_TextView, null);
                     }
                     if(!arrivalTimeClick){
-                        setErrorTextColor(null, btn_arrival_time);
+                        setErrorTextColor(departure_textView, null);
                     }
                 }else {
                     if(isHistoryTime(arrival_DateTime)){
@@ -364,7 +343,7 @@ public class MapsActivity extends FragmentActivity {
                 String res_date = getDateFormattedFromMillis(arrival_time);
 
                 // Button
-                Button btn_arrival_time = (Button)findViewById(R.id.btn_arrival_time_ID);
+                TextView btn_arrival_time = (TextView)findViewById(R.id.text_arrival_time_ID);
                 btn_arrival_time.setText(res_date);
 
             }
@@ -486,10 +465,10 @@ public class MapsActivity extends FragmentActivity {
     private void setNormalTextColor(TextView text, Button btn){
 
         if(text != null){
-            text.setTextColor(Color.WHITE);
+            text.setTextColor(getResources().getColor(R.color.DefaultColorText));
         }
         if(btn != null){
-            btn.setTextColor(Color.WHITE);
+            btn.setTextColor(getResources().getColor(R.color.DefaultColorText));
         }
 
     }

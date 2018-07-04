@@ -20,4 +20,6 @@
     <color name="statusBarColor">#535E75</color>
     <color name="DefaultLightTextColor">#f1f1f1</color>
     <color name="DefaultMapsSearch">#babbc4</color>
+    <color name="RedColor">#ee4275</color>
+    <color name="GreenColor">#2bbd87</color>
 </resources>
