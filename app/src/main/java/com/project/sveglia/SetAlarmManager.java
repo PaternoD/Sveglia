@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -360,4 +362,29 @@ public class SetAlarmManager {
         return timeInMillis;
     }
 
+
+    //LAVORI IN CORSO-------------------------------
+    private long getRandomID(long timeInMillis){
+        long res=25523523;
+        return res;
+
+    }
+
+    /**
+     * Funzione che formatta il tempo in input (milliseconds) in HH:mm
+     * @param time
+     * @return formatted time (HH:mm)
+     */
+    private String getFormattedTimeFromMillis(String timeString){
+
+        Long timeLong = Long.parseLong(timeString);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timeLong);
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String res = dateFormat.format(cal.getTime());
+
+        return res;
+    }
 }
