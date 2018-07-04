@@ -378,6 +378,7 @@ public class Add_Alarm extends Activity {
                 ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_location_image);
                 ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_dot_image);
 
+
                 // Setto i parametri -----------------------------------
                 String google_maps_time = getFormattedTimeFromMillis(google_maps_time_in_millis);
                 time.setText(google_maps_time);
