@@ -10,18 +10,21 @@ import java.util.Calendar;
 
 public class DataModelView {
 
+    int id;
     String time;
     String nome_sveglia;
     boolean on_off;
     boolean [] repetitions_day;
 
-    public DataModelView(String time, String nome_sveglia, boolean on_off, boolean [] repetitions_day){
+    public DataModelView(String time, String nome_sveglia, boolean on_off, boolean [] repetitions_day, int id) {
+        this.id=id;
         this.time=time;
         this.nome_sveglia=nome_sveglia;
         this.on_off=on_off;
         this.repetitions_day=repetitions_day;
     }
 
+    public int getId(){return id;}
 
     public String getTime(){
         return time;

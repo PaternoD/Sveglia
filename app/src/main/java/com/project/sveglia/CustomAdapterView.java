@@ -20,6 +20,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
     ArrayList<DataModelView> dataSet;
     boolean [] repetitions_day;
+    DB_Manager db;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -55,8 +56,9 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
     }
 
 
-    public CustomAdapterView(ArrayList<DataModelView> dataSet){
+    public CustomAdapterView(ArrayList<DataModelView> dataSet, DB_Manager db){
         this.dataSet=dataSet;
+        this.db=db;
     }
 
     @Override
@@ -73,7 +75,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         TextView time_sveglia = holder.timeSveglia;
         TextView nome_sveglia = holder.nomeSveglia;
-        Switch on_off = holder.on_off;
+        final Switch on_off = holder.on_off;
         CardView lun = holder.lun;
         CardView mar = holder.mar;
         CardView mer = holder.mer;
@@ -82,9 +84,12 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView sab = holder.sab;
         CardView dom = holder.dom;
 
+        final int id = dataSet.get(position).getId();
+
         time_sveglia.setText(dataSet.get(position).getTime());
         nome_sveglia.setText(dataSet.get(position).getNome_sveglia());
         on_off.setChecked(dataSet.get(position).isOn_off());
+
 
         repetitions_day = dataSet.get(position).getRepetitions_day();
 
@@ -116,6 +121,21 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
             giorni_ripetizioni.setVisibility(View.GONE);
         }
+
+        on_off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+//----------------------DA INSERIRE CAMBIO COLORE DELLA CARDVIEW QUANDO SI PREME SWITCH
+
+                if (on_off.isChecked()){
+                    db.SetOn_Off(id,false);
+                }
+                if (!on_off.isChecked()){
+                    db.SetOn_Off(id,true);
+                }
+            }
+        });
 
 
     }

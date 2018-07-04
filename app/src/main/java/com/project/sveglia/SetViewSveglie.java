@@ -35,6 +35,7 @@ public class SetViewSveglie {
         ArrayList<String> array_time = db.getAllTimeView();
         ArrayList<String> array_on_off = db.getAllOn_Off();
         ArrayList<String> array_repetitions_day = db.getAllRepetitionsDay();
+        ArrayList<String> array_id = db.getAllID();
 
 
         for(int i=0;i<db.numberOfRows();i++) {
@@ -42,15 +43,18 @@ public class SetViewSveglie {
             String name = array_nomi.get(i);
             String on_off_string = array_on_off.get(i);
             String repetitions_day_string = array_repetitions_day.get(i);
+            String id_string = array_id.get(i);
+
+            int id= Integer.parseInt(id_string);
 
             boolean on_off = true;
             boolean [] repetitions_day_array;
             repetitions_day_array = new boolean[7];
 //2 if che mi settano lo switch
-            if (on_off_string=="1") {
+            if (on_off_string.equals((String)"1")) {
                 on_off = true;
             }
-            if (on_off_string=="0") {
+            if (on_off_string.equals((String)"0")) {
                 on_off = false;
             }
 //ciclo che mi restituisce il vettore di booleani
@@ -69,13 +73,13 @@ public class SetViewSveglie {
             }
 
 
-            DataModelView view = new DataModelView(getFormattedTimeFromMillis(time), name, on_off,repetitions_day_array);
+            DataModelView view = new DataModelView(getFormattedTimeFromMillis(time), name, on_off,repetitions_day_array,id);
 
             data.add(view);
 
 
         }
-        adapter = new CustomAdapterView(data);
+        adapter = new CustomAdapterView(data,db);
         recyclerView.setAdapter(adapter);
 
     }

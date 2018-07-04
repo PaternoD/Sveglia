@@ -50,23 +50,7 @@ public class DB_Manager {
         System.out.println(str);
         return str;
     }
-
-    //funz di appoggio per convertire stringa in bool_day del db
-    //in un array di booleani
-    //DA VERIFICARE FUNZIONAMENTO!!!!!
-    public boolean [] string_to_bool(String str){
-        boolean [] array  = new boolean[7];
-        for(int i=0;i<7;i++){
-            if(str.charAt(i)=='0'){
-                array[i]=false;
-            }
-            if(str.charAt(i)=='1'){
-                array[i]=true;
-            }
-        }
-        return array;
-    }
-
+//inserire sveglia con tutti i parametri
     public void insert_view(int id,
                             Long time,
                             String nome,
@@ -79,7 +63,7 @@ public class DB_Manager {
                             String from,
                             String to,
                             String mezzo
-                            //String array_id
+                            //String array_id //inserito da un altra funzione!!
     ){
         System.out.println("inizio funzione");
         ContentValues cv = new ContentValues();
@@ -100,18 +84,18 @@ public class DB_Manager {
     }
 
 
-
+//inserire array delle ripetizioni
     public void insert_repetition_id(int id, Vector<Integer> vector){
         String str="";
         str = vector.toString();
-        System.out.println(id);
+        //System.out.println(id);
         String sql = "UPDATE TABLE_VIEW "  +
                 " SET array_id_sveglie = '"+ str +"' " +
                 " WHERE _id = "+ id +";";
         database.execSQL(sql);
     }
 
-
+//inserire sveglia nella table_sveglie
     public void insert_sveglia(int id, Long time){
         ContentValues cv = new ContentValues();
         cv.put(DB_Helper.ID_SVEGLIA, id);
@@ -139,7 +123,7 @@ public class DB_Manager {
         int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
         return numRows;
     }
-
+//funzioni per recuperare i dati dal DB
     public ArrayList<String>getAllTimeView(){
         ArrayList<String> array_time = new ArrayList<>();
 
@@ -152,10 +136,6 @@ public class DB_Manager {
         while (!res.isAfterLast()){
             array_time.add(res.getString(res.getColumnIndex(db_helper.TIME_VIEW)));
             res.moveToNext();
-        }
-
-        for (int i=0; i<array_time.size();i++){
-            System.out.println(array_time.get(i));
         }
 
         return array_time;
@@ -193,6 +173,22 @@ public class DB_Manager {
 
     }
 
+    public ArrayList<String>getAllID(){
+        ArrayList<String> array_id = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_id.add(res.getString(res.getColumnIndex(db_helper.ID_VIEW)));
+            res.moveToNext();
+        }
+
+        return array_id;
+
+    }
+
     public ArrayList<String>getAllRepetitionsDay(){
         ArrayList<String> array_repetitions = new ArrayList<>();
 
@@ -206,6 +202,23 @@ public class DB_Manager {
         }
 
         return array_repetitions;
+
+    }
+
+    public void SetOn_Off(int id, boolean acceso){
+        if(!acceso){
+            String sql="UPDATE TABLE_VIEW "+
+                    " SET on_off = '1' " +
+                    " WHERE _id = " + id+" ;";
+            database.execSQL(sql);
+        }
+        if (acceso){
+
+            String sql="UPDATE TABLE_VIEW "+
+                    " SET on_off = '0' " +
+                    " WHERE _id = " + id+" ;";
+            database.execSQL(sql);
+        }
 
     }
 }
