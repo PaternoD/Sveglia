@@ -157,7 +157,7 @@ public class SetAlarmManager {
             isDelay = 0;
         }
 
-        db_manager.insert_view(ALARM_ID,
+        db_manager.insert_view((int) getRandomID(timeInMillis),
                 timeInMillis,
                 alarm_name,
                 repetitionArray,
@@ -224,7 +224,7 @@ public class SetAlarmManager {
             isDelay = 0;
         }
 
-        db_manager.insert_view(PRIMARY_ALARM_ID,
+        db_manager.insert_view((int) getRandomID(timeInMilllis),
                 timeInMilllis,
                 alarm_name,
                 repetitionsArray,
@@ -364,27 +364,31 @@ public class SetAlarmManager {
 
 
     //LAVORI IN CORSO-------------------------------
-    private long getRandomID(long timeInMillis){
-        long res=25523523;
-        return res;
-
-    }
-
-    /**
-     * Funzione che formatta il tempo in input (milliseconds) in HH:mm
-     * @param time
-     * @return formatted time (HH:mm)
-     */
-    private String getFormattedTimeFromMillis(String timeString){
-
-        Long timeLong = Long.parseLong(timeString);
-
+    public static long getRandomID(long timeInMillis){
+        long res=0;
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeLong);
+        cal.setTimeInMillis(timeInMillis);
 
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String res = dateFormat.format(cal.getTime());
+        DateFormat ore_format = new SimpleDateFormat("HH");
+        DateFormat minuti_format = new SimpleDateFormat("mm");
+        DateFormat giorno_format = new SimpleDateFormat("DDD");
+
+
+        long ore = Long.parseLong(ore_format.format(cal.getTime()));
+        long minuti = Long.parseLong(minuti_format.format(cal.getTime()));
+        long giorno = Long.parseLong(giorno_format.format(cal.getTime()));
+
+        long coeff_ore=   10000000;
+        long coeff_minuti=10000;
+        long coeff_giorno=10;
+
+        res = res + (ore * coeff_ore);
+        res = res + (minuti * coeff_minuti);
+        res = res + (giorno * coeff_giorno);
 
         return res;
+
     }
+
+
 }
