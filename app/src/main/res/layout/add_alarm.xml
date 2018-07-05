@@ -196,7 +196,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="50dp">
 
                         <TextView
                             android:id="@+id/text_travel_to_ID"
@@ -500,7 +500,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:textColorLink="@color/CircleRepetitionAlarm"
+                        android:theme="@style/SCBSwitch" />
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>

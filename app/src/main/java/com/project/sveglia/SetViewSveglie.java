@@ -51,10 +51,10 @@ public class SetViewSveglie {
             boolean [] repetitions_day_array;
             repetitions_day_array = new boolean[7];
 //2 if che mi settano lo switch
-            if (on_off_string.equals((String)"1")) {
+            if (on_off_string.equals("1")) {
                 on_off = true;
             }
-            if (on_off_string.equals((String)"0")) {
+            if (on_off_string.equals("0")) {
                 on_off = false;
             }
 //ciclo che mi restituisce il vettore di booleani

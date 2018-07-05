@@ -362,6 +362,7 @@ public class Add_Alarm extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
+                alarm_time = google_maps_time_in_millis;
                 traffic_model = data.getExtras().getString("transit_model");
 
                 start_address_detail = data.getExtras().getString("start_address");
