@@ -173,7 +173,7 @@ public class SetAlarmManager {
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
 
-        db_manager.insert_repetition_id(ALARM_ID, vector_id_alarm);
+        db_manager.insert_repetition_id((int) getRandomID(timeInMillis), vector_id_alarm);
         db_manager.insert_sveglia(ALARM_ID, timeInMillis);
 
 
@@ -315,7 +315,7 @@ public class SetAlarmManager {
                  * ------> ******* Qui bisogna salavare la sveglia nel database *******
                  */
 
-                db_manager.insert_repetition_id(PRIMARY_ALARM_ID, vector_id_sveglia);
+                db_manager.insert_repetition_id((int) getRandomID(timeInMilllis), vector_id_sveglia);
 
 
 

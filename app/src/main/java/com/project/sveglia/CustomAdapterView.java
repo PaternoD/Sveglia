@@ -1,11 +1,16 @@
 package com.project.sveglia;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,6 +26,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
     ArrayList<DataModelView> dataSet;
     boolean [] repetitions_day;
     DB_Manager db;
+    Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,6 +41,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView sab;
         CardView dom;
         RelativeLayout giorni_ripetizioni;
+        CardView sveglia;
 
 
         public MyViewHolder(View itemView) {
@@ -51,14 +58,16 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             sab=(CardView)itemView.findViewById(R.id.Sab_Circle);
             dom=(CardView)itemView.findViewById(R.id.Dom_Circle);
             giorni_ripetizioni=(RelativeLayout)itemView.findViewById(R.id.giorni_ripetizione);
+            sveglia=(CardView) itemView.findViewById(R.id.visualizzatore_sveglia);
 
         }
     }
 
 
-    public CustomAdapterView(ArrayList<DataModelView> dataSet, DB_Manager db){
+    public CustomAdapterView(ArrayList<DataModelView> dataSet, DB_Manager db, Context context){
         this.dataSet=dataSet;
         this.db=db;
+        this.context = context;
     }
 
     @Override
@@ -71,7 +80,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         TextView time_sveglia = holder.timeSveglia;
         TextView nome_sveglia = holder.nomeSveglia;
@@ -83,6 +92,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView ven = holder.ven;
         CardView sab = holder.sab;
         CardView dom = holder.dom;
+        final CardView sveglia = holder.sveglia;
 
         final int id = dataSet.get(position).getId();
 
@@ -137,6 +147,24 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             }
         });
 
+
+        sveglia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("-----------------CLICK -------- modifica SVEGLIA-----------");
+
+            }
+        });
+
+        sveglia.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Cancel_Alarm_Class.cancel_Alarm(id,context,db);
+                SetViewSveglie.aggiornaAdapter(position);
+                System.out.println("-----------------LONG CLICK -------- DELETE SVEGLIA-----------");
+                return false;
+            }
+        });
 
     }
 

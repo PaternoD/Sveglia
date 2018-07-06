@@ -79,8 +79,16 @@ public class SetViewSveglie {
 
 
         }
-        adapter = new CustomAdapterView(data,db);
+        adapter = new CustomAdapterView(data,db,c);
         recyclerView.setAdapter(adapter);
+
+
+    }
+
+    public static void aggiornaAdapter(int pos){
+        data.remove(pos);
+        adapter.notifyDataSetChanged();
+        System.out.println("AGGIORNATO---------------------------");
 
     }
 

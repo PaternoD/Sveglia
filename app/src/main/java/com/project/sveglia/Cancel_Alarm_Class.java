@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Adapter;
+
+import java.util.Vector;
 
 /**
  * Created by simonerigon on 22/05/18.
@@ -21,21 +24,30 @@ public class Cancel_Alarm_Class extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    public static void cancel_Alarm(int[] alarm_array, Context context){
+    public static void cancel_Alarm(int id, Context context, DB_Manager db_manager){
+
+        Vector<Integer> vector = new Vector<>(1);
+        vector=db_manager.getVectorID_Ripetizioni(id);
 
         // Cancello Allarmi ---------------------
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(ALARM_SERVICE);
         Intent alarmToBeDeleted = new Intent(context, AlarmReceiver.class);
 
-        for(int i=0; i<alarm_array.length; i++){
+        for(int i=0; i<vector.size(); i++){
 
-            int id_Alarm = alarm_array[i];
+            int id_Alarm = vector.elementAt(i);
+            //cancellazione alarm manager
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_ONE_SHOT);
             alarmManager.cancel(pendingIntent);
 
             Log.i("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");
 
+            //cancellazione table_sveglie
+            db_manager.delete_sveglia(id_Alarm);
         }
+
+        //cancellazione table view
+        db_manager.delete_view(id);
 
     }
 }

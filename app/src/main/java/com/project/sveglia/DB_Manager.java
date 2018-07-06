@@ -84,7 +84,7 @@ public class DB_Manager {
     }
 
 
-//inserire array delle ripetizioni
+//inserire vector delle ripetizioni
     public void insert_repetition_id(int id, Vector<Integer> vector){
         String str="";
         str = vector.toString();
@@ -94,6 +94,37 @@ public class DB_Manager {
                 " WHERE _id = "+ id +";";
         database.execSQL(sql);
     }
+    // recupero vector delle ripetizioni
+    public Vector<Integer> getVectorID_Ripetizioni(int id_view){
+        Vector<Integer> vector = new Vector<>(1);
+
+        ArrayList<String> array_vector = new ArrayList<>();
+
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM TABLE_VIEW WHERE _id = "+ id_view, null);
+
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_vector.add(res.getString(res.getColumnIndex(db_helper.ARRAY_ID_SVEGLIE)));
+            res.moveToNext();
+        }
+
+        String str = array_vector.get(0);
+        int dim_str=str.length();
+        int now =1;
+
+        while(now<dim_str){
+            Integer new_id;
+            String new_id_str;
+            new_id_str=str.substring(now,now+10);
+            now=now+12;
+            new_id=Integer.parseInt(new_id_str);
+            vector.add(new_id);
+        }
+        return vector;
+    }
 
 //inserire sveglia nella table_sveglie
     public void insert_sveglia(int id, Long time){
@@ -102,7 +133,6 @@ public class DB_Manager {
         cv.put(DB_Helper.TIME_SVEGLIA, time);
         database.insert(DB_Helper.TABLE_SVEGLIE, null, cv);
     }
-
 
     public void delete_view(int id){
         database.delete(DB_Helper.TABLE_VIEW, DB_Helper.ID_VIEW + " = " + id, null);
@@ -123,6 +153,7 @@ public class DB_Manager {
         int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
         return numRows;
     }
+
 //funzioni per recuperare i dati dal DB
     public ArrayList<String>getAllTimeView(){
         ArrayList<String> array_time = new ArrayList<>();
