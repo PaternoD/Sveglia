@@ -171,7 +171,6 @@
                         android:singleLine="true"
                         android:text=">"
                         android:textAlignment="center"
-                        android:textColor="@color/CircleRepetitionAlarm"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
