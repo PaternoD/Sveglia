@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseCorruptException;
 
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -29,6 +32,16 @@ public class DB_Manager {
         db_helper = new DB_Helper(context);
         database = db_helper.getWritableDatabase();
         databaseRead = db_helper.getReadableDatabase();
+
+//inserisco la card falsa
+
+            int size = this.getAllID().size();
+            boolean[]b = new boolean[7];
+            if(Integer.parseInt(this.getAllID().get(size-1))!=999999999)
+                this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
+
+
+
         return this;
     }
 
@@ -65,7 +78,6 @@ public class DB_Manager {
                             String mezzo
                             //String array_id //inserito da un altra funzione!!
     ){
-        System.out.println("inizio funzione");
         ContentValues cv = new ContentValues();
         cv.put(DB_Helper.ID_VIEW,id);
         cv.put(DB_Helper.TIME_VIEW,time);
@@ -80,7 +92,13 @@ public class DB_Manager {
         cv.put(DB_Helper.GOOGLE_TO, to);
         cv.put(DB_Helper.MEZZO,mezzo);
         //cv.put(DB_Helper.ARRAY_ID_SVEGLIE,array_id);
-        database.insert(DB_Helper.TABLE_VIEW,null,cv);
+        try{
+            database.insert(DB_Helper.TABLE_VIEW,null,cv);
+
+        }catch(SQLException e){
+            System.out.println("___________errore inserimento_______"+e.toString());
+        }
+        //database.insert(DB_Helper.TABLE_VIEW,null,cv);
     }
 
 

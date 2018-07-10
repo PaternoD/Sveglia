@@ -49,5 +49,7 @@ public class Cancel_Alarm_Class extends Activity {
         //cancellazione table view
         db_manager.delete_view(id);
 
+
+
     }
 }

@@ -1,6 +1,9 @@
 package com.project.sveglia;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
@@ -26,6 +29,7 @@ public class SetViewSveglie {
     private static RelativeLayout relativeLayout;
 
     public void setViewSveglie(RecyclerView recyclerView, Context c){
+
 
         db = new DB_Manager(c);
         db.open();
@@ -83,14 +87,20 @@ public class SetViewSveglie {
         recyclerView.setAdapter(adapter);
 
 
+
     }
 
     public static void aggiornaAdapter(int pos){
         data.remove(pos);
         adapter.notifyDataSetChanged();
+
         System.out.println("AGGIORNATO---------------------------");
 
     }
+
+
+
+
 
     /**
      * Funzione che formatta il tempo in input (milliseconds) in HH:mm

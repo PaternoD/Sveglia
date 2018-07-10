@@ -363,7 +363,6 @@ public class SetAlarmManager {
     }
 
 
-    //LAVORI IN CORSO-------------------------------
     public static long getRandomID(long timeInMillis){
         long res=0;
         Calendar cal = Calendar.getInstance();

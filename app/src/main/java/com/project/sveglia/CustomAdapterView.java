@@ -130,6 +130,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         else if(!repetitions){
             RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
             giorni_ripetizioni.setVisibility(View.GONE);
+
         }
 
         on_off.setOnClickListener(new View.OnClickListener() {
@@ -156,11 +157,17 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             }
         });
 
+
         sveglia.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Cancel_Alarm_Class.cancel_Alarm(id,context,db);
-                SetViewSveglie.aggiornaAdapter(position);
+
+
+                if(position!=dataSet.size()-1){
+                    Cancel_Alarm_Class.cancel_Alarm(id,context,db);
+                    SetViewSveglie.aggiornaAdapter(position);
+                }
+
                 System.out.println("-----------------LONG CLICK -------- DELETE SVEGLIA-----------");
                 return false;
             }
