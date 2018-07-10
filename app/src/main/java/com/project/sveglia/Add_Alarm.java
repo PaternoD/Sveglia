@@ -55,6 +55,9 @@ public class Add_Alarm extends Activity {
     String alarm_music_name;
     String traffic_model;
 
+    // CardView
+    CardView Card_Day_Info;
+
     // TextView
     TextView repetition_Text;
     TextView day_info;
@@ -84,6 +87,7 @@ public class Add_Alarm extends Activity {
         CardView ripetizione_Card = (CardView)findViewById(R.id.Ripetizione_Card_ID);
         CardView travel_To_Card = (CardView)findViewById(R.id.Travel_to_card_ID);
         CardView add_music_card = (CardView)findViewById(R.id.Suono_Card_ID);
+        Card_Day_Info = (CardView)findViewById(R.id.Card_day_info_ID);
 
         // Switch
         final Switch travel_to_switch = (Switch)findViewById(R.id.Travel_to_Switch);
@@ -105,11 +109,13 @@ public class Add_Alarm extends Activity {
         Bitmap infoImage = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.information_outline_24);
         infoImageButton.setImageBitmap(infoImage);
 
-        // Setto visualizzazione buttoni layout --------------------
+        // Setto visualizzazione layout --------------------
         arrowTextEtichetta.setTextColor(getResources().getColor(R.color.DefaultColorText));
         arrowTextSuono.setTextColor(getResources().getColor(R.color.DefaultColorText));
         arrowTextRipetizione.setTextColor(getResources().getColor(R.color.DefaultColorText));
         arrowTextTravel.setTextColor(getResources().getColor(R.color.DefaultColorText));
+
+        Card_Day_Info.setVisibility(View.INVISIBLE);
 
         // Recupero dati da Intent chiamante -----------------------
         // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente.
@@ -139,7 +145,6 @@ public class Add_Alarm extends Activity {
         }
 
         // Recupero Musica di default per l'allarme ----------------
-
 
         if(modify_alarm){
             // Se modifico l'allarme gia esistente recupero musica dal database
@@ -227,6 +232,7 @@ public class Add_Alarm extends Activity {
                         disable_modify_time = false;
                         disable_repetition_days = false;
                         repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
+                        Card_Day_Info.setVisibility(View.INVISIBLE);
                     } else {
                         int GOOGLE_MAPS_ID = 4;
 
@@ -410,6 +416,8 @@ public class Add_Alarm extends Activity {
 
                 disable_modify_time = true;
                 disable_repetition_days = true;
+
+                Card_Day_Info.setVisibility(View.VISIBLE);
 
                 String day_time = getDayTimeFromMillis(google_maps_time_in_millis);
                 day_info.setText(day_time);

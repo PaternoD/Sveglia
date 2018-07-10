@@ -94,6 +94,10 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView dom = holder.dom;
         final CardView sveglia = holder.sveglia;
 
+        if(position==dataSet.size()-1){
+            sveglia.setVisibility(View.INVISIBLE);
+        }
+
         final int id = dataSet.get(position).getId();
 
         time_sveglia.setText(dataSet.get(position).getTime());

@@ -24,4 +24,6 @@
     <color name="GreenColor">#2bbd87</color>
     <color name="itemSelectorPicker">#009788</color>
 
+    <color name="CardDefaultColorWithOpacity">#80eeeef6</color>
+    <color name="CircleRepetitionAlarmWithOpacity">#80eeb614</color>
 </resources>
