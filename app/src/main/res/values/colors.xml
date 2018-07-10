@@ -22,4 +22,5 @@
     <color name="DefaultMapsSearch">#babbc4</color>
     <color name="RedColor">#ee4275</color>
     <color name="GreenColor">#2bbd87</color>
+    <color name="itemSelectorPicker">#009788</color>
 </resources>

@@ -73,6 +73,10 @@ public class Add_Alarm extends Activity {
         final TextView music_name = (TextView)findViewById(R.id.music_name_ID);
         repetition_Text = (TextView)findViewById(R.id.text_ripetizione_ID);
         day_info = (TextView)findViewById(R.id.text_day_info_alarm_time_ID);
+        TextView arrowTextEtichetta = (TextView)findViewById(R.id.arrow_textView_etichetta);
+        TextView arrowTextSuono = (TextView)findViewById(R.id.arrow_textView_Suono);
+        TextView arrowTextRipetizione = (TextView)findViewById(R.id.arrow_textView_ripetizione);
+        TextView arrowTextTravel = (TextView)findViewById(R.id.arrowChangeInfo);
 
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
@@ -100,6 +104,12 @@ public class Add_Alarm extends Activity {
         // Recupero Immagine info per infoImageButton --------------
         Bitmap infoImage = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.information_outline_24);
         infoImageButton.setImageBitmap(infoImage);
+
+        // Setto visualizzazione buttoni layout --------------------
+        arrowTextEtichetta.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        arrowTextSuono.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        arrowTextRipetizione.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        arrowTextTravel.setTextColor(getResources().getColor(R.color.DefaultColorText));
 
         // Recupero dati da Intent chiamante -----------------------
         // Recupero informazione se la chiamata è per una nuova sveglia o la modifica di una gia esistente.
@@ -394,6 +404,9 @@ public class Add_Alarm extends Activity {
 
                 detail_origin_textView.setText(start_address_detail);
                 detail_destination_textView.setText(end_address_detail);
+
+                detail_origin_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                detail_destination_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
 
                 disable_modify_time = true;
                 disable_repetition_days = true;

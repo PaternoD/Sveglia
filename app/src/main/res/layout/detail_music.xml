@@ -9,6 +9,12 @@
         android:id="@+id/card_Music_ID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
         app:cardElevation="0dp">
 
         <RelativeLayout
@@ -25,6 +31,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/fira_sans_light"
                 android:text="Music_Name"
+                android:textColor="@color/DefaultColorText"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -34,7 +41,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
-                android:checked="false" />
+                android:checked="true"
+                android:theme="@style/RadioButtonStyle"
+                android:buttonTint="@color/CircleRepetitionAlarm"/>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView_click_music_ID"

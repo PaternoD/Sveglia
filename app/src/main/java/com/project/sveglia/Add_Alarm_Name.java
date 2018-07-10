@@ -13,7 +13,7 @@ import android.widget.EditText;
  * Created by simonerigon on 21/02/18.
  */
 
-public class Add_Alarm_Name extends AppCompatActivity {
+public class Add_Alarm_Name extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

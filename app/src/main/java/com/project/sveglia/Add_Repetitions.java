@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 /**
  * Created by simonerigon on 23/02/18.
@@ -38,6 +39,15 @@ public class Add_Repetitions extends Activity {
         final CheckBox checkbox_sabato = (CheckBox)findViewById(R.id.checkBox_sabato);
         final CheckBox checkbox_domenica = (CheckBox)findViewById(R.id.checkBox_domenica);
 
+        // TextView
+        TextView text_lun = (TextView)findViewById(R.id.Text_lunedì);
+        TextView text_mar = (TextView)findViewById(R.id.Text_Martedì);
+        TextView text_mer = (TextView)findViewById(R.id.text_mercoledì);
+        TextView text_gio = (TextView)findViewById(R.id.text_giovedì);
+        TextView text_ven = (TextView)findViewById(R.id.text_venerdì);
+        TextView text_sab = (TextView)findViewById(R.id.text_sabato);
+        TextView text_dom = (TextView)findViewById(R.id.text_domenica);
+
         // Button
         Button btn_cancel = (Button)findViewById(R.id.btn_cancel_ripetition_ID);
         Button btn_save = (Button)findViewById(R.id.btn_save_ripetition_ID);
@@ -47,6 +57,15 @@ public class Add_Repetitions extends Activity {
 
         // Setto animazione Entrata -------------------------------
         cardView_Animation(card_repetition);
+
+        // Setto colori testo -------------------------------------
+        text_lun.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_mar.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_mer.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_gio.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_ven.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_sab.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        text_dom.setTextColor(getResources().getColor(R.color.DefaultColorText));
 
         // setto i checkBox ---------------------------------------
         set_CheckBox_days(ripetition_array,
@@ -71,7 +90,7 @@ public class Add_Repetitions extends Activity {
                         Add_Repetitions.this.finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
-                }, 500);
+                }, 100);
 
 
             }
@@ -98,7 +117,7 @@ public class Add_Repetitions extends Activity {
                         Add_Repetitions.this.finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
-                }, 500);
+                }, 100);
 
             }
         });

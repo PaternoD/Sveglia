@@ -1,6 +1,7 @@
 package com.project.sveglia;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,7 +59,7 @@ public class TimePicker_Alarm extends Activity {
                         TimePicker_Alarm.this.finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
-                }, 500);
+                }, 100);
 
 
             }
@@ -95,7 +96,7 @@ public class TimePicker_Alarm extends Activity {
                         TimePicker_Alarm.this.finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
-                }, 500);
+                }, 100);
 
             }
         });

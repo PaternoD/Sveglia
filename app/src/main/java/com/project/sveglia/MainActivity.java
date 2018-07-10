@@ -2,6 +2,7 @@ package com.project.sveglia;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Recupero Riferimenti layout ----
+        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton_ID);
+
         db_manager = new DB_Manager(this);
         db_manager.open();
         RecyclerView recyclerView;
@@ -37,26 +41,15 @@ public class MainActivity extends AppCompatActivity {
         SetViewSveglie set_sveglie = new SetViewSveglie();
         set_sveglie.setViewSveglie(recyclerView, this);
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent add_mem = new Intent(MainActivity.this, Add_Alarm.class);
+                add_mem.putExtra("isModifyAlarm", false);
+                startActivity(add_mem);
+            }
+        });
 
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id == R.id.add_record) {
-
-            Intent add_mem = new Intent(this, Add_Alarm.class);
-            add_mem.putExtra("isModifyAlarm", false);
-            startActivity(add_mem);
-
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

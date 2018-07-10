@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/Main_Activity_Theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         <activity
             android:name=".Add_Alarm"
             android:theme="@style/Add_Alarm"></activity>
-        <activity android:name=".Add_Alarm_Name"></activity>
+        <activity android:name=".Add_Alarm_Name"
+            android:theme="@style/Add_Alarm_Name"></activity>
         <activity
             android:name=".TimePicker_Alarm"
             android:theme="@style/TimePicker_Alarm"></activity>
@@ -38,7 +40,8 @@
             android:theme="@style/Add_Repetitions"></activity>
         <activity android:name=".TimePicker_Google"
             android:theme="@style/TimePicker_Google"></activity>
-        <activity android:name=".add_alarm_music"></activity>
+        <activity android:name=".add_alarm_music"
+            android:theme="@style/Add_Alarm_Music"></activity>
         <activity android:name=".FullScreen_Notification"
             android:theme="@style/FullScreen_Notification"
             android:showOnLockScreen="true"></activity>

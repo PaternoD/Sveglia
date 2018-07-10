@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
@@ -44,6 +45,7 @@ public class add_alarm_music extends Activity {
 
         // Assegno immagine a imageButton ------------------------
         btn_save_music.setImageBitmap(arrowLeft);
+        btn_save_music.setImageTintList(getResources().getColorStateList(R.color.White));
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

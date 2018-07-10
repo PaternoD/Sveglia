@@ -9,10 +9,13 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewTimePickerAlarm_ID"
         android:layout_width="300dp"
-        android:layout_height="430dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:background="@color/CardDefaultColor"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
         app:cardElevation="0dp">
 
         <RelativeLayout
@@ -24,42 +27,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:headerBackground="@android:color/darker_gray"
+                android:keyboardNavigationCluster="false"
                 android:timePickerMode="clock" />
 
-            <Button
-                android:id="@+id/btn_save_timePicker_ID"
-                android:layout_width="120dp"
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/ripple_effect_transparent"
-                android:elevation="0dp"
-                android:fontFamily="@font/fira_sans_light"
-                android:stateListAnimator="@null"
-                android:text="Salva"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btn_cancel_timePicker_ID"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/ripple_effect_transparent"
-                android:elevation="0dp"
-                android:fontFamily="@font/fira_sans_light"
-                android:text="Annulla"
-                android:textColor="@android:color/holo_blue_light"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:stateListAnimator="@null"/>
+                android:layout_below="@+id/timePicker_Alarm_ID"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_cancel_timePicker_ID"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
+                    android:text="Annulla"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/timePicker_Alarm_ID"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="24dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_save_timePicker_ID"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
+                    android:text="Salva"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

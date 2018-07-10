@@ -9,7 +9,31 @@
     </style>
 
     <!-- Add_Alarm Style -->
+    <style name="Main_Activity_Theme" parent="Theme.AppCompat.DayNight">
+        <!-- Item da aggiungere per cambiare il colore della status bar -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Add_Alarm Style -->
     <style name="Add_Alarm" >
+        <!-- Item da aggiungere per cambiare il colore della status bar -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Add_Alarm Style -->
+    <style name="Add_Alarm_Name" >
+        <!-- Item da aggiungere per cambiare il colore della status bar -->
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Add_Alarm_Music Style -->
+    <style name="Add_Alarm_Music" >
         <!-- Item da aggiungere per cambiare il colore della status bar -->
         <item name="android:statusBarColor">@color/statusBarColor</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -24,6 +48,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <!-- Action bar style -->
     <style name="Default_ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:titleTextStyle">@style/ActionBar_Text_Style</item>
         <item name="android:background">@color/statusBarColor</item>
@@ -35,11 +60,28 @@
     </style>
 
     <!-- TimePicker_Alarm Style -->
-    <style name="TimePicker_Alarm">
+    <style name="TimePicker_Alarm" parent="Theme.AppCompat.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:fontFamily">@font/fira_sans_light</item>
+        <item name="android:timePickerStyle">@style/TimePicker_Style</item>
+    </style>
+
+    <!-- TimePicker_Style -->
+    <style name="TimePicker_Style" parent="android:Widget.Material.TimePicker">
+        <item name="android:headerBackground">@color/DefaultMapsSearch</item>
+        <item name="android:numbersSelectorColor">@color/CircleRepetitionAlarm</item>
+        <item name="android:numbersBackgroundColor">@color/White</item>
+        <item name="android:numbersTextColor">@color/DefaultColorText</item>
+        <item name="android:numbersInnerTextColor">@color/DefaultColorText</item>
+    </style>
+
+    <!-- Datepicker_Style -->
+    <style name="DatepickerStyle" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/DefaultMapsSearch</item>
+        <item name="colorControlActivated">@color/CircleRepetitionAlarm</item>
+
     </style>
 
     <!-- Add_Repetitions Style -->
@@ -50,11 +92,12 @@
     </style>
 
     <!-- TimePicker_Google -->
-    <style name="TimePicker_Google">
+    <style name="TimePicker_Google" parent="Theme.AppCompat.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:fontFamily">@font/fira_sans_light</item>
+        <item name="android:timePickerStyle">@style/TimePicker_Style</item>
     </style>
 
     <!-- Notification -->
@@ -88,6 +131,18 @@
 
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">#3e3e3e</item>
+    </style>
+
+    <!-- Checkbox style -->
+    <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/CircleRepetitionAlarm</item>
+        <item name="android:textColorSecondary">@color/DefaultColorText</item>
+    </style>
+
+    <!-- Radiobutton Style -->
+    <style name="RadioButtonStyle">
+        <item name="colorAccent">@color/CircleRepetitionAlarm</item>
+        <item name="android:textColorSecondary">@color/DefaultColorText</item>
     </style>
 
 </resources>

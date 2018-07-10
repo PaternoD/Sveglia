@@ -130,7 +130,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_toEndOf="@+id/text_etichetta_ID"
-                        android:layout_toStartOf="@+id/textView9"
+                        android:layout_toStartOf="@+id/arrow_textView_etichetta"
                         android:layout_weight="1"
                         android:fontFamily="@font/fira_sans_light"
                         android:singleLine="true"
@@ -158,7 +158,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/arrow_textView_etichetta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -220,7 +220,8 @@
                             android:layout_alignBottom="@+id/btn_travel_svitch"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="8dp"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:theme="@style/SCBSwitch" />
 
                         <Button
                             android:id="@+id/btn_travel_svitch"
@@ -299,14 +300,14 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_toEndOf="@+id/relLay_transit_info"
-                            android:layout_toStartOf="@+id/arrowChancgeInfo"
+                            android:layout_toStartOf="@+id/arrowChangeInfo"
                             android:fontFamily="@font/fira_sans_light"
                             android:singleLine="false"
                             android:text="Detail transit"
                             android:textSize="16sp" />
 
                         <TextView
-                            android:id="@+id/arrowChancgeInfo"
+                            android:id="@+id/arrowChangeInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -328,7 +329,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_toEndOf="@+id/relLay_transit_info"
-                            android:layout_toStartOf="@+id/arrowChancgeInfo"
+                            android:layout_toStartOf="@+id/arrowChangeInfo"
                             android:fontFamily="@font/fira_sans_light"
                             android:text="Detail transit destination"
                             android:textSize="16sp" />
@@ -377,7 +378,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_toEndOf="@+id/text_suono_ID"
-                        android:layout_toStartOf="@+id/textView12"
+                        android:layout_toStartOf="@+id/arrow_textView_Suono"
                         android:fontFamily="@font/fira_sans_light"
                         android:singleLine="true"
                         android:text="Music Name"
@@ -386,7 +387,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/arrow_textView_Suono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -441,7 +442,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@+id/text_ripetizione_ID"
-                        android:layout_toStartOf="@+id/textView11"
+                        android:layout_toStartOf="@+id/arrow_textView_ripetizione"
                         android:fontFamily="@font/fira_sans_light"
                         android:text="Mai"
                         android:textAlignment="textEnd"
@@ -449,7 +450,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/arrow_textView_ripetizione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -521,7 +522,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="12dp"
                     android:layout_toLeftOf="@+id/space"
-                    app:cardBackgroundColor="@color/RedColor"
+                    app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                     app:cardCornerRadius="18dp"
                     app:cardElevation="0dp">
 
@@ -547,7 +548,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="12dp"
                     android:layout_toRightOf="@+id/space"
-                    app:cardBackgroundColor="@color/GreenColor"
+                    app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                     app:cardCornerRadius="18dp"
                     app:cardElevation="0dp">
 
