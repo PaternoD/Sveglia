@@ -35,12 +35,9 @@ public class DB_Manager {
 
 //inserisco la card falsa
 
-            int size = this.getAllID().size();
-            boolean[]b = new boolean[7];
-            if(Integer.parseInt(this.getAllID().get(size-1))!=999999999)
-                this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
-
-
+        boolean[]b = new boolean[7];
+        if(this.getAllID().size()==0)
+            this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
 
         return this;
     }
