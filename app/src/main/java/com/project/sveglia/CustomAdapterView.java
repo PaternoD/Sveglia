@@ -109,6 +109,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         nome_sveglia.setText(dataSet.get(position).getNome_sveglia());
         on_off.setChecked(dataSet.get(position).isOn_off());
 
+        Log.i("****ON-OFF****", "valore: " + dataSet.get(position).isOn_off());
 
 
         repetitions_day = dataSet.get(position).getRepetitions_day();
@@ -123,8 +124,11 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         if(on_off.isChecked()) {
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
+            RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
             if(repetitions){
+                giorni_ripetizioni.setVisibility(View.VISIBLE);
+
                 if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active);
                 if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo);
                 if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active);
@@ -141,14 +145,16 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                 if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
             else if(!repetitions){
-                RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
                 giorni_ripetizioni.setVisibility(View.GONE);
 
             }
         }else{
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
+            RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
             if(repetitions){
+                giorni_ripetizioni.setVisibility(View.VISIBLE);
+
                 if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active_with_opacity);
                 if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
                 if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active_with_opacity);
@@ -165,7 +171,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                 if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
             }
             else if(!repetitions){
-                RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+                giorni_ripetizioni = holder.giorni_ripetizioni;
                 giorni_ripetizioni.setVisibility(View.GONE);
 
             }
@@ -181,6 +187,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 //----------------------DA INSERIRE CAMBIO COLORE DELLA CARDVIEW QUANDO SI PREME SWITCH
 
                 repetitions_day = dataSet.get(position).getRepetitions_day();
+                RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
                 if (on_off.isChecked()){
                     db.SetOn_Off(id,false);
@@ -188,6 +195,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 
                     if(finalRepetitions){
+                        giorni_ripetizioni.setVisibility(View.VISIBLE);
+
                         if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active);
                         if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo);
                         if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active);
@@ -212,6 +221,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
 
                     if(finalRepetitions){
+                        giorni_ripetizioni.setVisibility(View.VISIBLE);
+
                         if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active_with_opacity);
                         if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
                         if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active_with_opacity);

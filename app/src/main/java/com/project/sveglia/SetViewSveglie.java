@@ -104,7 +104,7 @@ public class SetViewSveglie {
 
     /**
      * Funzione che formatta il tempo in input (milliseconds) in HH:mm
-     * @param time
+     * @param timeString
      * @return formatted time (HH:mm)
      */
     private String getFormattedTimeFromMillis(String timeString){
