@@ -3,9 +3,11 @@ package com.project.sveglia;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.project.sveglia.R.drawable.card_lista_sveglie_non_attiva;
 
 /**
  * Created by Pat on 27/06/18.
@@ -94,6 +98,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView dom = holder.dom;
         final CardView sveglia = holder.sveglia;
 
+
         if(position==dataSet.size()-1){
             sveglia.setVisibility(View.INVISIBLE);
         }
@@ -103,6 +108,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         time_sveglia.setText(dataSet.get(position).getTime());
         nome_sveglia.setText(dataSet.get(position).getNome_sveglia());
         on_off.setChecked(dataSet.get(position).isOn_off());
+
 
 
         repetitions_day = dataSet.get(position).getRepetitions_day();
@@ -115,39 +121,113 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             }
         }
 
-        if(repetitions){
-            if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_nonattivo);
-            if (repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_active);
-            if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo);
-        }
-        else if(!repetitions){
-            RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
-            giorni_ripetizioni.setVisibility(View.GONE);
+        if(on_off.isChecked()) {
+            sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 
+            if(repetitions){
+                if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_nonattivo);
+                if (repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_active);
+                if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo);
+            }
+            else if(!repetitions){
+                RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+                giorni_ripetizioni.setVisibility(View.GONE);
+
+            }
+        }else{
+            sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
+
+            if(repetitions){
+                if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                if (repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+            }
+            else if(!repetitions){
+                RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+                giorni_ripetizioni.setVisibility(View.GONE);
+
+            }
         }
 
+
+
+        boolean finalRepetitions = repetitions;
         on_off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 //----------------------DA INSERIRE CAMBIO COLORE DELLA CARDVIEW QUANDO SI PREME SWITCH
 
+                repetitions_day = dataSet.get(position).getRepetitions_day();
+
                 if (on_off.isChecked()){
                     db.SetOn_Off(id,false);
+
+                    sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
+
+                    if(finalRepetitions){
+                        if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_nonattivo);
+                        if (repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_active);
+                        if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo);
+                    }
+
+
                 }
                 if (!on_off.isChecked()){
                     db.SetOn_Off(id,true);
+
+                    sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
+
+                    if(finalRepetitions){
+                        if (repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[0]) lun.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[1]) mar.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[2]) mer.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[3]) gio.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[4]) ven.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[5]) sab.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                        if (repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_active_with_opacity);
+                        if(!repetitions_day[6]) dom.setBackgroundResource(R.drawable.color_day_nonattivo_with_opacity);
+                    }
+
                 }
             }
         });
