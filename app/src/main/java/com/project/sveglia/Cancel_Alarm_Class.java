@@ -44,7 +44,6 @@ public class Cancel_Alarm_Class extends Activity {
 
             //cancellazione table_sveglie
             db_manager.delete_sveglia(id_Alarm);
-            System.out.println("SWITCH DISATTIVATO ELIMINTO SVEGLIA TABLE_SVEGLIE------------------");
         }
 
         //cancellazione table view

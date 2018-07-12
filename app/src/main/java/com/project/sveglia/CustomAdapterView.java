@@ -277,12 +277,21 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                     Cancel_Alarm_Class.cancel_Alarm(id,context,db,true);
                     SetViewSveglie.aggiornaAdapter(position);
                 }
-
-                System.out.println("-----------------LONG CLICK -------- DELETE SVEGLIA-----------");
                 return false;
             }
         });
 
+        dom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+db.getBadToCar();
+            db.getDurataSuoneria();
+            db.getRitardaMinuti();
+            db.getRitardaVolte();
+            db.getSensoriOn();
+            db.getSensoriOpzione();
+            }
+        });
     }
 
     @Override

@@ -132,9 +132,6 @@ public class SetViewSveglie {
     public static void aggiornaAdapter(int pos){
         data.remove(pos);
         adapter.notifyDataSetChanged();
-
-        System.out.println("AGGIORNATO---------------------------");
-
     }
 
 

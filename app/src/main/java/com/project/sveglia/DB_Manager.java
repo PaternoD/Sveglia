@@ -36,9 +36,11 @@ public class DB_Manager {
 //inserisco la card falsa
 
         boolean[]b = new boolean[7];
-        if(this.getAllID().size()==0)
+        if(this.getAllID().size()==0){
             this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
             this.inizializza_setting();
+        }
+
         return this;
     }
 
@@ -147,11 +149,11 @@ public class DB_Manager {
         ContentValues sei = new ContentValues();
 
         uno.put(DB_Helper.COMANDO, "BAD_TO_CAR");
-        uno.put(DB_Helper.VALORE, "15");
+        uno.put(DB_Helper.VALORE, "900000");
         due.put(DB_Helper.COMANDO,"DURATA_SUONERIA");
-        due.put(DB_Helper.VALORE,"1");
+        due.put(DB_Helper.VALORE,"60000");
         tre.put(DB_Helper.COMANDO, "RITARDA_MINUTI");
-        tre.put(DB_Helper.VALORE,"5");
+        tre.put(DB_Helper.VALORE,"300000");
         quattro.put(DB_Helper.COMANDO,"RITARDA_VOLTE");
         quattro.put(DB_Helper.VALORE, "3");
         cinque.put(DB_Helper.COMANDO, "SENSORI_ON");
@@ -382,7 +384,6 @@ public class DB_Manager {
                     " SET on_off = '0' " +
                     " WHERE _id = " + id+" ;";
             database.execSQL(sql);
-            System.out.println("_____________settato on off a 0");
         }
         if (acceso){
 
@@ -390,7 +391,6 @@ public class DB_Manager {
                     " SET on_off = '1' " +
                     " WHERE _id = " + id+" ;";
             database.execSQL(sql);
-            System.out.println("_____________settato on off a 0");
 
         }
 
@@ -415,6 +415,118 @@ public class DB_Manager {
         SQLiteDatabase db = db_helper.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
         return numRows;
+    }
+
+    //FUNZIONI PER SETTARE LE IMPOSTAZIONI________________________
+
+    public void setBadToCar(Long millis){
+        String sql = "UPDATE TABLE_SETTING "+
+                "SET valore = '" + millis + "' "+
+                "WHERE comando = 'BAD_TO_CAR'";
+        database.execSQL(sql);
+    }
+    public void setDurataSuoneria(Long millis){
+        String sql = "UPDATE TABLE_SETTING "+
+                "SET valore = '" + millis + "' "+
+                "WHERE comando = 'DURATA_SUONERIA'";
+        database.execSQL(sql);
+    }
+    public void setRitardaMinuti(Long millis){
+        String sql = "UPDATE TABLE_SETTING "+
+                "SET valore = '" + millis + "' "+
+                "WHERE comando = 'RITARDA_MINUTI'";
+        database.execSQL(sql);
+    }
+    public void setRitardaVolte(int volte){
+        String sql = "UPDATE TABLE_SETTING "+
+                "SET valore = '" + volte + "' "+
+                "WHERE comando = 'RITARDA_VOLTE'";
+        database.execSQL(sql);
+    }
+    public void setSensori_on(boolean attivati){
+        if(attivati){
+            String sql = "UPDATE TABLE_SETTING "+
+                    "SET valore = '1' "+
+                    "WHERE comando = 'SENSORI_ON'";
+            database.execSQL(sql);
+        }
+        if(!attivati){
+            String sql = "UPDATE TABLE_SETTING "+
+                    "SET valore = '0' "+
+                    "WHERE comando = 'SENSORI_ON'";
+            database.execSQL(sql);
+        }
+
+    }
+    public void setSensoriOpzione(String opzione){
+        String sql = "UPDATE TABLE_SETTING "+
+                "SET valore = '" + opzione + "' "+
+                "WHERE comando = 'SENSORI_OPZIONE'";
+        database.execSQL(sql);
+    }
+
+    //FUNZIONI PER RICAVARE LE IMPOSTAZIONI_____________________
+
+    public Long getBadToCar(){
+        Long res=null;
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        String str = cursor.getString(1);
+        res = Long.parseLong(str);
+        return res;
+    }
+    public Long getDurataSuoneria(){
+        Long res=null;
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        for (int i=0;i<1;i++)cursor.moveToNext();
+        String str = cursor.getString(1);
+        res = Long.parseLong(str);
+        return res;
+    }
+    public Long getRitardaMinuti(){
+        Long res=null;
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        for (int i=0;i<2;i++)cursor.moveToNext();
+        String str = cursor.getString(1);        res = Long.parseLong(str);
+        return res;
+    }
+    public int getRitardaVolte(){
+        int res;
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        for (int i=0;i<3;i++)cursor.moveToNext();
+        String str = cursor.getString(1);        res =Integer.parseInt(str);
+        return res;
+    }
+    public boolean getSensoriOn(){
+        boolean res=false;
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        for (int i=0;i<4;i++)cursor.moveToNext();
+        String str = cursor.getString(1);        Character character;
+        character=str.charAt(0);
+        if (character.equals((Character)'0')){
+            res = false;
+        }
+        if (character.equals((Character)'1')){
+            res = true;
+        }
+        return res;
+    }
+    public String getSensoriOpzione(){
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from TABLE_SETTING", null);
+        cursor.moveToFirst();
+        for (int i=0;i<5;i++)cursor.moveToNext();
+        String str = cursor.getString(1);
+        return str;
     }
 
 }
