@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton_ID);
         ImageView settingButton = (ImageView)findViewById(R.id.Image_setting_ID);
 
+
         db_manager = new DB_Manager(this);
         db_manager.open();
 /*
