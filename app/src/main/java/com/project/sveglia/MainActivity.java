@@ -35,12 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         db_manager = new DB_Manager(this);
         db_manager.open();
-/*
-            boolean[]b = new boolean[7];
-            db_manager.insert_view(999999999,Long.valueOf(32423),"", b,"1",1,0,1,1,null,null,null);
-*/
-        //boolean[]b = new boolean[7];
-        //db_manager.insert_view(999999999,Long.valueOf(32423),"", b,"1",1,0,1,1,null,null,null);
+
         RecyclerView recyclerView;
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewID);
 
