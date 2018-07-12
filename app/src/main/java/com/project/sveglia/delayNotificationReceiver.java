@@ -32,6 +32,13 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarm_name = intent.getExtras().getString("alarm_name");
+        int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
+
+        repeatAlarmNumberTimes -= 1;
+        //System.out.println("**** RepeatAlarmNumeberTimes: " + repeatAlarmNumberTimes);
+        if(repeatAlarmNumberTimes == 0){
+            isDelayAlarm = invertiIsDelayAlarm(isDelayAlarm);
+        }
 
         // Attivo servizio per cancellare la musica della notifica --
         context.stopService(new Intent(context, Notification_Sound_Service.class));
@@ -42,7 +49,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
 
         // Recupero tempo di attesa della nuova sveglia -----
         // ---> da recuperare poi da impostazioni
-        long delayTime = 600000;
+        long delayTime = 20000;
 
         // Setto la nuova sveglia ---------------------------
         Calendar cal = Calendar.getInstance();
@@ -56,6 +63,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         startRepeatAlarm.putExtra("alarm_music_ID", alarm_music_ID);
         startRepeatAlarm.putExtra("isDelayAlarm", isDelayAlarm);
         startRepeatAlarm.putExtra("alarmName", alarm_name);
+        startRepeatAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
 
@@ -89,13 +97,14 @@ public class delayNotificationReceiver extends BroadcastReceiver {
                     .setExtras(bundle)
                     .setContentText(counteDownTimerText)
                     .setContentIntent(notif_Context_Pend_Intent)
+                    .setAutoCancel(true)
                     .addAction(0, "TERMINA", cancelPendingIntent);
 
             notificationManager.notify(countDownNotification_ID, countDown_Notif.build());
             notificationManager.createNotificationChannel(notificationChannel);
 
             // attivo CountDown Timer ----------------------
-            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context);
+            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context, delayTime);
             CountDownTimer.startCountDown();
 
         } else {
@@ -105,12 +114,13 @@ public class delayNotificationReceiver extends BroadcastReceiver {
                     .setExtras(bundle)
                     .setContentText(counteDownTimerText)
                     .setContentIntent(notif_Context_Pend_Intent)
+                    .setAutoCancel(true)
                     .addAction(0, "TERMINA", cancelPendingIntent);
 
             notificationManager.notify(countDownNotification_ID, countDown_Notif.build());
 
             // attivo CountDown Timer ----------------------
-            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context);
+            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context, delayTime);
             CountDownTimer.startCountDown();
 
         }
@@ -128,5 +138,17 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         int tmp = (int)time;
         res = Math.abs(tmp);
         return res;
+    }
+
+
+    private boolean invertiIsDelayAlarm(boolean isDelayAlarm){
+
+        if(isDelayAlarm == true){
+            isDelayAlarm = false;
+        }else{
+            isDelayAlarm = true;
+        }
+
+        return isDelayAlarm;
     }
 }

@@ -28,7 +28,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
 
         // Cancello allarme CountDown ------------------------------
         try{
-            int countDownAlarmID = intent.getExtras().getInt("alarm_ID");
+            int countDownAlarmID = intent.getExtras().getInt("notification_ID");
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent alarmToBeDeleted = new Intent(context, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, countDownAlarmID, alarmToBeDeleted, PendingIntent.FLAG_ONE_SHOT);

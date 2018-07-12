@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Recupero Riferimenti layout ----
         FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton_ID);
+        ImageView settingButton = (ImageView)findViewById(R.id.Image_setting_ID);
 
         db_manager = new DB_Manager(this);
         db_manager.open();
@@ -53,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent add_mem = new Intent(MainActivity.this, Add_Alarm.class);
                 add_mem.putExtra("isModifyAlarm", false);
                 startActivity(add_mem);
+            }
+        });
+
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingIntent = new Intent(MainActivity.this, Setting_Class.class);
+                startActivity(settingIntent);
             }
         });
 

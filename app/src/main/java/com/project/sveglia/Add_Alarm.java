@@ -96,7 +96,7 @@ public class Add_Alarm extends Activity {
         // Button
         Button btn_travel_switch = (Button)findViewById(R.id.btn_travel_svitch);
         Button btn_save_alarm = (Button)findViewById(R.id.btn_save_alarm_ID);
-        Button btn_abort_alarm = (Button)findViewById(R.id.btn_abort_alarm_ID);
+        Button btn_cancel_alarm = (Button)findViewById(R.id.btn_Cancel_alarm_ID);
 
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
@@ -129,10 +129,10 @@ public class Add_Alarm extends Activity {
         // Setto testo bottone salva/modifica allarme --------------
         if(modify_alarm){
             btn_save_alarm.setText("Modifica");
-            btn_abort_alarm.setText("Cancella");
+            btn_cancel_alarm.setText("Cancella");
         }else{
             btn_save_alarm.setText("Salva");
-            btn_abort_alarm.setText("Annulla");
+            btn_cancel_alarm.setText("Annulla");
         }
 
         // Attivo o disattivo visualizzazione Detail_Transit_Card in base a variabile modify_alarm --
@@ -319,6 +319,13 @@ public class Add_Alarm extends Activity {
                 startActivity(main);
                 Add_Alarm.this.finish();
 
+            }
+        });
+
+        btn_cancel_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Alarm.this.finish();
             }
         });
 

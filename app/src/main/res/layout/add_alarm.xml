@@ -530,7 +530,7 @@
                     app:cardElevation="0dp">
 
                     <Button
-                        android:id="@+id/btn_abort_alarm_ID"
+                        android:id="@+id/btn_Cancel_alarm_ID"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_alignParentStart="true"

@@ -31,6 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     MediaPlayer mediaPlayer;
     long alarmTimeInMillis = 0;
     boolean isRepetitionDayAlarm;
+    int repeatAlarmNumberTimes;
 
 
     @Override
@@ -41,6 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarmName = intent.getExtras().getString("alarmName");
         isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
+        repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
@@ -49,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Recupero dati da impostazioni nel database ------------
         // ----> recupero informazioni sulla vibrazione
         boolean enableVibrate = true;
-        delayTimeForCancelForNotification = 600000;
+        delayTimeForCancelForNotification = 20000;
 
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
@@ -93,6 +95,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isDelayAlarm", isDelayAlarm);
             delayAction.putExtra("alarm_name", alarmName);
             delayAction.putExtra("notification_Channel", "");
+            delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
             // fullScreen notification intent ----------------------------------
@@ -157,6 +160,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isDelayAlarm", isDelayAlarm);
             delayAction.putExtra("alarm_name", alarmName);
             delayAction.putExtra("notification_Channel", not_Channel_ID);
+            delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Creo un notification Channel ------------------------------------
@@ -336,33 +340,31 @@ public class AlarmReceiver extends BroadcastReceiver {
                                          final PendingIntent fullScreenPendingIntent) {
         Handler handler = new Handler();
         final long delayInMilliseconds = delayTimeForCancelForNotification;
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                if(isNotificationActive(id, context)){
-                    notificationManager.cancel(id);
-                    Toast.makeText(context, "posso cancellare la notificata", Toast.LENGTH_LONG).show();
+        if(repeatAlarmNumberTimes > 0) {
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    if (isNotificationActive(id, context)) {
 
-                    // Risetto la sveglia dopo un certo tempo indicato dall'utente ...
-                    long delayAlarm = 40000;
-                    Calendar cal = Calendar.getInstance();
-                    long timeToSetDelayAlarm = cal.getTimeInMillis() + delayAlarm;
+                        Intent delayNotificationIntent = new Intent(context, delayNotificationReceiver.class);
+                        delayNotificationIntent.putExtra("notification_ID", id);
+                        delayNotificationIntent.putExtra("alarm_music_ID", alarm_music_ID);
+                        delayNotificationIntent.putExtra("isDelayAlarm", isDelayAlarm);
+                        delayNotificationIntent.putExtra("alarm_name", alarm_name);
+                        delayNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                        PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, 0, delayNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                        try {
+                            delayPendingIntent.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                            Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia - AlarmReceiver");
+                        }
 
-                    int ALARM_ID = createID(timeToSetDelayAlarm);
-                    AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-
-                    Intent startPrincipalAlarmIntent = new Intent(context, AlarmReceiver.class);
-                    startPrincipalAlarmIntent.putExtra("isRepeatAlarm", false);
-                    startPrincipalAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
-                    startPrincipalAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
-                    startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
-                    PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeToSetDelayAlarm, alarmPendingIntent);
-
-                }else{
-                    Log.i("REMOVE_NOTIFICATION", "run: la notifica è gia stata cancellata");
+                    } else {
+                        Log.i("REMOVE_NOTIFICATION", "run: la notifica è gia stata cancellata");
+                    }
                 }
-            }
-        }, delayInMilliseconds);
+            }, delayInMilliseconds);
+        }
     }
 
     /**

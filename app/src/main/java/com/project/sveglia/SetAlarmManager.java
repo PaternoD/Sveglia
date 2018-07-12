@@ -33,7 +33,8 @@ public class SetAlarmManager {
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-
+        // recuperare numero di volte di questa fariabile dal database
+        int repeatAlarmNumberTimes = 2;
 
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
@@ -53,7 +54,8 @@ public class SetAlarmManager {
                     start_address_detail,
                     end_address_detail,
                     traffic_model,
-                    db_manager);
+                    db_manager,
+                    repeatAlarmNumberTimes);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -68,7 +70,8 @@ public class SetAlarmManager {
                     start_address_detail,
                     end_address_detail,
                     traffic_model,
-                    db_manager);
+                    db_manager,
+                    repeatAlarmNumberTimes);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -83,7 +86,8 @@ public class SetAlarmManager {
                     start_address_detail,
                     end_address_detail,
                     traffic_model,
-                    db_manager);
+                    db_manager,
+                    repeatAlarmNumberTimes);
         }
 
     }
@@ -119,13 +123,19 @@ public class SetAlarmManager {
                                    String start_address_detail,
                                    String end_address_detail,
                                    String traffic_model,
-                                   DB_Manager db_manager){
+                                   DB_Manager db_manager,
+                                   int repeatAlarmNumberTimes){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
+        boolean isCorrectTime = true;
         if(!isTravelToAlarm){
-            if(timeInMillis < currentTimeInMillis){
-                timeInMillis += 86400000;
+            while(isCorrectTime) {
+                if (timeInMillis < currentTimeInMillis) {
+                    timeInMillis += 86400000;
+                }else{
+                    isCorrectTime = false;
+                }
             }
         }
 
@@ -136,6 +146,7 @@ public class SetAlarmManager {
         startPrincipalAlarmIntent.putExtra("isDelayAlarm", isDelayAlarm);
         startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
+        startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
@@ -202,7 +213,8 @@ public class SetAlarmManager {
                                         String start_address_detail,
                                         String end_address_detail,
                                         String traffic_model,
-                                        DB_Manager db_manager){
+                                        DB_Manager db_manager,
+                                        int repeatAlarmNumberTimes){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
@@ -305,6 +317,7 @@ public class SetAlarmManager {
                 startRepeatAlarmIntent.putExtra("alarmName", alarm_name);
                 startRepeatAlarmIntent.putExtra("isRepetitionDayAlarm", true);
                 startRepeatAlarmIntent.putExtra("alarmTimeInMillis", timeInMilllis);
+                startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 

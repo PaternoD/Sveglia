@@ -47,6 +47,8 @@
             android:showOnLockScreen="true"></activity>
         <activity android:name=".NoInternetConnectionActivity"
             android:theme="@style/NoInternetConnection_Style"></activity>
+        <activity android:name=".Setting_Class"></activity>
+        <activity android:name=".From_Bed_To_Car_PopUp"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 

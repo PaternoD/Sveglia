@@ -34,6 +34,12 @@ import java.util.Calendar;
 
 public class FullScreen_Notification extends Activity {
 
+    int NOT_ID;
+    int alarm_Music_ID;
+    boolean is_Delay_Alarm;
+    String alarm_Name;
+    String notification_Channel;
+    int DelayTimeForCancel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,12 +51,12 @@ public class FullScreen_Notification extends Activity {
                             | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         // Recupero dati da Intent chiamante -------------
-        final int NOT_ID = getIntent().getExtras().getInt("notification_ID");
-        final int alarm_Music_ID = getIntent().getExtras().getInt("alarm_music_ID");
-        final boolean is_Delay_Alarm = getIntent().getExtras().getBoolean("isDelayAlarm");
-        final String alarm_Name = getIntent().getExtras().getString("alarm_name");
-        final String notification_Channel = getIntent().getExtras().getString("notification_Channel");
-        final int DelayTimeForCancel = getIntent().getExtras().getInt("delayTimeForCancelForNotification");
+        NOT_ID = getIntent().getExtras().getInt("notification_ID");
+        alarm_Music_ID = getIntent().getExtras().getInt("alarm_music_ID");
+        is_Delay_Alarm = getIntent().getExtras().getBoolean("isDelayAlarm");
+        alarm_Name = getIntent().getExtras().getString("alarm_name");
+        notification_Channel = getIntent().getExtras().getString("notification_Channel");
+        DelayTimeForCancel = getIntent().getExtras().getInt("delayTimeForCancelForNotification");
 
         // recupero riferimenti layout -------------------
         // CardView
@@ -170,6 +176,20 @@ public class FullScreen_Notification extends Activity {
         final long delayInMilliseconds = delayTime;
         handler.postDelayed(new Runnable() {
             public void run() {
+
+                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
+                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
+                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    snoozePendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+                }
+
                 finishAffinity();
             }
         }, delayInMilliseconds);
