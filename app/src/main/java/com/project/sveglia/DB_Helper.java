@@ -15,6 +15,7 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
     public static final String TABLE_VIEW = "TABLE_VIEW";
     public static final String TABLE_SVEGLIE = "TABLE_SVEGLIE";
+    public static final String TABLE_SETTING = "TABLE_SETTING";
 
     //Colonne table_view
     public static final String ID_VIEW = "_id";
@@ -34,6 +35,10 @@ public class DB_Helper extends SQLiteOpenHelper {
     //Colonne sveglie
     public static final String ID_SVEGLIA = "_id_sveglia";
     public static final String TIME_SVEGLIA = "time_sveglia";
+
+    //Colonne setting
+    public static final String COMANDO = "comando";
+    public static final String VALORE = "valore";
 
     //query creazione tabella view
     private static final String CREATE_TABLE_VIEW = "CREATE TABLE " +
@@ -60,6 +65,12 @@ public class DB_Helper extends SQLiteOpenHelper {
             TIME_SVEGLIA + " INTEGER " +
             ");";
 
+    //query creazione tabella impostazioni
+    private static final String CREATE_TABLE_SETTING = "CREATE TABLE "+
+            TABLE_SETTING + " ( " +
+            COMANDO + " TEXT PRIMARY KEY, " +
+            VALORE + " TEXT " +
+            ");";
 
     public DB_Helper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -68,13 +79,14 @@ public class DB_Helper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_TABLE_VIEW);
         db.execSQL(CREATE_TABLE_SVEGLIE);
-
+        db.execSQL(CREATE_TABLE_SETTING);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldV, int newV){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SVEGLIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VIEW);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SETTING);
         onCreate(db);
     }
 }

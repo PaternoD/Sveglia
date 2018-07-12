@@ -38,7 +38,7 @@ public class DB_Manager {
         boolean[]b = new boolean[7];
         if(this.getAllID().size()==0)
             this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
-
+            this.inizializza_setting();
         return this;
     }
 
@@ -47,19 +47,7 @@ public class DB_Manager {
     }
 
 
-    //funzione di appoggio per convertire vettore di boolean in string per inserirle nel DB
-    public String bool_to_string(boolean[] array){
-        String str = "";
-        for(int i=0;i<7;i++){
-            if(array[i]){
-                str=str+"1";
-            }else{
-                str=str+"0";
-            }
-        }
-        System.out.println(str);
-        return str;
-    }
+
 //inserire sveglia con tutti i parametri
     public void insert_view(int id,
                             Long time,
@@ -109,7 +97,7 @@ public class DB_Manager {
                 " WHERE _id = "+ id +";";
         database.execSQL(sql);
     }
-    // recupero vector delle ripetizioni
+//recupero vector delle ripetizioni
     public Vector<Integer> getVectorID_Ripetizioni(int id_view){
         Vector<Integer> vector = new Vector<>(1);
 
@@ -149,6 +137,40 @@ public class DB_Manager {
         database.insert(DB_Helper.TABLE_SVEGLIE, null, cv);
     }
 
+    //INIZIALIZZARE TABELLA SETTING
+    public void inizializza_setting(){
+        ContentValues uno = new ContentValues();
+        ContentValues due = new ContentValues();
+        ContentValues tre = new ContentValues();
+        ContentValues quattro = new ContentValues();
+        ContentValues cinque = new ContentValues();
+        ContentValues sei = new ContentValues();
+
+        uno.put(DB_Helper.COMANDO, "BAD_TO_CAR");
+        uno.put(DB_Helper.VALORE, "15");
+        due.put(DB_Helper.COMANDO,"DURATA_SUONERIA");
+        due.put(DB_Helper.VALORE,"1");
+        tre.put(DB_Helper.COMANDO, "RITARDA_MINUTI");
+        tre.put(DB_Helper.VALORE,"5");
+        quattro.put(DB_Helper.COMANDO,"RITARDA_VOLTE");
+        quattro.put(DB_Helper.VALORE, "3");
+        cinque.put(DB_Helper.COMANDO, "SENSORI_ON");
+        cinque.put(DB_Helper.VALORE,"0");
+        sei.put(DB_Helper.COMANDO,"SENSORI_OPZIONE");
+        sei.put(DB_Helper.VALORE,"ritarda");
+
+        database.insert(DB_Helper.TABLE_SETTING,null,uno);
+        database.insert(DB_Helper.TABLE_SETTING,null,due);
+        database.insert(DB_Helper.TABLE_SETTING,null,tre);
+        database.insert(DB_Helper.TABLE_SETTING,null,quattro);
+        database.insert(DB_Helper.TABLE_SETTING,null,cinque);
+        database.insert(DB_Helper.TABLE_SETTING,null,sei);
+
+
+
+    }
+//FUNZIONI PER CANCELLARE__________________________________
+
     public void delete_view(int id){
         database.delete(DB_Helper.TABLE_VIEW, DB_Helper.ID_VIEW + " = " + id, null);
     }
@@ -157,19 +179,8 @@ public class DB_Manager {
         database.delete(DB_Helper.TABLE_SVEGLIE, DB_Helper.ID_SVEGLIA + " = " + id, null);
     }
 
-    public Cursor getData(int id){
-        SQLiteDatabase db = db_helper.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from TABLE_VIEW where _id = "+id+"", null );
-        return res;
-    }
 
-    public int numberOfRows(){
-        SQLiteDatabase db = db_helper.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
-        return numRows;
-    }
-
-//funzioni per recuperare i dati dal DB
+//funzioni per recuperare i dati dal DB___________________________
     public ArrayList<String>getAllTimeView(){
         ArrayList<String> array_time = new ArrayList<>();
 
@@ -362,7 +373,9 @@ public class DB_Manager {
         return array;
 
     }
-
+//________________________________________________________________
+    //FUNZIONI DI APPOGGIO
+    //SETTA ON_OF QUANDO SI PREME SWITCH
     public void SetOn_Off(int id, boolean acceso){
         if(!acceso){
             String sql="UPDATE TABLE_VIEW "+
@@ -382,6 +395,28 @@ public class DB_Manager {
         }
 
     }
+
+    //funzione di appoggio per convertire vettore di boolean in string per inserirle nel DB
+    public String bool_to_string(boolean[] array){
+        String str = "";
+        for(int i=0;i<7;i++){
+            if(array[i]){
+                str=str+"1";
+            }else{
+                str=str+"0";
+            }
+        }
+        System.out.println(str);
+        return str;
+    }
+
+    //NUMERO RI RIGHE NELLA TABELLA VIEW
+    public int numberOfRows(){
+        SQLiteDatabase db = db_helper.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db,db_helper.TABLE_VIEW);
+        return numRows;
+    }
+
 }
 
 
