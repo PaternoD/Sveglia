@@ -190,7 +190,19 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                 RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
                 if (on_off.isChecked()){
-                    db.SetOn_Off(id,false);
+                    db.SetOn_Off(id,true);
+
+                    ArrayList<String>time_str=db.getAllTimeView();
+                    Long time_long = Long.parseLong(time_str.get(position));
+                    Cancel_Alarm_Class.cancel_Alarm(id,context,db,true);
+
+
+                    SetAlarmManager.SetAlarmManager(context,time_long,dataSet.get(position).getId_suoneria(),
+                            dataSet.get(position).getRitarda(),dataSet.get(position).getNome_sveglia(),
+                            dataSet.get(position).getRepetitions_day(),
+                            dataSet.get(position).getTravelTo(),dataSet.get(position).getPosizione_suoneria(),
+                            dataSet.get(position).getFrom(),dataSet.get(position).getTo(),
+                            dataSet.get(position).getMezzo());
 
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 
@@ -216,7 +228,10 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
                 }
                 if (!on_off.isChecked()){
-                    db.SetOn_Off(id,true);
+                    db.SetOn_Off(id,false);
+
+                    Cancel_Alarm_Class.cancel_Alarm(id,context,db,false);
+
 
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
 
@@ -259,7 +274,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
 
                 if(position!=dataSet.size()-1){
-                    Cancel_Alarm_Class.cancel_Alarm(id,context,db);
+                    Cancel_Alarm_Class.cancel_Alarm(id,context,db,true);
                     SetViewSveglie.aggiornaAdapter(position);
                 }
 

@@ -18,15 +18,11 @@ import java.util.Calendar;
 
 public class SetViewSveglie {
 
-    String time_sveglia;
-    String nome_sveglia;
-    boolean on_off;
 
     DB_Manager db;
 
     private static ArrayList<DataModelView> data;
     private static RecyclerView.Adapter adapter;
-    private static RelativeLayout relativeLayout;
 
     public void setViewSveglie(RecyclerView recyclerView, Context c){
 
@@ -39,6 +35,13 @@ public class SetViewSveglie {
         ArrayList<String> array_time = db.getAllTimeView();
         ArrayList<String> array_on_off = db.getAllOn_Off();
         ArrayList<String> array_repetitions_day = db.getAllRepetitionsDay();
+        ArrayList<String> array_ritarda = db.getAllRitarda();
+        ArrayList<String> array_id_suoneria = db.getAllIDsuoneria();
+        ArrayList<String> array_pos_suoneria = db.getAllPosSuoneria();
+        ArrayList<String> array_travel_to = db.getAllTravelTO();
+        ArrayList<String> array_from = db.getAllFrom();
+        ArrayList<String> array_to = db.getAllTo();
+        ArrayList<String> array_mezzo = db.getAllMezzo();
         ArrayList<String> array_id = db.getAllID();
 
 
@@ -48,6 +51,7 @@ public class SetViewSveglie {
             String on_off_string = array_on_off.get(i);
             String repetitions_day_string = array_repetitions_day.get(i);
             String id_string = array_id.get(i);
+
 
             int id= Integer.parseInt(id_string);
 
@@ -76,8 +80,43 @@ public class SetViewSveglie {
                 repetitions_day_array[j]=day;
             }
 
+            //get ritarda
+            boolean ritarda= true;
+            String ritarda_str = array_ritarda.get(i);
+            Character character = ritarda_str.charAt(0);
+            if (character.equals((Character)'0'))ritarda=false;
+            if (character.equals((Character)'1'))ritarda=true;
 
-            DataModelView view = new DataModelView(getFormattedTimeFromMillis(time), name, on_off,repetitions_day_array,id);
+            //get id suoneria
+            int id_suoneria;
+            String id_str = array_id_suoneria.get(i);
+            id_suoneria = Integer.parseInt(id_string);
+
+            //get posizione suoneria
+
+            int pos_suoneria;
+            String pos_str = array_pos_suoneria.get(i);
+            pos_suoneria = Integer.parseInt(pos_str);
+
+            //get travel to, from e to
+
+            boolean travel_to=false;
+            String from=null;
+            String to = null;
+            String mezzo=null;
+            String travel_str = array_travel_to.get(i);
+            Character  tr = travel_str.charAt(0);
+            if (tr.equals((Character)'0'))travel_to=false;
+            if (tr.equals((Character)'1'))travel_to=true;
+            if(travel_to){
+                from=array_from.get(i);
+                to=array_to.get(i);
+                mezzo=array_mezzo.get(i);
+            }
+
+
+            DataModelView view = new DataModelView(id, getFormattedTimeFromMillis(time), name,repetitions_day_array, on_off, ritarda,id_suoneria,
+                    pos_suoneria,travel_to,from,to,mezzo);
 
             data.add(view);
 

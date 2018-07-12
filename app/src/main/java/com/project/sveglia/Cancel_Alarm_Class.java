@@ -24,7 +24,7 @@ public class Cancel_Alarm_Class extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    public static void cancel_Alarm(int id, Context context, DB_Manager db_manager){
+    public static void cancel_Alarm(int id, Context context, DB_Manager db_manager, boolean cancella_view_e_sveglie){
 
         Vector<Integer> vector = new Vector<>(1);
         vector=db_manager.getVectorID_Ripetizioni(id);
@@ -44,10 +44,14 @@ public class Cancel_Alarm_Class extends Activity {
 
             //cancellazione table_sveglie
             db_manager.delete_sveglia(id_Alarm);
+            System.out.println("SWITCH DISATTIVATO ELIMINTO SVEGLIA TABLE_SVEGLIE------------------");
         }
 
         //cancellazione table view
-        db_manager.delete_view(id);
+        if(cancella_view_e_sveglie)
+            db_manager.delete_view(id);
+
+
 
 
 

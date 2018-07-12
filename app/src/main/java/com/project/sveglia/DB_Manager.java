@@ -251,19 +251,134 @@ public class DB_Manager {
 
     }
 
+    public ArrayList<String>getAllRitarda(){
+        ArrayList<String> array_ritarda = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array_ritarda.add(res.getString(res.getColumnIndex(db_helper.RITARDA)));
+            res.moveToNext();
+        }
+
+        return array_ritarda;
+
+    }
+
+    public ArrayList<String>getAllIDsuoneria(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.ID_SUONERIA)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
+    public ArrayList<String>getAllPosSuoneria(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.POSIZIONE_SUONERIA)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
+    public ArrayList<String>getAllTravelTO(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.TRAVEL_TO)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
+    public ArrayList<String>getAllFrom(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.GOOGLE_FROM)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
+    public ArrayList<String>getAllTo(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.GOOGLE_TO)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
+    public ArrayList<String>getAllMezzo(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.MEZZO)));
+            res.moveToNext();
+        }
+
+        return array;
+
+    }
+
     public void SetOn_Off(int id, boolean acceso){
         if(!acceso){
-            String sql="UPDATE TABLE_VIEW "+
-                    " SET on_off = '1' " +
-                    " WHERE _id = " + id+" ;";
-            database.execSQL(sql);
-        }
-        if (acceso){
-
             String sql="UPDATE TABLE_VIEW "+
                     " SET on_off = '0' " +
                     " WHERE _id = " + id+" ;";
             database.execSQL(sql);
+            System.out.println("_____________settato on off a 0");
+        }
+        if (acceso){
+
+            String sql="UPDATE TABLE_VIEW "+
+                    " SET on_off = '1' " +
+                    " WHERE _id = " + id+" ;";
+            database.execSQL(sql);
+            System.out.println("_____________settato on off a 0");
+
         }
 
     }
