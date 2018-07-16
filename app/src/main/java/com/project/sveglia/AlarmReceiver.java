@@ -1,6 +1,5 @@
 package com.project.sveglia;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -16,7 +19,6 @@ import android.os.Handler;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -32,7 +34,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     long alarmTimeInMillis = 0;
     boolean isRepetitionDayAlarm;
     int repeatAlarmNumberTimes;
-
+//per sensore di prossimità
+    SensorManager mySensorManager;
+    Sensor myProximitySensor;
+    boolean nero_nero=false;
+    boolean bianco_nero=false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -71,13 +77,89 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @param enableVibrate
      * @param isDelayAlarm
      */
-    private void startRepeatNotification(Context context, String alarmName, int alarmMusic_ID, boolean enableVibrate, boolean isDelayAlarm) {
+    private void startRepeatNotification(Context context, String alarmName, int alarmMusic_ID, boolean enableVibrate, boolean isDelayAlarm)  {
+
+        Calendar cal = Calendar.getInstance();
+        int NOT_ID = createID(cal.getTimeInMillis());
+
+        SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+
+
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+
+                if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
+
+                    if (sensorEvent.values[0]==0) {//se a pancia in giu
+                        //System.out.println("pancia in giu");
+                        nero_nero=true;
+
+                        if (bianco_nero && nero_nero) {
+                            mySensorManager.unregisterListener(this);
+                            DB_Manager db = new DB_Manager(context);
+                            db.open();
+                            if (db.getSensoriOpzione().equals((String)"cancella")){
+                                //CANCELLO SVEGLIA
+                                Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
+                                cancelAction.putExtra("notification_ID", NOT_ID);
+                                cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                                cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
+                                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    cancelPendingIntent.send();
+
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                                //RIMANDO SVEGLIA
+                                Intent delayAction = new Intent(context, delayNotificationReceiver.class);
+                                delayAction.putExtra("notification_ID", NOT_ID);
+                                delayAction.putExtra("alarm_music_ID", alarmMusic_ID);
+                                delayAction.putExtra("isDelayAlarm", isDelayAlarm);
+                                delayAction.putExtra("alarm_name", alarmName);
+                                delayAction.putExtra("notification_Channel", "");
+                                delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                                PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    delayPendingIntent.send();
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        }
+                    }else{//se a pancia in su
+                        //System.out.println("pancia in su");
+                        bianco_nero=true;
+
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+
+        mySensorManager =  (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        myProximitySensor = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        mySensorManager.registerListener(proximitySensorEventListener,
+                myProximitySensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+
 
         // Controllo la versione di android
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
 
-            Calendar cal = Calendar.getInstance();
-            int NOT_ID = createID(cal.getTimeInMillis());
+
 
             Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/" + alarmMusic_ID);
 
@@ -134,8 +216,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         } else {
 
-            Calendar cal = Calendar.getInstance();
-            int NOT_ID = createID(cal.getTimeInMillis());
 
             String not_Channel_ID = "com.project.sveglia.Channel.one";
 
@@ -220,11 +300,86 @@ public class AlarmReceiver extends BroadcastReceiver {
      */
     private void startNotificationWithoutRepeat(Context context, String alarmName, int alarmMusic_ID, boolean enableVibrate, boolean isDelayAlarm){
 
+        Calendar cal = Calendar.getInstance();
+        int NOT_ID = createID(cal.getTimeInMillis());
+
+        SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+
+
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+
+                if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
+
+                    if (sensorEvent.values[0]==0) {//se a pancia in giu
+                        //System.out.println("pancia in giu");
+                        nero_nero=true;
+
+                        if (bianco_nero && nero_nero) {
+                            mySensorManager.unregisterListener(this);
+                            DB_Manager db = new DB_Manager(context);
+                            db.open();
+                            if (db.getSensoriOpzione().equals((String)"cancella")){
+                                //CANCELLO SVEGLIA
+                                Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
+                                cancelAction.putExtra("notification_ID", NOT_ID);
+                                cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                                cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
+                                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    cancelPendingIntent.send();
+
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                                //RIMANDO SVEGLIA
+                                Intent delayAction = new Intent(context, delayNotificationReceiver.class);
+                                delayAction.putExtra("notification_ID", NOT_ID);
+                                delayAction.putExtra("alarm_music_ID", alarmMusic_ID);
+                                delayAction.putExtra("isDelayAlarm", isDelayAlarm);
+                                delayAction.putExtra("alarm_name", alarmName);
+                                delayAction.putExtra("notification_Channel", "");
+                                delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                                PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    delayPendingIntent.send();
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        }
+                    }else{//se a pancia in su
+                        //System.out.println("pancia in su");
+                        bianco_nero=true;
+
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+
+        mySensorManager =  (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        myProximitySensor = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        mySensorManager.registerListener(proximitySensorEventListener,
+                myProximitySensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+
         // Controllo la versione di android
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
 
-            Calendar cal = Calendar.getInstance();
-            int NOT_ID = createID(cal.getTimeInMillis());
 
             Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/" + alarmMusic_ID);
 
@@ -265,9 +420,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.notify(NOT_ID, mNotification);
 
         }else{
-
-            Calendar cal = Calendar.getInstance();
-            int NOT_ID = createID(cal.getTimeInMillis());
 
             String not_Channel_ID = "com.project.sveglia.Channel.one";
 

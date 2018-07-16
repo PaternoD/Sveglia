@@ -22,6 +22,8 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        //System.out.println("start class cancel notification receiver______________________________");
+
         // Recupero id notifica da intent chiamante ----------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");

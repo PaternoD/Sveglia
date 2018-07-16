@@ -11,6 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -40,6 +44,11 @@ public class FullScreen_Notification extends Activity {
     String alarm_Name;
     String notification_Channel;
     int DelayTimeForCancel;
+    //per sensore di prossimità
+    SensorManager mySensorManager;
+    Sensor myProximitySensor;
+    boolean nero_nero=false;
+    boolean bianco_nero=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -149,6 +158,80 @@ public class FullScreen_Notification extends Activity {
                 finishAffinity();
             }
         });
+
+        SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+
+
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+
+                if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
+
+                    if (sensorEvent.values[0]==0) {//se a pancia in giu
+                        //System.out.println("pancia in giu");
+                        nero_nero=true;
+
+                        if (bianco_nero && nero_nero) {
+                            mySensorManager.unregisterListener(this);
+                            DB_Manager db = new DB_Manager(FullScreen_Notification.this);
+                            db.open();
+                            if (db.getSensoriOpzione().equals((String)"cancella")){
+                                //CANCELLO SVEGLIA
+                                Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
+                                cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    cancelPendingIntent.send();
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                    Log.i("SendPendingIntentDelNot", "onClick: Non posso inviare (send) il pending intent per cancellare la notifica");
+                                }
+                                finishAffinity();
+                            }
+                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                                //RIMANDO SVEGLIA
+                                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
+                                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
+                                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                                try {
+                                    snoozePendingIntent.send();
+                                } catch (PendingIntent.CanceledException e) {
+                                    e.printStackTrace();
+                                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+                                }
+                                finishAffinity();
+                            }
+
+
+                        }
+                    }else{//se a pancia in su
+                        //System.out.println("pancia in su");
+                        bianco_nero=true;
+
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+
+        mySensorManager =  (SensorManager) FullScreen_Notification.this.getSystemService(Context.SENSOR_SERVICE);
+        myProximitySensor = mySensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
+        mySensorManager.registerListener(proximitySensorEventListener,
+                myProximitySensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+
 
 
     }

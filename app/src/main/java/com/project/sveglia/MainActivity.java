@@ -1,27 +1,24 @@
 package com.project.sveglia;
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private DB_Manager db_manager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Recupero Riferimenti layout ----
-        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton_ID);
-        ImageView settingButton = (ImageView)findViewById(R.id.Image_setting_ID);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingButton_ID);
+        ImageView settingButton = (ImageView) findViewById(R.id.Image_setting_ID);
 
 
         db_manager = new DB_Manager(this);
@@ -64,4 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 }
