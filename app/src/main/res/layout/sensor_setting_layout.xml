@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/RadioGroup_sensor_setting"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_cancel_sensor_setting"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Annulla"
+                    android:textColor="@color/DefaultColorText" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/RadioGroup_sensor_setting"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/btn_save_sensor_setting"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Salva"
+                    android:textColor="@color/DefaultColorText" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/Titol_sensor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:text="Sensore Prossimità"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/Titol_sensor"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="Scegli un'azione fra una delle possibili opzioni:" />
+
+            <RadioGroup
+                android:id="@+id/RadioGroup_sensor_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView21"
+                android:visibility="visible">
+
+                <RadioButton
+                    android:id="@+id/radioButton_ritarda_sensor_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/textView21"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Ritarda" />
+
+                <RadioButton
+                    android:id="@+id/radioButton_elimina_sensor_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/radioButton_ritarda_sensor_setting"
+                    android:layout_marginStart="8dp"
+                    android:text="Elimina" />
+
+
+            </RadioGroup>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
