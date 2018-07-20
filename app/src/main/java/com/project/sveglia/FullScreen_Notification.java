@@ -49,6 +49,9 @@ public class FullScreen_Notification extends Activity {
     Sensor myProximitySensor;
     boolean nero_nero=false;
     boolean bianco_nero=false;
+    boolean isRepetitionDayAlarm;
+    int repeatAlarmNumberTimes;
+    long alarmTimeInMillis = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +69,12 @@ public class FullScreen_Notification extends Activity {
         alarm_Name = getIntent().getExtras().getString("alarm_name");
         notification_Channel = getIntent().getExtras().getString("notification_Channel");
         DelayTimeForCancel = getIntent().getExtras().getInt("delayTimeForCancelForNotification");
+        isRepetitionDayAlarm = getIntent().getExtras().getBoolean("isRepetitionDayAlarm");
+        repeatAlarmNumberTimes = getIntent().getExtras().getInt("repeatAlarmNumberTimes");
+
+        if(isRepetitionDayAlarm){
+            alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
+        }
 
         // recupero riferimenti layout -------------------
         // CardView
@@ -119,8 +128,17 @@ public class FullScreen_Notification extends Activity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+        // *************
+        // *************
+        // *************
+        // *************
+        // *************
         // Cancello la notifica dopo un tempo stabilito --
-        removeFullScreenNotification(DelayTimeForCancel, NOT_ID);
+        // da finere.................
+        //removeFullScreenNotification(DelayTimeForCancel, NOT_ID);
+        // *************
+        // *************
+        // *************
 
         // Bottone per cancella la notifica --------------
         delete_notification.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +146,8 @@ public class FullScreen_Notification extends Activity {
             public void onClick(View v) {
                 Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                 cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     cancelPendingIntent.send();
@@ -135,6 +155,9 @@ public class FullScreen_Notification extends Activity {
                     e.printStackTrace();
                     Log.i("SendPendingIntentDelNot", "onClick: Non posso inviare (send) il pending intent per cancellare la notifica");
                 }
+
+                System.out.println("Ho premuto il tasto cancel");
+
                 finishAffinity();
             }
         });
@@ -148,6 +171,7 @@ public class FullScreen_Notification extends Activity {
                 snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
                 snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
                 snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     snoozePendingIntent.send();

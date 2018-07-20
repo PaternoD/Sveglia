@@ -51,6 +51,9 @@
             android:theme="@style/NoInternetConnection_Style"></activity>
         <activity android:name=".Setting_Class"></activity>
         <activity android:name=".From_Bed_To_Car_PopUp"></activity>
+        <activity android:name=".RingTone_Setting_PopUp"></activity>
+        <activity android:name=".Sleep_Duration_PopUp"></activity>
+        <activity android:name=".Sensor_Setting_PopUp"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 

@@ -28,6 +28,8 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         int notification_ID = intent.getExtras().getInt("notification_ID");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
 
+        System.out.println("Sono entrato in cancel notification receiver");
+
         // Cancello allarme CountDown ------------------------------
         try{
             int countDownAlarmID = intent.getExtras().getInt("notification_ID");

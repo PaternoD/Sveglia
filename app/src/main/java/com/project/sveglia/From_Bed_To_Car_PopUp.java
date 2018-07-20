@@ -1,11 +1,14 @@
 package com.project.sveglia;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by simonerigon on 12/07/18.
@@ -13,14 +16,12 @@ import android.view.View;
 
 public class From_Bed_To_Car_PopUp extends Activity {
 
-    int duration = 15;
+    long duration = 900000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.from_bed_to_car);
-
-
 
         // recupero riferimenti layout ------------------------
         // CardView
@@ -31,116 +32,193 @@ public class From_Bed_To_Car_PopUp extends Activity {
         CardView card_75 = (CardView)findViewById(R.id.Card_75_FBTC_ID);
         CardView card_90 = (CardView)findViewById(R.id.Card_90_FBTC_ID);
 
-        // Setto colori di default ----------------------------
-        card_15.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-        card_30.setBackgroundColor(Color.TRANSPARENT);
-        card_45.setBackgroundColor(Color.TRANSPARENT);
-        card_60.setBackgroundColor(Color.TRANSPARENT);
-        card_75.setBackgroundColor(Color.TRANSPARENT);
-        card_90.setBackgroundColor(Color.TRANSPARENT);
+        // Button
+        Button btn_save = (Button)findViewById(R.id.btn_salva_from_bed_to_car_ID);
+        Button btn_cancel = (Button)findViewById(R.id.btn_cancel_from_bed_to_car_ID);
+
+        // Recupero informazioni da Intent chiamante -----------
+        long fromBedToCarValue = getIntent().getExtras().getLong("fromBedToCarValue");
+
+        System.out.println("fromBedToCarString: "+ fromBedToCarValue);
+
+        if(fromBedToCarValue == 900000){
+            duration = 900000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_active);
+            card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
+        }else if(fromBedToCarValue == 1800000){
+            duration = 1800000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_30.setBackgroundResource(R.drawable.color_day_active);
+            card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
+        }else if(fromBedToCarValue == 2700000){
+            duration = 2700000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_45.setBackgroundResource(R.drawable.color_day_active);
+            card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
+        }else if(fromBedToCarValue == 3600000){
+            duration = 3600000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_60.setBackgroundResource(R.drawable.color_day_active);
+            card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
+        }else if(fromBedToCarValue == 4500000){
+            duration = 4500000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_75.setBackgroundResource(R.drawable.color_day_active);
+            card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
+        }else if(fromBedToCarValue == 5400000){
+            duration = 5400000;
+            // Setto colori di default ----------------------------
+            card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+            card_90.setBackgroundResource(R.drawable.color_day_active);
+        }
+
+
+
+
 
         card_15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 15;
+                duration = 900000;
 
-                card_15.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-                card_30.setBackgroundColor(Color.TRANSPARENT);
-                card_45.setBackgroundColor(Color.TRANSPARENT);
-                card_60.setBackgroundColor(Color.TRANSPARENT);
-                card_75.setBackgroundColor(Color.TRANSPARENT);
-                card_90.setBackgroundColor(Color.TRANSPARENT);
+                card_15.setBackgroundResource(R.drawable.color_day_active);
+                card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
         });
 
         card_30.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 30;
+                duration = 1800000;
 
-                card_15.setBackgroundColor(Color.TRANSPARENT);
-                card_30.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-                card_45.setBackgroundColor(Color.TRANSPARENT);
-                card_60.setBackgroundColor(Color.TRANSPARENT);
-                card_75.setBackgroundColor(Color.TRANSPARENT);
-                card_90.setBackgroundColor(Color.TRANSPARENT);
+                card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_30.setBackgroundResource(R.drawable.color_day_active);
+                card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
         });
 
         card_45.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 45;
+                duration = 2700000;
 
-                card_15.setBackgroundColor(Color.TRANSPARENT);
-                card_30.setBackgroundColor(Color.TRANSPARENT);
-                card_45.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-                card_60.setBackgroundColor(Color.TRANSPARENT);
-                card_75.setBackgroundColor(Color.TRANSPARENT);
-                card_90.setBackgroundColor(Color.TRANSPARENT);
+                card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_45.setBackgroundResource(R.drawable.color_day_active);
+                card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
         });
 
         card_60.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 60;
+                duration = 3600000;
 
-                card_15.setBackgroundColor(Color.TRANSPARENT);
-                card_30.setBackgroundColor(Color.TRANSPARENT);
-                card_45.setBackgroundColor(Color.TRANSPARENT);
-                card_60.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-                card_75.setBackgroundColor(Color.TRANSPARENT);
-                card_90.setBackgroundColor(Color.TRANSPARENT);
+                card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_60.setBackgroundResource(R.drawable.color_day_active);
+                card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
         });
 
         card_75.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 75;
+                duration = 4500000;
 
-                card_15.setBackgroundColor(Color.TRANSPARENT);
-                card_30.setBackgroundColor(Color.TRANSPARENT);
-                card_45.setBackgroundColor(Color.TRANSPARENT);
-                card_60.setBackgroundColor(Color.TRANSPARENT);
-                card_75.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
-                card_90.setBackgroundColor(Color.TRANSPARENT);
+                card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_75.setBackgroundResource(R.drawable.color_day_active);
+                card_90.setBackgroundResource(R.drawable.color_day_nonattivo);
             }
         });
 
         card_90.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                duration = 90;
+                duration = 5400000;
 
-                card_15.setBackgroundColor(Color.TRANSPARENT);
-                card_30.setBackgroundColor(Color.TRANSPARENT);
-                card_45.setBackgroundColor(Color.TRANSPARENT);
-                card_60.setBackgroundColor(Color.TRANSPARENT);
-                card_75.setBackgroundColor(Color.TRANSPARENT);
-                card_90.setBackgroundColor(getResources().getColor(R.color.CircleRepetitionAlarm));
+                card_15.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_30.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_45.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_60.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_75.setBackgroundResource(R.drawable.color_day_nonattivo);
+                card_90.setBackgroundResource(R.drawable.color_day_active);
             }
         });
 
-        // Converto "fromBedToCarDuration" in long -------------------
-        Long fromBedToCarDuration = convertIntToTimeInMillis(duration);
 
-        //----> Salvare fromBedToCarDuration nel database ----
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    }
+                //----> Salvare fromBedToCarDuration nel database ----
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("FromBedToCarResult", duration);
+                setResult(Activity.RESULT_OK, resultIntent);
 
-    /**
-     * Funzione che converte l'intero in input in TimeInMillis
-     * @param duration
-     * @return Correct TimeInMillis
-     */
-    private long convertIntToTimeInMillis(int duration){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        From_Bed_To_Car_PopUp.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 100);
 
-        long defaultLong = 60000;
-        long res = duration * defaultLong;
+            }
+        });
 
-        return res;
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        From_Bed_To_Car_PopUp.this.finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 100);
+            }
+        });
+
     }
 
 }

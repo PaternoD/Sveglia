@@ -27,6 +27,8 @@ public class delayNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        System.out.println("Sono entrato in delay notification receiver");
+
         // Recupero dati da intent --------------------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
@@ -104,7 +106,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(notificationChannel);
 
             // attivo CountDown Timer ----------------------
-            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context, delayTime);
+            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context);
             CountDownTimer.startCountDown();
 
         } else {
@@ -120,7 +122,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
             notificationManager.notify(countDownNotification_ID, countDown_Notif.build());
 
             // attivo CountDown Timer ----------------------
-            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context, delayTime);
+            CountDownTimer.startCountDownTimer(countDown_Notif, countDownNotification_ID, notificationManager, bundle, context);
             CountDownTimer.startCountDown();
 
         }

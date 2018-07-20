@@ -26,7 +26,7 @@ public class CountDownTimer extends Activity{
         super.onCreate(savedInstanceState);
     }
 
-    public static void startCountDownTimer(final NotificationCompat.Builder mBuilder, int id, final NotificationManager notificationManager, Bundle bundle, final Context context, long delayAlarm){
+    public static void startCountDownTimer(final NotificationCompat.Builder mBuilder, int id, final NotificationManager notificationManager, Bundle bundle, final Context context){
 
         final int idNot = id;
         final Bundle[] bundle1 = {bundle};
@@ -34,7 +34,7 @@ public class CountDownTimer extends Activity{
 
         Toast.makeText(context, "StarCountDownTimer: - numero:" + delayTime, Toast.LENGTH_LONG).show();
 
-        countTimer = new android.os.CountDownTimer(delayAlarm, 1000) {
+        countTimer = new android.os.CountDownTimer(delayTime, 1000) {
             @Override
             public void onTick(long l) {
                 bundle1[0] = mBuilder.getExtras();

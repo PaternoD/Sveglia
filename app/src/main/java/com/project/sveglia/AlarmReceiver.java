@@ -188,6 +188,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarm_name", alarmName);
             fullScreen.putExtra("notification_Channel", "");
             fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            fullScreen.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
