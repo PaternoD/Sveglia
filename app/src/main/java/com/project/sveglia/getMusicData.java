@@ -92,4 +92,27 @@ public class getMusicData {
         return res;
 
     }
+
+    public static String getMusicName(int position){
+        String res = "";
+
+        Field[] fields = R.raw.class.getFields();
+        boolean defaultMusic = true;
+        int count = 0;
+        if(fields != null){
+            for(int i=0; i<fields.length && defaultMusic; i++){
+                if(fields[i].getName().contains("mp3_")){
+                    count++;
+                    if(count == position){
+                        defaultMusic = false;
+                        String nameForID = fields[i].getName();
+                        res = getMusicName(fields[i].getName());
+                    }
+                }
+
+            }
+        }
+
+        return res;
+    }
 }
