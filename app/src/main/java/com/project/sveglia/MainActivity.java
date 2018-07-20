@@ -1,11 +1,6 @@
 package com.project.sveglia;
 
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(settingIntent);
             }
         });
+
 
 
     }
