@@ -37,7 +37,7 @@ public class DB_Manager {
 
         boolean[]b = new boolean[7];
         if(this.getAllID().size()==0){
-            this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 1, null, null, null);
+            this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 0, null, null, null);
             this.inizializza_setting();
         }
 
