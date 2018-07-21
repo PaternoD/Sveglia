@@ -39,7 +39,7 @@ import java.util.Calendar;
 public class Add_Alarm extends Activity {
 
     // Variabili globali ------------------------------------------
-    int modify_alarm_id;
+    int modify_alarm_position;
     int listPositionMusic = 2;
     int alarm_music_ID;
     boolean modify_alarm = false;
@@ -48,12 +48,14 @@ public class Add_Alarm extends Activity {
     boolean disable_modify_time = false;
     boolean disable_repetition_days = false;
     boolean delay_Alarm = true;
+    boolean isTravelTo = false;
     long alarm_time;
     String start_address_detail;
     String end_address_detail;
     String alarm_Name = "Sveglia";
     String alarm_music_name;
     String traffic_model;
+    DB_Manager db;
 
     // CardView
     CardView Card_Day_Info;
@@ -68,6 +70,8 @@ public class Add_Alarm extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_alarm);
 
+        db = new DB_Manager(this);
+        db.open();
 
         // Recupero i riferimenti nel layout -----------------------
         // TextView
@@ -80,6 +84,10 @@ public class Add_Alarm extends Activity {
         TextView arrowTextSuono = (TextView)findViewById(R.id.arrow_textView_Suono);
         TextView arrowTextRipetizione = (TextView)findViewById(R.id.arrow_textView_ripetizione);
         TextView arrowTextTravel = (TextView)findViewById(R.id.arrowChangeInfo);
+        TextView text_ripetition = (TextView)findViewById(R.id.text_giorni_ripetizione_ID);
+        TextView detail_origin_textView = (TextView)findViewById(R.id.text_detail_transit_origin);
+        TextView detail_destination_textView = (TextView)findViewById(R.id.text_detail_transit_destination);
+
 
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
@@ -105,6 +113,11 @@ public class Add_Alarm extends Activity {
         // ImageButton
         ImageButton infoImageButton = (ImageButton)findViewById(R.id.info_image_button_ID);
 
+        // ImageView
+        ImageView detail_transit_imageView = (ImageView)findViewById(R.id.detail_transit_image);
+        ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_location_image);
+        ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_dot_image);
+
         // Recupero Immagine info per infoImageButton --------------
         Bitmap infoImage = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.information_outline_24);
         infoImageButton.setImageBitmap(infoImage);
@@ -122,8 +135,8 @@ public class Add_Alarm extends Activity {
         modify_alarm = getIntent().getExtras().getBoolean("isModifyAlarm");
 
         if(modify_alarm) {
-            modify_alarm_id = getIntent().getExtras().getInt("id");
-            System.out.println("Alarm_id_modify:" + modify_alarm_id);
+            modify_alarm_position = getIntent().getExtras().getInt("position");
+            System.out.println("Alarm_position_modify:" + modify_alarm_position);
         }
 
         // Setto testo bottone salva/modifica allarme --------------
@@ -150,6 +163,85 @@ public class Add_Alarm extends Activity {
             // Se modifico l'allarme gia esistente recupero musica dal database
             //alarm_music_name = getMusicNameFromDatabase(modify_alarm_id);
             //alarm_music_ID = getMusicIDFromDatabase(modify_alarm_id);
+//SETTO TIME VIEW
+            alarm_time=Long.parseLong(db.getAllTimeView().get(modify_alarm_position));
+            String time_day=getDayTimeFromMillis(alarm_time);
+            day_info.setText(time_day);
+            time.setText(getFormattedTimeFromMillis(alarm_time));
+            System.out.println(getFormattedTimeFromMillis(alarm_time));
+            Card_Day_Info.setVisibility(View.INVISIBLE);
+//SETTO MUSICHE SUONERIE
+            alarm_music_name=getMusicData.getMusicName(Integer.parseInt(db.getAllPosSuoneria().get(modify_alarm_position))+1);
+            listPositionMusic= Integer.parseInt(db.getAllPosSuoneria().get(modify_alarm_position));
+            alarm_Name = db.getAllNameView().get(modify_alarm_position);
+            etichetta_name.setText(alarm_Name);
+//SETTO RITARDA
+            if (db.getAllRitarda().get(modify_alarm_position).equals((String)"0")){
+                delay_Alarm=false;
+            }
+            if (db.getAllRitarda().get(modify_alarm_position).equals((String)"1")){
+                delay_Alarm=true;
+            }
+            delay_Alarm_switch.setChecked(delay_Alarm);
+//SETTO GIORNI DI RIPETIZIONE
+            String repetitionsArrayString= db.getAllRepetitionsDay().get(modify_alarm_position);
+            //ciclo che mi restituisce il vettore di booleani
+            for (int j=0;j<7;j++){
+                boolean day=true;
+                Character character;
+                character = repetitionsArrayString.charAt(j);
+
+                if (character.equals((Character)'0')){
+                    day=false;
+                }
+                if (character.equals((Character)'1')){
+                    day=true;
+                }
+                repetitionsArray[j]=day;
+            }
+            String giorni_attivi = get_repetition_days(repetitionsArray);
+            text_ripetition.setText(giorni_attivi);
+//SETTO TRAVEL TO
+            Boolean travel_to_attivo=false;
+            if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"0")){
+                travel_to_attivo=false;
+                travel_to_switch.setChecked(travel_to_attivo);
+
+            }
+            if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"1")){
+                disable_repetition_days=true;
+                travel_to_attivo=true;
+                travel_to_switch.setChecked(travel_to_attivo);
+                start_address_detail=db.getAllFrom().get(modify_alarm_position);
+                end_address_detail=db.getAllTo().get(modify_alarm_position);
+                traffic_model=db.getAllMezzo().get(modify_alarm_position);
+                Card_Day_Info.setVisibility(View.VISIBLE);
+                Bitmap place_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_marker_24);
+                place_detail_ImageView.setImageBitmap(place_image);
+                Bitmap point_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_menu_vertical_24);
+                point_detail_ImageView.setImageBitmap(point_image);
+                detail_origin_textView.setText(start_address_detail);
+                detail_destination_textView.setText(end_address_detail);
+                if(traffic_model.equals("DRIVING")){
+                    Bitmap detail_driving_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_car_24);
+                    detail_transit_imageView.setImageBitmap(detail_driving_image);
+                }else if(traffic_model.equals("TRANSIT")){
+                    Bitmap detail_transit_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_train_24);
+                    detail_transit_imageView.setImageBitmap(detail_transit_image);
+                }else if(traffic_model.equals("WALKING")){
+                    Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
+                    detail_transit_imageView.setImageBitmap(detail_walking_image);
+                }
+                detail_origin_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                detail_destination_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                enableDetailTransitLayuot();
+
+            }
+
+
+
+
+
         }else{
             String[] res = getMusicData.getDefaultMusic(Add_Alarm.this);
             alarm_music_name = res[0];
@@ -159,12 +251,14 @@ public class Add_Alarm extends Activity {
 
         // Setto nome musica nel layout ----------------------------
         music_name.setText(alarm_music_name);
+        if (!modify_alarm){
+            // Setto l'ora corrente ------------------------------------
+            String date = getTime();
+            String currentDayTime = getDayTimeFromMillis(0);
+            time.setText(date);
+            day_info.setText(currentDayTime);
+        }
 
-        // Setto l'ora corrente ------------------------------------
-        String date = getTime();
-        String currentDayTime = getDayTimeFromMillis(0);
-        time.setText(date);
-        day_info.setText(currentDayTime);
 
         // Aggiungo azione per cambiare nome all'etichetta ---------
         etichetta_name_card.setOnClickListener(new View.OnClickListener() {
@@ -224,6 +318,7 @@ public class Add_Alarm extends Activity {
                 if(isNetworkAvailable()) {
 
                     if (travel_to_switch.isChecked()) {
+                        isTravelTo=false;
                         travel_to_switch.setChecked(false);
                         detail_transit_Layout.getLayoutParams().height = 0;
                         line_transit.getLayoutParams().height = 0;
@@ -303,6 +398,8 @@ public class Add_Alarm extends Activity {
 
                     // ----> Aggiungere le sveglie da cancellare ---
                     //Cancel_Alarm_Class.cancel_Alarm();
+                    Cancel_Alarm_Class.cancel_Alarm(Integer.parseInt(db.getAllID().get(modify_alarm_position)),Add_Alarm.this,db,true);
+
                 }
                 SetAlarmManager.SetAlarmManager(Add_Alarm.this,
                         alarm_time,
@@ -310,7 +407,7 @@ public class Add_Alarm extends Activity {
                         delay_Alarm,
                         alarm_Name,
                         repetitionsArray,
-                        false,
+                        isTravelTo,
                         listPositionMusic,
                         start_address_detail,
                         end_address_detail,
@@ -382,6 +479,7 @@ public class Add_Alarm extends Activity {
 
         // Ottengo risposta da MapsActivity -----------
         if (requestCode == 4) {
+            isTravelTo=true;
             if (resultCode == Activity.RESULT_OK) {
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
@@ -450,6 +548,7 @@ public class Add_Alarm extends Activity {
                 // Azioni nel caso l'intent non restituisca nulla
                 // Recupero riferimenti layout -------------------------
                 // Switch
+                isTravelTo=false;
                 final Switch travel_to_switch = (Switch) findViewById(R.id.Travel_to_Switch);
 
                 try {

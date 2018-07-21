@@ -117,16 +117,12 @@ public class DB_Manager {
         }
 
         String str = array_vector.get(0);
-        int dim_str=str.length();
-        int now =1;
 
-        while(now<dim_str){
-            Integer new_id;
-            String new_id_str;
-            new_id_str=str.substring(now,now+10);
-            now=now+12;
-            new_id=Integer.parseInt(new_id_str);
-            vector.add(new_id);
+        String str_no_parentesi = str.substring(1,str.length()-1);
+        String [] array = str_no_parentesi.split(", ");
+        for (int i=0;i<array.length ;i++ ) {
+            vector.add(Integer.parseInt(array[i]));
+
         }
         return vector;
     }
@@ -375,6 +371,8 @@ public class DB_Manager {
         return array;
 
     }
+
+
 //________________________________________________________________
     //FUNZIONI DI APPOGGIO
     //SETTA ON_OF QUANDO SI PREME SWITCH

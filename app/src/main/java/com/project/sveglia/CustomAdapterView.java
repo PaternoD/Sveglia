@@ -184,8 +184,6 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             @Override
             public void onClick(View view) {
 
-//----------------------DA INSERIRE CAMBIO COLORE DELLA CARDVIEW QUANDO SI PREME SWITCH
-
                 repetitions_day = dataSet.get(position).getRepetitions_day();
                 RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
@@ -263,6 +261,11 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             @Override
             public void onClick(View view) {
                 System.out.println("-----------------CLICK -------- modifica SVEGLIA-----------");
+
+                Intent intent = new Intent(context,Add_Alarm.class);
+                intent.putExtra("isModifyAlarm",true);
+                intent.putExtra("position",position);
+                context.startActivity(intent);
 
             }
         });
