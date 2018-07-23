@@ -58,6 +58,8 @@ public class FullScreen_Notification extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_screen_notification);
 
+
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                             | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                             | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -115,81 +117,7 @@ public class FullScreen_Notification extends Activity {
 
         // Nascondi bottone Snooze se la sveglia è senza ripetizione
 
-        // Nascondo la Navigation Bar --------------------
-        View decorView = getWindow().getDecorView();
-        // Hide both the navigation bar and the status bar.
-        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-        // a general rule, you should design your app to hide the status bar whenever you
-        // hide the navigation bar.
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
-
-        // Cancello la notifica dopo un tempo stabilito --
-        AutomaticCancelNotification.startCountDownTimer(DelayTimeForCancel,
-                NOT_ID,
-                FullScreen_Notification.this,
-                alarm_Music_ID,
-                is_Delay_Alarm,
-                alarm_Name);
-        AutomaticCancelNotification.startCountDown();
-
-
-        // Bottone per cancella la notifica --------------
-        delete_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
-                cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
-                cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
-                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    cancelPendingIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                    Log.i("SendPendingIntentDelNot", "onClick: Non posso inviare (send) il pending intent per cancellare la notifica");
-                }
-
-                System.out.println("Ho premuto il tasto cancel");
-
-                // termino il conto alla rovesca per la cancellazione automatica della notifica
-                AutomaticCancelNotification.cancelCountDown();
-
-                finishAffinity();
-            }
-        });
-
-        // Bottone per cancellare la notifica e ritardare la sveglia --
-        snooze_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
-                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
-                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
-                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
-                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
-                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    snoozePendingIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
-                }
-
-                // termino il conto alla rovesca per la cancellazione automatica della notifica
-                AutomaticCancelNotification.cancelCountDown();
-
-                finishAffinity();
-            }
-        });
-
+        //SENSORE per spegnere o rimandare la sveglia
         SensorEventListener proximitySensorEventListener = new SensorEventListener() {
 
 
@@ -199,7 +127,7 @@ public class FullScreen_Notification extends Activity {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
 
                     if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        //System.out.println("pancia in giu");
+                        System.out.println("pancia in giu");
                         nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -239,7 +167,7 @@ public class FullScreen_Notification extends Activity {
 
                         }
                     }else{//se a pancia in su
-                        //System.out.println("pancia in su");
+                        System.out.println("pancia in su");
                         bianco_nero=true;
 
                     }
@@ -261,6 +189,87 @@ public class FullScreen_Notification extends Activity {
         mySensorManager.registerListener(proximitySensorEventListener,
                 myProximitySensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
+
+
+        // Nascondo la Navigation Bar --------------------
+        View decorView = getWindow().getDecorView();
+        // Hide both the navigation bar and the status bar.
+        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+        // a general rule, you should design your app to hide the status bar whenever you
+        // hide the navigation bar.
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+
+        // Cancello la notifica dopo un tempo stabilito --
+        AutomaticCancelNotification.startCountDownTimer(DelayTimeForCancel,
+                NOT_ID,
+                FullScreen_Notification.this,
+                alarm_Music_ID,
+                is_Delay_Alarm,
+                alarm_Name,
+                mySensorManager,
+                proximitySensorEventListener);
+        AutomaticCancelNotification.startCountDown();
+
+
+        // Bottone per cancella la notifica --------------
+        delete_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mySensorManager.unregisterListener(proximitySensorEventListener);
+                Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
+                cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
+                PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    cancelPendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                    Log.i("SendPendingIntentDelNot", "onClick: Non posso inviare (send) il pending intent per cancellare la notifica");
+                }
+
+                System.out.println("Ho premuto il tasto cancel");
+
+                // termino il conto alla rovesca per la cancellazione automatica della notifica
+                AutomaticCancelNotification.cancelCountDown();
+
+                finishAffinity();
+            }
+        });
+
+        // Bottone per cancellare la notifica e ritardare la sveglia --
+        snooze_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mySensorManager.unregisterListener(proximitySensorEventListener);
+                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
+                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
+                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    snoozePendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+                }
+
+                // termino il conto alla rovesca per la cancellazione automatica della notifica
+                AutomaticCancelNotification.cancelCountDown();
+
+                finishAffinity();
+            }
+        });
+
 
 
 

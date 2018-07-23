@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -27,7 +29,9 @@ public class AutomaticCancelNotification extends Activity {
                                            Activity activity,
                                            int alarm_Music_ID,
                                            boolean is_Delay_Alarm,
-                                           String alarm_Name){
+                                           String alarm_Name,
+                                           SensorManager mySensorManager,
+                                           SensorEventListener proxymityEvent){
 
         countTimer = new android.os.CountDownTimer(delayTime, 1000){
 
@@ -38,7 +42,7 @@ public class AutomaticCancelNotification extends Activity {
 
             @Override
             public void onFinish() {
-
+                mySensorManager.unregisterListener(proxymityEvent);
                 Intent snoozeNotificationIntent = new Intent(activity, delayNotificationReceiver.class);
                 snoozeNotificationIntent.putExtra("notification_ID", notification_ID);
                 snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);

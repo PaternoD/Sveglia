@@ -22,6 +22,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
         //System.out.println("start class cancel notification receiver______________________________");
 
         // Recupero id notifica da intent chiamante ----------------

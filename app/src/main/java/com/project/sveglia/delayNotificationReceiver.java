@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class delayNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
         System.out.println("Sono entrato in delay notification receiver");
 
         // Recupero dati da intent --------------------------

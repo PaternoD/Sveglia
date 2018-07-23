@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private DB_Manager db_manager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -35,8 +35,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     boolean isRepetitionDayAlarm;
     int repeatAlarmNumberTimes;
 //per sensore di prossimità
-    SensorManager mySensorManager;
+    public static SensorManager mySensorManager;
     Sensor myProximitySensor;
+    public static SensorEventListener proximitySensorEventListener;
+
     boolean nero_nero=false;
     boolean bianco_nero=false;
 
@@ -66,7 +68,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             startNotificationWithoutRepeat(context, alarmName, alarm_music_ID, enableVibrate, isDelayAlarm);
         }
 
-
     }
 
     /**
@@ -82,7 +83,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Calendar cal = Calendar.getInstance();
         int NOT_ID = createID(cal.getTimeInMillis());
 
-        SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+        proximitySensorEventListener = new SensorEventListener() {
 
 
             @Override
@@ -91,7 +92,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
 
                     if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        //System.out.println("pancia in giu");
+                        System.out.println("pancia in giu");
                         nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -132,7 +133,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                         }
                     }else{//se a pancia in su
-                        //System.out.println("pancia in su");
+                        System.out.println("pancia in su");
                         bianco_nero=true;
 
                     }
@@ -168,6 +169,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("notification_ID", NOT_ID);
             cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
+
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -308,7 +310,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Calendar cal = Calendar.getInstance();
         int NOT_ID = createID(cal.getTimeInMillis());
 
-        SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+        proximitySensorEventListener = new SensorEventListener() {
 
 
             @Override
@@ -317,7 +319,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
 
                     if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        //System.out.println("pancia in giu");
+                        System.out.println("pancia in giu");
                         nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -358,7 +360,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                         }
                     }else{//se a pancia in su
-                        //System.out.println("pancia in su");
+                        System.out.println("pancia in su");
                         bianco_nero=true;
 
                     }
@@ -501,7 +503,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             handler.postDelayed(new Runnable() {
                 public void run() {
                     if (isNotificationActive(id, context)) {
-
+//da aggiungere stop sensore
                         Intent delayNotificationIntent = new Intent(context, delayNotificationReceiver.class);
                         delayNotificationIntent.putExtra("notification_ID", id);
                         delayNotificationIntent.putExtra("alarm_music_ID", alarm_music_ID);
@@ -552,4 +554,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         res = Math.abs(tmp);
         return res;
     }
+
+
 }
