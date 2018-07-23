@@ -29,7 +29,7 @@ import java.util.Calendar;
 public class AlarmReceiver extends BroadcastReceiver {
 
     // Variabili Globali --
-    int delayTimeForCancelForNotification;
+    long delayTimeForCancelForNotification;
     MediaPlayer mediaPlayer;
     long alarmTimeInMillis = 0;
     boolean isRepetitionDayAlarm;
@@ -58,10 +58,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
         }
 
+        // Apro il database --------------------------------------
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
+
         // Recupero dati da impostazioni nel database ------------
         // ----> recupero informazioni sulla vibrazione
         boolean enableVibrate = true;
-        delayTimeForCancelForNotification = 20000;
+        delayTimeForCancelForNotification = db_manager.getDurataSuoneria();
 
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){

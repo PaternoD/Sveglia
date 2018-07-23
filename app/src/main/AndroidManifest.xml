@@ -54,6 +54,7 @@
         <activity android:name=".RingTone_Setting_PopUp"></activity>
         <activity android:name=".Sleep_Duration_PopUp"></activity>
         <activity android:name=".Sensor_Setting_PopUp"></activity>
+        <activity android:name=".Time_Passed_Pop_Up_Google"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 

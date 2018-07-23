@@ -50,9 +50,13 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(notification_ID);
 
+        // Apro il database ---------------------------------
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
+
         // Recupero tempo di attesa della nuova sveglia -----
         // ---> da recuperare poi da impostazioni
-        long delayTime = 20000;
+        long delayTime = db_manager.getRitardaMinuti();
 
         // Setto la nuova sveglia ---------------------------
         Calendar cal = Calendar.getInstance();

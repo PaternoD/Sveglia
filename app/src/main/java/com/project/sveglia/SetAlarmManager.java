@@ -33,13 +33,15 @@ public class SetAlarmManager {
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        // recuperare numero di volte di questa fariabile dal database
-        int repeatAlarmNumberTimes = 2;
-
+        // Apro database ---------------------
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
 
-        // Inizializzo allarme principale
+        // recuperare numero di volte di questa fariabile dal database --
+        int repeatAlarmNumberTimes = db_manager.getRitardaVolte();
+
+
+        // Inizializzo allarme principale-----
         if(!there_Are_Repetitions_Days(repetitionArray)){
             startAlarm(timeInMillis,
                     currentTime,

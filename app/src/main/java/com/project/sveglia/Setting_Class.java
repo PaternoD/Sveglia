@@ -68,11 +68,20 @@ public class Setting_Class extends Activity {
         sensorSwitch.setChecked(sensorDefaultValue);
         if(sensorSwitch.isChecked()){
             activeSensor = true;
+            relativeLayout_sensor_active.setVisibility(View.VISIBLE);
+            String sensor = db_manager.getSensoriOpzione();
+            if(sensor.equals("ritarda")){
+                textView_sensor_active.setText("Azione Sensore: Ritarda Allarme");
+            }else{
+                textView_sensor_active.setText("Azione Sensore: Elimina Allarme");
+            }
+
         }else{
             activeSensor = false;
+            relativeLayout_sensor_active.setVisibility(View.GONE);
         }
 
-        relativeLayout_sensor_active.setVisibility(View.GONE);
+
 
 
 
@@ -129,7 +138,6 @@ public class Setting_Class extends Activity {
                 int sensorSwitch_ID = 13;
 
                 if(sensorSwitch.isChecked()){
-                    db_manager.setSensori_on(true);
 
                     Intent sensorIntent = new Intent(Setting_Class.this, Sensor_Setting_PopUp.class);
                     startActivityForResult(sensorIntent, sensorSwitch_ID);
@@ -137,7 +145,20 @@ public class Setting_Class extends Activity {
                 }else{
                     db_manager.setSensori_on(false);
                     activeSensor = false;
+
+                    relativeLayout_sensor_active.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        // Aggiungo opzione per modificare opzioine sensore -------
+        relativeLayout_sensor_active.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int sensorSwitch_ID = 13;
+
+                Intent sensorIntent = new Intent(Setting_Class.this, Sensor_Setting_PopUp.class);
+                startActivityForResult(sensorIntent, sensorSwitch_ID);
             }
         });
 
@@ -234,6 +255,7 @@ public class Setting_Class extends Activity {
                     System.out.println("sensor_active_true: " + activeSensor);
                 }else{
                     relativeLayout_sensor_active.setVisibility(View.GONE);
+                    sensorSwitch.setChecked(false);
                     System.out.println("sensor_active_false: " + activeSensor);
                 }
             }

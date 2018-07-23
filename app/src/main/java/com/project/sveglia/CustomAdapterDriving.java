@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,14 +81,23 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
                 String start_address_detail = dataSet.get(listPosition).start_address;
                 String end_address_detail = dataSet.get(listPosition).end_address;
 
+                Calendar calendar = Calendar.getInstance();
+                long currentTime = calendar.getTimeInMillis();
 
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("alarm_time", alarm_Time);
-                resultIntent.putExtra("transit_model", "DRIVING");
-                resultIntent.putExtra("start_address", start_address_detail);
-                resultIntent.putExtra("end_address", end_address_detail);
-                myActivity.setResult(Activity.RESULT_OK, resultIntent);
-                myActivity.finish();
+                if(alarm_Time > currentTime){
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("alarm_time", alarm_Time);
+                    resultIntent.putExtra("transit_model", "DRIVING");
+                    resultIntent.putExtra("start_address", start_address_detail);
+                    resultIntent.putExtra("end_address", end_address_detail);
+                    myActivity.setResult(Activity.RESULT_OK, resultIntent);
+                    myActivity.finish();
+                }else{
+                    Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
+                    myActivity.startActivity(intent_Time_Passed);
+                }
+
+
 
             }
         });
@@ -109,9 +119,13 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
     private long getTime(int listPosition, long duration_in_seconds, long arrival_time_in_millis){
         long res = 0;
 
-        long time = arrival_time_in_millis - (duration_in_seconds * 1000);
-
         // ----> Ricordarsi di aggiungere il tempo di preparazione al mattino, prendere da database!!!
+        DB_Manager db_manager = new DB_Manager(myActivity);
+        db_manager.open();
+
+        long fromBedToCarTime = db_manager.getBadToCar();
+
+        long time = arrival_time_in_millis - (duration_in_seconds * 1000) - fromBedToCarTime;
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(time);

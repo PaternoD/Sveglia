@@ -560,7 +560,7 @@ public class Add_Alarm extends Activity {
                         travel_to_switch.setChecked(false);
                     }
                 }catch (Exception e){
-                    String TAG = "Excep result_canceled";
+                    String TAG = "ExcepResultCanceledMaps";
                     Log.e(TAG, "onActivityResult: ", e);
 
                     if(disable_modify_time = true) {

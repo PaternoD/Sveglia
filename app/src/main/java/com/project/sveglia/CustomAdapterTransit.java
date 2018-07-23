@@ -70,18 +70,31 @@ public class CustomAdapterTransit extends RecyclerView.Adapter<CustomAdapterTran
             @Override
             public void onClick(View v) {
 
-                long alarm_Time = dataSet.get(listPosition).getDeparture_time();
+                DB_Manager db_manager = new DB_Manager(myActivity);
+                db_manager.open();
+
+                long fromBedToCarTime = db_manager.getBadToCar();
+
+                long alarm_Time = dataSet.get(listPosition).getDeparture_time() - fromBedToCarTime;
 
                 String start_address_detail = dataSet.get(listPosition).start_address;
                 String end_address_detail = dataSet.get(listPosition).end_address;
 
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("alarm_time", alarm_Time);
-                resultIntent.putExtra("transit_model", "TRANSIT");
-                resultIntent.putExtra("start_address", start_address_detail);
-                resultIntent.putExtra("end_address", end_address_detail);
-                myActivity.setResult(Activity.RESULT_OK, resultIntent);
-                myActivity.finish();
+                Calendar calendar = Calendar.getInstance();
+                long currentTime = calendar.getTimeInMillis();
+
+                if(alarm_Time > currentTime) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("alarm_time", alarm_Time);
+                    resultIntent.putExtra("transit_model", "TRANSIT");
+                    resultIntent.putExtra("start_address", start_address_detail);
+                    resultIntent.putExtra("end_address", end_address_detail);
+                    myActivity.setResult(Activity.RESULT_OK, resultIntent);
+                    myActivity.finish();
+                }else{
+                    Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
+                    myActivity.startActivity(intent_Time_Passed);
+                }
 
             }
         });

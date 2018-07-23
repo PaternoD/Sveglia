@@ -55,6 +55,8 @@ public class Sensor_Setting_PopUp extends Activity {
                 int radioButton_checked = radioGroup.getCheckedRadioButtonId();
                 String res_sensor_active;
 
+                db_manager.setSensori_on(true);
+
                 RadioButton radioButton = (RadioButton)findViewById(radioButton_checked);
 
                 String radioButtonValue = radioButton.getText().toString();
