@@ -42,6 +42,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     boolean nero_nero=false;
     boolean bianco_nero=false;
 
+    boolean ritarda;
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -51,7 +53,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String alarmName = intent.getExtras().getString("alarmName");
         isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
         repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
-
+        ritarda=isDelayAlarm;
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
         }
@@ -113,7 +115,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                                     e.printStackTrace();
                                 }
                             }
-                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                            if(!ritarda){
+                                mySensorManager.unregisterListener(this);
+                            } else if (db.getSensoriOpzione().equals((String)"ritarda")){
                                 //RIMANDO SVEGLIA
                                 Intent delayAction = new Intent(context, delayNotificationReceiver.class);
                                 delayAction.putExtra("notification_ID", NOT_ID);
@@ -340,7 +344,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                                     e.printStackTrace();
                                 }
                             }
-                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                            if(!ritarda){
+                                mySensorManager.unregisterListener(this);
+                            } else if (db.getSensoriOpzione().equals((String)"ritarda")){
                                 //RIMANDO SVEGLIA
                                 Intent delayAction = new Intent(context, delayNotificationReceiver.class);
                                 delayAction.putExtra("notification_ID", NOT_ID);

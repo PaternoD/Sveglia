@@ -147,7 +147,9 @@ public class FullScreen_Notification extends Activity {
                                 }
                                 finishAffinity();
                             }
-                            if (db.getSensoriOpzione().equals((String)"ritarda")){
+                            if(!is_Delay_Alarm){
+                                mySensorManager.unregisterListener(this);
+                            } else if (db.getSensoriOpzione().equals((String)"ritarda")){
                                 //RIMANDO SVEGLIA
                                 Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
                                 snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
