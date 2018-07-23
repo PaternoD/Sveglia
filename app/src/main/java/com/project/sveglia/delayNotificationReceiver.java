@@ -35,6 +35,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarm_name = intent.getExtras().getString("alarm_name");
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
+        boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
 
         repeatAlarmNumberTimes -= 1;
         //System.out.println("**** RepeatAlarmNumeberTimes: " + repeatAlarmNumberTimes);
@@ -81,6 +82,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         // Azione da aggiungere alla notifica per terminare il conto alla rovescia e cancellare la sveglia --
         Intent countDown_Notif_Cancel = new Intent(context, CancelNotificationReceiver.class);
         countDown_Notif_Cancel.putExtra("alarm_ID", repeatAlarmID);
+        countDown_Notif_Cancel.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
         countDown_Notif_Cancel.putExtra("notification_ID", countDownNotification_ID);
         PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, countDownNotification_ID, countDown_Notif_Cancel, PendingIntent.FLAG_ONE_SHOT);
 

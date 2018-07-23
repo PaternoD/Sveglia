@@ -32,7 +32,7 @@ public class CountDownTimer extends Activity{
         final Bundle[] bundle1 = {bundle};
         long delayTime = bundle1[0].getLong("numero");
 
-        Toast.makeText(context, "StarCountDownTimer: - numero:" + delayTime, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "StarCountDownTimer: - numero:" + delayTime, Toast.LENGTH_LONG).show();
 
         countTimer = new android.os.CountDownTimer(delayTime, 1000) {
             @Override

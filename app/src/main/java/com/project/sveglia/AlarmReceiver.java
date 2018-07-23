@@ -178,6 +178,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("alarm_name", alarmName);
             delayAction.putExtra("notification_Channel", "");
             delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
             // fullScreen notification intent ----------------------------------
@@ -244,6 +245,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("alarm_name", alarmName);
             delayAction.putExtra("notification_Channel", not_Channel_ID);
             delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_ONE_SHOT);
 
             // Creo un notification Channel ------------------------------------

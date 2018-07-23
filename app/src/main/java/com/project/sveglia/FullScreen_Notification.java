@@ -128,17 +128,16 @@ public class FullScreen_Notification extends Activity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        // *************
-        // *************
-        // *************
-        // *************
-        // *************
+
         // Cancello la notifica dopo un tempo stabilito --
-        // da finere.................
-        //removeFullScreenNotification(DelayTimeForCancel, NOT_ID);
-        // *************
-        // *************
-        // *************
+        AutomaticCancelNotification.startCountDownTimer(DelayTimeForCancel,
+                NOT_ID,
+                FullScreen_Notification.this,
+                alarm_Music_ID,
+                is_Delay_Alarm,
+                alarm_Name);
+        AutomaticCancelNotification.startCountDown();
+
 
         // Bottone per cancella la notifica --------------
         delete_notification.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +157,9 @@ public class FullScreen_Notification extends Activity {
 
                 System.out.println("Ho premuto il tasto cancel");
 
+                // termino il conto alla rovesca per la cancellazione automatica della notifica
+                AutomaticCancelNotification.cancelCountDown();
+
                 finishAffinity();
             }
         });
@@ -172,6 +174,7 @@ public class FullScreen_Notification extends Activity {
                 snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
                 snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
                 snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     snoozePendingIntent.send();
@@ -179,6 +182,10 @@ public class FullScreen_Notification extends Activity {
                     e.printStackTrace();
                     Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
                 }
+
+                // termino il conto alla rovesca per la cancellazione automatica della notifica
+                AutomaticCancelNotification.cancelCountDown();
+
                 finishAffinity();
             }
         });
