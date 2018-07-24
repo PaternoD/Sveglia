@@ -528,8 +528,6 @@ public class Add_Alarm extends Activity {
                     Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
                 }
-
-                db.getAllTravelTO().set(modify_alarm_position, "1");
                 enableDetailTransitLayuot();
 
             }
