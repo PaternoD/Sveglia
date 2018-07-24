@@ -1,25 +1,17 @@
 package com.project.sveglia;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -319,6 +311,7 @@ public class Add_Alarm extends Activity {
                         disable_repetition_days = false;
                         repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
                         Card_Day_Info.setVisibility(View.INVISIBLE);
+                        text_ripetition.setText("Mai");
                     } else {
                         int GOOGLE_MAPS_ID = 4;
 
@@ -470,8 +463,17 @@ public class Add_Alarm extends Activity {
 
         // Ottengo risposta da MapsActivity -----------
         if (requestCode == 4) {
-            isTravelTo=true;
+
+
             if (resultCode == Activity.RESULT_OK) {
+                //setto a 0 il vettore di booleani
+                repetitionsArray = fill_Ripetition_Array(modify_alarm);
+
+                isTravelTo=true;
+
+                //setto stringa
+                TextView text_ripetition = (TextView)findViewById(R.id.text_giorni_ripetizione_ID);
+                text_ripetition.setText("Non disponibile");
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
                 alarm_time = google_maps_time_in_millis;

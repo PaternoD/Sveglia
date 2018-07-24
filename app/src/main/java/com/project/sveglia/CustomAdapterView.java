@@ -3,23 +3,18 @@ package com.project.sveglia;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import static com.project.sveglia.R.drawable.card_lista_sveglie_non_attiva;
 
 /**
  * Created by Pat on 27/06/18.
@@ -36,6 +31,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         TextView timeSveglia;
         TextView nomeSveglia;
+        TextView dataSveglia;
+        TextView destinazione;
         Switch on_off;
         CardView lun;
         CardView mar;
@@ -46,6 +43,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView dom;
         RelativeLayout giorni_ripetizioni;
         CardView sveglia;
+        ImageView img_destinazione;
 
 
         public MyViewHolder(View itemView) {
@@ -63,7 +61,9 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             dom=(CardView)itemView.findViewById(R.id.Dom_Circle);
             giorni_ripetizioni=(RelativeLayout)itemView.findViewById(R.id.giorni_ripetizione);
             sveglia=(CardView) itemView.findViewById(R.id.visualizzatore_sveglia);
-
+            dataSveglia=(TextView)itemView.findViewById(R.id.Data_Sveglia_ID);
+            destinazione=(TextView)itemView.findViewById(R.id.info_Maps_Sveglia_ID);
+            img_destinazione=(ImageView)itemView.findViewById(R.id.imageView);
         }
     }
 
@@ -88,6 +88,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         TextView time_sveglia = holder.timeSveglia;
         TextView nome_sveglia = holder.nomeSveglia;
+        TextView data_sveglia = holder.dataSveglia;
+        TextView destinazione_sveglia = holder.destinazione;
         final Switch on_off = holder.on_off;
         CardView lun = holder.lun;
         CardView mar = holder.mar;
@@ -97,7 +99,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView sab = holder.sab;
         CardView dom = holder.dom;
         final CardView sveglia = holder.sveglia;
-
+        ImageView img_destinazione = holder.img_destinazione;
 
         if(position==dataSet.size()-1){
             sveglia.setVisibility(View.INVISIBLE);
@@ -108,6 +110,22 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         time_sveglia.setText(dataSet.get(position).getTime());
         nome_sveglia.setText(dataSet.get(position).getNome_sveglia());
         on_off.setChecked(dataSet.get(position).isOn_off());
+        RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+
+        if (dataSet.get(position).getTravelTo()){
+            data_sveglia.setText("Impostata il: "+dataSet.get(position).getDataSveglia());
+            destinazione_sveglia.setText(dataSet.get(position).getTo());
+            giorni_ripetizioni.setVisibility(View.GONE);
+            data_sveglia.setVisibility(View.VISIBLE);
+            destinazione_sveglia.setVisibility(View.VISIBLE);
+            img_destinazione.setVisibility(View.VISIBLE);
+        }else{
+            giorni_ripetizioni.setVisibility(View.VISIBLE);
+            data_sveglia.setVisibility(View.GONE);
+            destinazione_sveglia.setVisibility(View.GONE);
+            img_destinazione.setVisibility(View.GONE);
+
+        }
 
         Log.i("****ON-OFF****", "valore: " + dataSet.get(position).isOn_off());
 
@@ -124,7 +142,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         if(on_off.isChecked()) {
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
-            RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+            giorni_ripetizioni = holder.giorni_ripetizioni;
 
             if(repetitions){
                 giorni_ripetizioni.setVisibility(View.VISIBLE);
@@ -150,7 +168,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             }
         }else{
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
-            RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
+            giorni_ripetizioni = holder.giorni_ripetizioni;
 
             if(repetitions){
                 giorni_ripetizioni.setVisibility(View.VISIBLE);
@@ -295,6 +313,8 @@ db.getBadToCar();
             db.getSensoriOpzione();
             }
         });
+
+
     }
 
     @Override
@@ -304,3 +324,4 @@ db.getBadToCar();
 
 
     }
+

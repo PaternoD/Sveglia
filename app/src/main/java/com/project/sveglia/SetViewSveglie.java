@@ -1,11 +1,7 @@
 package com.project.sveglia;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.RelativeLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -116,7 +112,7 @@ public class SetViewSveglie {
 
 
             DataModelView view = new DataModelView(id, getFormattedTimeFromMillis(time), name,repetitions_day_array, on_off, ritarda,id_suoneria,
-                    pos_suoneria,travel_to,from,to,mezzo);
+                    pos_suoneria,travel_to,from,to,mezzo,Long.parseLong(time));
 
             data.add(view);
 

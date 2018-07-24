@@ -5,8 +5,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageButton;
 
-import org.joda.time.chrono.AssembledChronology;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 

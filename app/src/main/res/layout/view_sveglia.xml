@@ -58,6 +58,7 @@
                 android:layout_below="@+id/time_sveglia"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="18dp"
+                android:maxLength="18"
                 android:text="nome_sveglia"
                 android:textColor="@color/DefaultColorText" />
 
