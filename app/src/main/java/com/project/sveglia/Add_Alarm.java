@@ -108,7 +108,6 @@ public class Add_Alarm extends Activity {
 
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
-        final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
 
         // ImageButton
         ImageButton infoImageButton = (ImageButton)findViewById(R.id.info_image_button_ID);
@@ -150,19 +149,12 @@ public class Add_Alarm extends Activity {
 
         // Attivo o disattivo visualizzazione Detail_Transit_Card in base a variabile modify_alarm --
         if(modify_alarm_with_transit){
-            detail_transit_Layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-            line_transit.getLayoutParams().height = 1;
+            detail_transit_Layout.setVisibility(View.VISIBLE);
         }else{
-            detail_transit_Layout.getLayoutParams().height = 0;
-            line_transit.getLayoutParams().height = 0;
+            detail_transit_Layout.setVisibility(View.GONE);
         }
 
-        // Recupero Musica di default per l'allarme ----------------
-
         if(modify_alarm){
-            // Se modifico l'allarme gia esistente recupero musica dal database
-            //alarm_music_name = getMusicNameFromDatabase(modify_alarm_id);
-            //alarm_music_ID = getMusicIDFromDatabase(modify_alarm_id);
 //SETTO TIME VIEW
             alarm_time=Long.parseLong(db.getAllTimeView().get(modify_alarm_position));
             String time_day=getDayTimeFromMillis(alarm_time);
@@ -206,11 +198,14 @@ public class Add_Alarm extends Activity {
             if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"0")){
                 travel_to_attivo=false;
                 travel_to_switch.setChecked(travel_to_attivo);
+                System.out.println("travel To Database: " + travel_to_attivo);
 
             }
             if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"1")){
+                isTravelTo = true;
                 disable_repetition_days=true;
                 travel_to_attivo=true;
+                System.out.println("travel To Database: " + travel_to_attivo);
                 travel_to_switch.setChecked(travel_to_attivo);
                 start_address_detail=db.getAllFrom().get(modify_alarm_position);
                 end_address_detail=db.getAllTo().get(modify_alarm_position);
@@ -232,14 +227,11 @@ public class Add_Alarm extends Activity {
                     Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
                 }
-                detail_origin_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
-                detail_destination_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                detail_origin_textView.setTextColor(getResources().getColor(R.color.DefaultColorText));
+                detail_destination_textView.setTextColor(getResources().getColor(R.color.DefaultColorText));
                 enableDetailTransitLayuot();
 
             }
-
-
-
 
 
         }else{
@@ -320,10 +312,8 @@ public class Add_Alarm extends Activity {
                     if (travel_to_switch.isChecked()) {
                         isTravelTo=false;
                         travel_to_switch.setChecked(false);
-                        detail_transit_Layout.getLayoutParams().height = 0;
-                        line_transit.getLayoutParams().height = 0;
+                        detail_transit_Layout.setVisibility(View.GONE);
                         detail_transit_Layout.requestLayout();
-                        line_transit.requestLayout();
                         disable_modify_time = false;
                         disable_repetition_days = false;
                         repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
@@ -500,7 +490,6 @@ public class Add_Alarm extends Activity {
                 ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_location_image);
                 ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_dot_image);
 
-
                 // Setto i parametri -----------------------------------
                 String google_maps_time = getFormattedTimeFromMillis(google_maps_time_in_millis);
                 time.setText(google_maps_time);
@@ -516,8 +505,8 @@ public class Add_Alarm extends Activity {
                 detail_origin_textView.setText(start_address_detail);
                 detail_destination_textView.setText(end_address_detail);
 
-                detail_origin_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
-                detail_destination_textView.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                detail_origin_textView.setTextColor(getResources().getColor(R.color.DefaultColorText));
+                detail_destination_textView.setTextColor(getResources().getColor(R.color.DefaultColorText));
 
                 disable_modify_time = true;
                 disable_repetition_days = true;
@@ -527,7 +516,7 @@ public class Add_Alarm extends Activity {
                 String day_time = getDayTimeFromMillis(google_maps_time_in_millis);
                 day_info.setText(day_time);
 
-                repetition_Text.setTextColor(getResources().getColor(R.color.my_DarkerGrey));
+                repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
 
                 if(traffic_model.equals("DRIVING")){
                     Bitmap detail_driving_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_car_24);
@@ -540,7 +529,7 @@ public class Add_Alarm extends Activity {
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
                 }
 
-
+                db.getAllTravelTO().set(modify_alarm_position, "1");
                 enableDetailTransitLayuot();
 
             }
@@ -746,16 +735,12 @@ public class Add_Alarm extends Activity {
      */
     private void enableDetailTransitLayuot(){
 
-        // Repero riferimenti layout --------------------------
+        // Recupero riferimenti layout --------------------------
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
-        final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
 
-
-        detail_transit_Layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-        line_transit.getLayoutParams().height = 1;
+        detail_transit_Layout.setVisibility(View.VISIBLE);
         detail_transit_Layout.requestLayout();
-        line_transit.requestLayout();
     }
 
     /**
@@ -763,15 +748,12 @@ public class Add_Alarm extends Activity {
      */
     private void disableDetailTransitLayuot(){
 
-        // Repero riferimenti layout --------------------------
+        // Recupero riferimenti layout --------------------------
         // Relative Layout
         final RelativeLayout detail_transit_Layout = (RelativeLayout)findViewById(R.id.relLay_detail_transit_ID);
-        final RelativeLayout line_transit = (RelativeLayout)findViewById(R.id.line);
 
-        detail_transit_Layout.getLayoutParams().height = 0;
-        line_transit.getLayoutParams().height = 0;
+        detail_transit_Layout.setVisibility(View.GONE);
         detail_transit_Layout.requestLayout();
-        line_transit.requestLayout();
 
     }
 

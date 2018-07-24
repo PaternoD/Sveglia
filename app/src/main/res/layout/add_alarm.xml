@@ -98,18 +98,6 @@
 
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/fira_sans_light"
-                android:text="Parametri"
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/DefaultLightTextColor"
-                android:textSize="30sp"
-                android:visibility="gone" />
-
             <android.support.v7.widget.CardView
                 android:id="@+id/Card_etichetta_ID"
                 android:layout_width="match_parent"
@@ -183,12 +171,12 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/Travel_to_card_ID"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="4dp"
-                app:cardBackgroundColor="@color/CardDefaultColor"
+                app:cardBackgroundColor="@color/CardDefaultColorWithOpacity"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
@@ -197,60 +185,57 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="50dp">
+                        android:layout_height="match_parent"
+                        app:cardBackgroundColor="@color/CardDefaultColor"
+                        app:cardCornerRadius="18dp"
+                        app:cardElevation="0dp">
 
-                        <TextView
-                            android:id="@+id/text_travel_to_ID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="16dp"
-                            android:fontFamily="@font/fira_sans_light"
-                            android:singleLine="true"
-                            android:text="Travel to"
-                            android:textColor="@color/DefaultColorText"
-                            android:textSize="18sp" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
 
-                        <Switch
-                            android:id="@+id/Travel_to_Switch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/btn_travel_svitch"
-                            android:layout_alignBottom="@+id/btn_travel_svitch"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="8dp"
-                            android:checked="false"
-                            android:theme="@style/SCBSwitch" />
+                            <TextView
+                                android:id="@+id/text_travel_to_ID"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="16dp"
+                                android:fontFamily="@font/fira_sans_light"
+                                android:singleLine="true"
+                                android:text="Travel to"
+                                android:textColor="@color/DefaultColorText"
+                                android:textSize="18sp" />
 
-                        <Button
-                            android:id="@+id/btn_travel_svitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentTop="true"
-                            android:background="@android:color/transparent" />
+                            <Switch
+                                android:id="@+id/Travel_to_Switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/btn_travel_svitch"
+                                android:layout_alignBottom="@+id/btn_travel_svitch"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginRight="8dp"
+                                android:checked="false"
+                                android:theme="@style/SCBSwitch" />
 
-                    </RelativeLayout>
+                            <Button
+                                android:id="@+id/btn_travel_svitch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                android:background="@android:color/transparent" />
 
-                    <RelativeLayout
-                        android:id="@+id/line"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:background="@android:color/darker_gray">
-
-                    </RelativeLayout>
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
 
                     <RelativeLayout
                         android:id="@+id/relLay_detail_transit_ID"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="4dp">
+                        android:layout_height="match_parent">
 
                         <RelativeLayout
                             android:id="@+id/relLay_transit_info"
@@ -307,6 +292,7 @@
                             android:fontFamily="@font/fira_sans_light"
                             android:singleLine="false"
                             android:text="Detail transit"
+                            android:textColor="@color/DefaultColorText"
                             android:textSize="16sp" />
 
                         <TextView
@@ -319,6 +305,7 @@
                             android:layout_marginEnd="16dp"
                             android:fontFamily="@font/fira_sans_light"
                             android:text=">"
+                            android:textColor="@color/DefaultColorText"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -335,6 +322,7 @@
                             android:layout_toStartOf="@+id/arrowChangeInfo"
                             android:fontFamily="@font/fira_sans_light"
                             android:text="Detail transit destination"
+                            android:textColor="@color/DefaultColorText"
                             android:textSize="16sp" />
 
                     </RelativeLayout>
@@ -407,7 +395,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/Ripetizione_Card_ID"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
