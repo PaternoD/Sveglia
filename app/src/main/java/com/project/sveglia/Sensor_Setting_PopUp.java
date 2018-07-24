@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -16,7 +18,7 @@ import android.widget.RadioGroup;
 
 public class Sensor_Setting_PopUp extends Activity {
 
-
+    long animationTime = 400;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +29,9 @@ public class Sensor_Setting_PopUp extends Activity {
         db_manager.open();
 
         // recupero riferimenti layout ---------------
+        //CardView
+        CardView cardView_sensor = (CardView)findViewById(R.id.cardView_sensor_setting);
+
         // RadioGroup
         RadioGroup radioGroup = (RadioGroup)findViewById(R.id.RadioGroup_sensor_setting);
 
@@ -37,6 +42,8 @@ public class Sensor_Setting_PopUp extends Activity {
         // Button
         Button btn_save = (Button)findViewById(R.id.btn_save_sensor_setting);
         Button btn_cancel = (Button)findViewById(R.id.btn_cancel_sensor_setting);
+
+        cardView_Animation(cardView_sensor);
 
         // Setto radioButton di default con informazioni del database --
         String radioButton_default_value = db_manager.getSensoriOpzione();
@@ -105,8 +112,14 @@ public class Sensor_Setting_PopUp extends Activity {
             }
         });
 
+    }
 
+    private void cardView_Animation(CardView cardView){
 
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 1000, 0);
+        translateAnimation.setDuration(animationTime);
+        translateAnimation.setFillAfter(true);
+        cardView.startAnimation(translateAnimation);
 
     }
 }

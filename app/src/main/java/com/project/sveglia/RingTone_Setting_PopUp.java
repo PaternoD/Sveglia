@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 /**
@@ -16,6 +17,7 @@ import android.widget.Button;
 public class RingTone_Setting_PopUp extends Activity {
 
     int duration = 60000;
+    long animationTime = 400;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class RingTone_Setting_PopUp extends Activity {
 
         // recupero riferimenti layout ------------------------
         // CardView
+        CardView cardView_suoneria = (CardView)findViewById(R.id.cardView_suoneria_setting);
         CardView card_1 = (CardView)findViewById(R.id.Card_1_Ringtone_ID);
         CardView card_2 = (CardView)findViewById(R.id.Card_2_Ringtone_ID);
         CardView card_3 = (CardView)findViewById(R.id.Card_3_Ringtone_ID);
@@ -34,6 +37,8 @@ public class RingTone_Setting_PopUp extends Activity {
         // Button
         Button btn_save = (Button)findViewById(R.id.btn_salva_ringTone_setting_ID);
         Button btn_cancel = (Button)findViewById(R.id.btn_cancel_ringTone_setting_ID);
+
+        cardView_Animation(cardView_suoneria);
 
         // Recupero informazioni da Intent chiamante -----------
         long ringTone_Duration = getIntent().getExtras().getLong("ringTone_Duration");
@@ -214,6 +219,15 @@ public class RingTone_Setting_PopUp extends Activity {
             }
         });
 
+
+    }
+
+    private void cardView_Animation(CardView cardView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 1000, 0);
+        translateAnimation.setDuration(animationTime);
+        translateAnimation.setFillAfter(true);
+        cardView.startAnimation(translateAnimation);
 
     }
 

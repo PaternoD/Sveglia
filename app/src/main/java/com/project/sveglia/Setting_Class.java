@@ -1,11 +1,21 @@
 package com.project.sveglia;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -53,6 +63,10 @@ public class Setting_Class extends Activity {
         // RelativeLayout
         RelativeLayout relativeLayout_sensor_active = (RelativeLayout) findViewById(R.id.relativeLayout_sensor_active);
 
+        // ImageButton
+        ImageButton imageButton_arrow_back = (ImageButton)findViewById(R.id.arrow_image_button_setting);
+        ImageButton imageButton_info = (ImageButton)findViewById(R.id.info_image_button_setting);
+
         // Setto i parametri di default presi da database --------
         int fromBedToCardDefaultValue = convertLongToInteger(db_manager.getBadToCar());
         int ringToneDurationDefaultValue = convertLongToInteger(db_manager.getDurataSuoneria());
@@ -77,7 +91,12 @@ public class Setting_Class extends Activity {
             relativeLayout_sensor_active.setVisibility(View.GONE);
         }
 
-
+        Bitmap arrow_image = BitmapFactory.decodeResource(Setting_Class.this.getResources(), R.drawable.icons8_left_48);
+        Bitmap info_image = BitmapFactory.decodeResource(Setting_Class.this.getResources(), R.drawable.information_outline_24);
+        imageButton_arrow_back.setImageBitmap(arrow_image);
+        imageButton_arrow_back.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+        imageButton_info.setImageBitmap(info_image);
+        imageButton_info.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
 
 
@@ -92,6 +111,7 @@ public class Setting_Class extends Activity {
                 Intent fromBedToCarIntent = new Intent(Setting_Class.this, From_Bed_To_Car_PopUp.class);
                 fromBedToCarIntent.putExtra("fromBedToCarValue", fromBedToCar);
                 startActivityForResult(fromBedToCarIntent, fromBedToCarID);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -106,6 +126,7 @@ public class Setting_Class extends Activity {
                 Intent ringToneIntent = new Intent(Setting_Class.this, RingTone_Setting_PopUp.class);
                 ringToneIntent.putExtra("ringTone_Duration", ringTone_Duration);
                 startActivityForResult(ringToneIntent, ringToneID);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -123,6 +144,7 @@ public class Setting_Class extends Activity {
                 sleepDurationIntent.putExtra("interval_duration", interval_duration);
                 sleepDurationIntent.putExtra("repetition_time", repetition_time);
                 startActivityForResult(sleepDurationIntent, sleepDurationID);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -137,6 +159,7 @@ public class Setting_Class extends Activity {
 
                     Intent sensorIntent = new Intent(Setting_Class.this, Sensor_Setting_PopUp.class);
                     startActivityForResult(sensorIntent, sensorSwitch_ID);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 }else{
                     db_manager.setSensori_on(false);
@@ -155,6 +178,15 @@ public class Setting_Class extends Activity {
 
                 Intent sensorIntent = new Intent(Setting_Class.this, Sensor_Setting_PopUp.class);
                 startActivityForResult(sensorIntent, sensorSwitch_ID);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+        // Aggiungo azione alla freccia in alto per tornare alla lista sveglie --
+        imageButton_arrow_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Setting_Class.this.finish();
             }
         });
 

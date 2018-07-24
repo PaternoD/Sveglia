@@ -24,7 +24,13 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <!-- Add_Alarm Style -->
+    <style name="Setting_Style">
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Add_Alarm Name Style -->
     <style name="Add_Alarm_Name" >
         <!-- Item da aggiungere per cambiare il colore della status bar -->
         <item name="android:statusBarColor">@color/statusBarColor</item>
@@ -84,8 +90,15 @@
 
     </style>
 
-    <!-- Add_Repetitions Style -->
+    <!-- Add Repetition Style -->
     <style name="Add_Repetitions">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- Pop_Up_setting Style -->
+    <style name="PopUp_Setting_Style">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

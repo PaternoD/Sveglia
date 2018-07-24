@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 /**
@@ -17,6 +18,7 @@ public class Sleep_Duration_PopUp extends Activity {
 
     long alarm_interval;
     int alarm_rep_time;
+    long animationTime = 400;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class Sleep_Duration_PopUp extends Activity {
 
         // recupero riferimenti layout ------------------------
         // CardView
+        CardView cardView_sleep_Duration = (CardView)findViewById(R.id.cardView_Sleep_duration);
         CardView card_1_interval = (CardView)findViewById(R.id.Card_1_Intervalli_Sveglia_ID);
         CardView card_5_interval = (CardView)findViewById(R.id.Card_5_Intervalli_Sveglia_ID);
         CardView card_10_interval = (CardView)findViewById(R.id.Card_10_Intervalli_Sveglia_ID);
@@ -37,10 +40,11 @@ public class Sleep_Duration_PopUp extends Activity {
         CardView card_5_ripetizioni = (CardView)findViewById(R.id.Card_5_Ripetizioni_ID);
         CardView card_10_ripetizioni = (CardView)findViewById(R.id.Card_10_Ripetizioni_ID);
 
-
         // Button
         Button btn_save = (Button)findViewById(R.id.btn_salva_sleep_setting_ID);
         Button btn_cancel = (Button)findViewById(R.id.btn_cancel_sleep_setting_ID);
+
+        cardView_Animation(cardView_sleep_Duration);
 
         // Recupero informazioni da Intent chiamante -----------
         long interval_duration = getIntent().getExtras().getLong("interval_duration");
@@ -341,6 +345,15 @@ public class Sleep_Duration_PopUp extends Activity {
                 }, 100);
             }
         });
+
+    }
+
+    private void cardView_Animation(CardView cardView){
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 1000, 0);
+        translateAnimation.setDuration(animationTime);
+        translateAnimation.setFillAfter(true);
+        cardView.startAnimation(translateAnimation);
 
     }
 

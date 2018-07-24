@@ -49,12 +49,18 @@
             android:showOnLockScreen="true"></activity>
         <activity android:name=".NoInternetConnectionActivity"
             android:theme="@style/NoInternetConnection_Style"></activity>
-        <activity android:name=".Setting_Class"></activity>
-        <activity android:name=".From_Bed_To_Car_PopUp"></activity>
-        <activity android:name=".RingTone_Setting_PopUp"></activity>
-        <activity android:name=".Sleep_Duration_PopUp"></activity>
-        <activity android:name=".Sensor_Setting_PopUp"></activity>
-        <activity android:name=".Time_Passed_Pop_Up_Google"></activity>
+        <activity android:name=".Setting_Class"
+            android:theme="@style/Setting_Style"></activity>
+        <activity android:name=".From_Bed_To_Car_PopUp"
+            android:theme="@style/PopUp_Setting_Style"></activity>
+        <activity android:name=".RingTone_Setting_PopUp"
+            android:theme="@style/PopUp_Setting_Style"></activity>
+        <activity android:name=".Sleep_Duration_PopUp"
+            android:theme="@style/PopUp_Setting_Style"></activity>
+        <activity android:name=".Sensor_Setting_PopUp"
+            android:theme="@style/PopUp_Setting_Style"></activity>
+        <activity android:name=".Time_Passed_Pop_Up_Google"
+            android:theme="@style/PopUp_Setting_Style"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 
