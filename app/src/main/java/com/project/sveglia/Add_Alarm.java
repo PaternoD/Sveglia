@@ -199,6 +199,7 @@ public class Add_Alarm extends Activity {
                 travel_to_attivo=false;
                 travel_to_switch.setChecked(travel_to_attivo);
                 System.out.println("travel To Database: " + travel_to_attivo);
+                isTravelTo = false;
 
             }
             if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"1")){
