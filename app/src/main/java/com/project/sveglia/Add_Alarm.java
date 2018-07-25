@@ -691,25 +691,35 @@ public class Add_Alarm extends Activity {
      */
     private String get_repetition_days(boolean[] array){
         String res = "";
-
+        boolean noripetizioni=true;
         for(int i=0; i<7; i++){
             if(array[i] == true){
                 if(i == 0){
                     res += " Lun";
+                    noripetizioni=false;
                 }else if(i == 1){
                     res += " Mar";
+                    noripetizioni=false;
                 }else if(i == 2){
                     res += " Mer";
+                    noripetizioni=false;
                 }else if(i == 3){
                     res += " Gio";
+                    noripetizioni=false;
                 }else if(i == 4){
                     res += " Ven";
+                    noripetizioni=false;
                 }else if(i == 5){
                     res += " Sab";
+                    noripetizioni=false;
                 }else if(i == 6){
                     res += " Dom";
+                    noripetizioni=false;
                 }
             }
+        }
+        if (noripetizioni){
+            res="Mai";
         }
 
         return res;
