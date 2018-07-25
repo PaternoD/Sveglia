@@ -104,7 +104,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center_vertical|center_horizontal|center"
                             android:fontFamily="@font/fira_sans_light"
-                            android:text="TextView" />
+                            android:text="TextView"
+                            android:textColor="@color/DefaultColorText" />
                     </android.support.v7.widget.CardView>
                 </RelativeLayout>
 
@@ -139,7 +140,7 @@
                         android:singleLine="true"
                         android:text="Sveglia"
                         android:textAlignment="textEnd"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/SecondaryColorText"
                         android:textSize="18sp" />
 
                     <TextView
@@ -304,7 +305,7 @@
                             android:fontFamily="@font/fira_sans_light"
                             android:singleLine="false"
                             android:text="Detail transit"
-                            android:textColor="@color/DefaultColorText"
+                            android:textColor="@color/SecondaryColorText"
                             android:textSize="16sp" />
 
                         <TextView
@@ -334,7 +335,7 @@
                             android:layout_toStartOf="@+id/arrowChangeInfo"
                             android:fontFamily="@font/fira_sans_light"
                             android:text="Detail transit destination"
-                            android:textColor="@color/DefaultColorText"
+                            android:textColor="@color/SecondaryColorText"
                             android:textSize="16sp" />
 
                     </RelativeLayout>
@@ -386,7 +387,7 @@
                         android:singleLine="true"
                         android:text="Music Name"
                         android:textAlignment="textEnd"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/SecondaryColorText"
                         android:textSize="18sp" />
 
                     <TextView
@@ -449,7 +450,7 @@
                         android:fontFamily="@font/fira_sans_light"
                         android:text="Mai"
                         android:textAlignment="textEnd"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/SecondaryColorText"
                         android:textSize="18sp" />
 
                     <TextView

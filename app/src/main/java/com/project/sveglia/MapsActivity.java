@@ -47,9 +47,9 @@ public class MapsActivity extends FragmentActivity {
     private DateTime arrival_DateTime = null;
     private TravelMode travel_Mode = TravelMode.DRIVING;
     private boolean modify_intent = false;
-    private boolean arrivalTimeClick = false;
     RecyclerView recyclerView_Data;
     RelativeLayout relativeLayout_ProgressBar;
+    private boolean isNullTime = true;
 
 
     @Override
@@ -71,6 +71,7 @@ public class MapsActivity extends FragmentActivity {
         final ImageButton car_imageButton = (ImageButton)findViewById(R.id.imageButton_car_ID);
         final ImageButton train_imageButton = (ImageButton)findViewById(R.id.imageButton_transit_ID);
         final ImageButton walking_imageButton = (ImageButton)findViewById(R.id.imageButton_walking_ID);
+        ImageButton info_Maps = (ImageButton)findViewById(R.id.info_maps_id);
 
         // ImageView
         ImageView time_imageView = (ImageView)findViewById(R.id.time_clock_Image_ID);
@@ -114,6 +115,7 @@ public class MapsActivity extends FragmentActivity {
         Bitmap location_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_marker_48);
         Bitmap arrow_switch_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_up_down_arrow_48);
         Bitmap arrow_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_left_48);
+        Bitmap info_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.information_outline_24);
 
         // Setto immagini al layout -------------------------------------------
         car_imageButton.setImageBitmap(car_image);
@@ -125,6 +127,7 @@ public class MapsActivity extends FragmentActivity {
         menu_Icon_ImageView.setImageBitmap(dot_menu_image);
         location_ImageView.setImageBitmap(location_image);
         arrow_switch_ImageView.setImageBitmap(arrow_switch_image);
+        info_Maps.setImageBitmap(info_image);
 
         arrow_ImageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
@@ -195,8 +198,6 @@ public class MapsActivity extends FragmentActivity {
             public void onClick(View v) {
                 int GOOGLE_TIME_DATE_ID = 3;
 
-                arrivalTimeClick = true;
-
                 setNormalTextColor(departure_textView, null);
 
                 Intent arrival_time_intent = new Intent(MapsActivity.this, TimePicker_Google.class);
@@ -249,7 +250,8 @@ public class MapsActivity extends FragmentActivity {
         btn_search_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(originString == null || destinationSring == null || arrival_DateTime == null){
+                System.out.println("IsNullTime: " + isNullTime);
+                if(originString == null || destinationSring == null || isNullTime == true){
                     Toast.makeText(MapsActivity.this, "Completa tutti i campi", Toast.LENGTH_LONG).show();
                     // Vedere se si riesce a colorare i campi da completare !!!!
                     if(originString == null){
@@ -258,7 +260,7 @@ public class MapsActivity extends FragmentActivity {
                     if(destinationSring == null){
                         setErrorTextColor(destination_TextView, null);
                     }
-                    if(!arrivalTimeClick){
+                    if(isNullTime){
                         setErrorTextColor(departure_textView, null);
                     }
                 }else {
@@ -338,6 +340,7 @@ public class MapsActivity extends FragmentActivity {
         }
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
+                isNullTime = false;
                 // Recupero dati dall'activity chiamata
                 long arrival_time = data.getExtras().getLong("arrival_time");
                 String res_date = getDateFormattedFromMillis(arrival_time);
@@ -348,6 +351,7 @@ public class MapsActivity extends FragmentActivity {
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
+                isNullTime = true;
                 // Azioni nel caso l'intent non restituisca nulla
             }
         }

@@ -305,7 +305,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         dom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-db.getBadToCar();
+            db.getBadToCar();
             db.getDurataSuoneria();
             db.getRitardaMinuti();
             db.getRitardaVolte();

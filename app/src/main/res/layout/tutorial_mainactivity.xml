@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_default">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ViewFlipper
             android:id="@+id/view_tutorial"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:visibility="visible">
 
             <ImageView
@@ -49,6 +49,6 @@
 
 
         </ViewFlipper>
-    </LinearLayout>
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

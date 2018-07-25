@@ -3,17 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="layoutTransit">#0047a4</color>
-    <color name="searchPositionMaps">#689df6</color>
-    <color name="buttonTransitButton_1">#3371d6</color>
-    <color name="buttonTransitButton_2">#ffffff</color>
     <color name="my_DarkerGrey">#9e9e9e</color>
     <color name="ErrorText">#dd2c00</color>
-    <color name="AutocompleteCardGoogle">#719fff</color>
     <color name="Notification_Action">#eeeeee</color>
     <color name="Notification_Background_Button">#66ffffff</color>
     <color name="DefaultColorText">#424242</color>
     <color name="White">#ffffff</color>
+    <color name="SecondaryColorText">#848484</color>
 
     <color name="CircleRepetitionAlarm">#eeb614</color>
     <color name="CardDefaultColor">#eeeef6</color>

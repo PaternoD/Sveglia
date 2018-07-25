@@ -300,7 +300,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/relativeLayout10"
                 android:layout_marginBottom="12dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                 app:cardCornerRadius="18dp"
@@ -308,7 +308,7 @@
 
                 <Button
                     android:id="@+id/btn_salva_sleep_setting_ID"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/relativeLayout10"
@@ -324,7 +324,7 @@
                 android:layout_alignStart="@+id/relativeLayout10"
                 android:layout_below="@+id/relativeLayout10"
                 android:layout_marginBottom="12dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                 app:cardCornerRadius="18dp"
@@ -332,7 +332,7 @@
 
                 <Button
                     android:id="@+id/btn_cancel_sleep_setting_ID"
-                    android:layout_width="120dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:elevation="0dp"

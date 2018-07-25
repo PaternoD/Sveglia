@@ -53,6 +53,7 @@ public class Add_Alarm extends Activity {
 
     // CardView
     CardView Card_Day_Info;
+    CardView ripetizione_Card;
 
     // TextView
     TextView repetition_Text;
@@ -85,8 +86,7 @@ public class Add_Alarm extends Activity {
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
         CardView timePicker_Card = (CardView)findViewById(R.id.Show_time_Card_ID);
-        CardView ripetizione_Card = (CardView)findViewById(R.id.Ripetizione_Card_ID);
-        CardView travel_To_Card = (CardView)findViewById(R.id.Travel_to_card_ID);
+        ripetizione_Card = (CardView)findViewById(R.id.Ripetizione_Card_ID);
         CardView add_music_card = (CardView)findViewById(R.id.Suono_Card_ID);
         Card_Day_Info = (CardView)findViewById(R.id.Card_day_info_ID);
 
@@ -123,6 +123,7 @@ public class Add_Alarm extends Activity {
         arrowTextSuono.setTextColor(getResources().getColor(R.color.DefaultColorText));
         arrowTextRipetizione.setTextColor(getResources().getColor(R.color.DefaultColorText));
         arrowTextTravel.setTextColor(getResources().getColor(R.color.DefaultColorText));
+        ripetizione_Card.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 
         Card_Day_Info.setVisibility(View.INVISIBLE);
 
@@ -138,7 +139,7 @@ public class Add_Alarm extends Activity {
         // Setto testo bottone salva/modifica allarme --------------
         if(modify_alarm){
             btn_save_alarm.setText("Modifica");
-            btn_cancel_alarm.setText("Cancella");
+            btn_cancel_alarm.setText("Annulla");
         }else{
             btn_save_alarm.setText("Salva");
             btn_cancel_alarm.setText("Annulla");
@@ -195,15 +196,16 @@ public class Add_Alarm extends Activity {
             if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"0")){
                 travel_to_attivo=false;
                 travel_to_switch.setChecked(travel_to_attivo);
-                System.out.println("travel To Database: " + travel_to_attivo);
                 isTravelTo = false;
+                ripetizione_Card.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 
             }
             if (db.getAllTravelTO().get(modify_alarm_position).equals((String)"1")){
+                ripetizione_Card.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
                 isTravelTo = true;
+                disable_modify_time = true;
                 disable_repetition_days=true;
                 travel_to_attivo=true;
-                System.out.println("travel To Database: " + travel_to_attivo);
                 travel_to_switch.setChecked(travel_to_attivo);
                 start_address_detail=db.getAllFrom().get(modify_alarm_position);
                 end_address_detail=db.getAllTo().get(modify_alarm_position);
@@ -317,14 +319,13 @@ public class Add_Alarm extends Activity {
                         repetition_Text.setTextColor(getResources().getColor(R.color.DefaultColorText));
                         Card_Day_Info.setVisibility(View.INVISIBLE);
                         text_ripetition.setText("Mai");
+                        ripetizione_Card.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
                     } else {
                         int GOOGLE_MAPS_ID = 4;
 
                         Intent googleMapsIntent = new Intent(Add_Alarm.this, MapsActivity.class);
                         googleMapsIntent.putExtra("modify_intent", false);
                         startActivityForResult(googleMapsIntent, GOOGLE_MAPS_ID);
-
-                        // modifico layout inserendo i dettagli di travel_to
                         travel_to_switch.setChecked(true);
                     }
                 }else{
@@ -478,8 +479,6 @@ public class Add_Alarm extends Activity {
 
         // Ottengo risposta da MapsActivity -----------
         if (requestCode == 4) {
-
-
             if (resultCode == Activity.RESULT_OK) {
                 //setto a 0 il vettore di booleani
                 repetitionsArray = fill_Ripetition_Array(modify_alarm);
@@ -546,6 +545,7 @@ public class Add_Alarm extends Activity {
                     Bitmap detail_walking_image = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_walking_24);
                     detail_transit_imageView.setImageBitmap(detail_walking_image);
                 }
+                ripetizione_Card.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
                 enableDetailTransitLayuot();
 
             }
@@ -734,7 +734,7 @@ public class Add_Alarm extends Activity {
             }
         }
         if (noripetizioni){
-            res="Mai";
+            res="Non Disponibile";
         }
 
         return res;
