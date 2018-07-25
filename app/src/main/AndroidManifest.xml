@@ -20,9 +20,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity android:name=".MainActivity"
-            android:theme="@style/Main_Activity_Theme">
+            android:theme="@style/Main_Activity_Theme" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,35 +32,49 @@
         </activity>
         <activity
             android:name=".Add_Alarm"
+            android:screenOrientation="portrait"
             android:theme="@style/Add_Alarm"></activity>
         <activity android:name=".Add_Alarm_Name"
+            android:screenOrientation="portrait"
             android:theme="@style/Add_Alarm_Name"></activity>
         <activity
             android:name=".TimePicker_Alarm"
+            android:screenOrientation="portrait"
             android:theme="@style/TimePicker_Alarm"></activity>
         <activity
             android:name=".Add_Repetitions"
+            android:screenOrientation="portrait"
             android:theme="@style/Add_Repetitions"></activity>
         <activity android:name=".TimePicker_Google"
+            android:screenOrientation="portrait"
             android:theme="@style/TimePicker_Google"></activity>
         <activity android:name=".add_alarm_music"
+            android:screenOrientation="portrait"
             android:theme="@style/Add_Alarm_Music"></activity>
         <activity android:name=".FullScreen_Notification"
+            android:screenOrientation="portrait"
             android:theme="@style/FullScreen_Notification"
             android:showOnLockScreen="true"></activity>
         <activity android:name=".NoInternetConnectionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoInternetConnection_Style"></activity>
         <activity android:name=".Setting_Class"
+            android:screenOrientation="portrait"
             android:theme="@style/Setting_Style"></activity>
         <activity android:name=".From_Bed_To_Car_PopUp"
+            android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
         <activity android:name=".RingTone_Setting_PopUp"
+            android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
         <activity android:name=".Sleep_Duration_PopUp"
+            android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
         <activity android:name=".Sensor_Setting_PopUp"
+            android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
         <activity android:name=".Time_Passed_Pop_Up_Google"
+            android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
@@ -95,6 +110,7 @@
 
         <activity
             android:name=".MapsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maps"
             android:theme="@style/Maps_Activity"></activity>
     </application>
