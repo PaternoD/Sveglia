@@ -17,8 +17,8 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="auto"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
+        android:scaleX="1"
+        android:scaleY="1"
         app:backgroundTint="@color/CircleRepetitionAlarm"
         app:elevation="5dp"
         app:srcCompat="@drawable/alarm_plus" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/infoMain_ID"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="12dp"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/settings" />
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
+            android:layout_marginEnd="12dp"
             android:background="@android:color/transparent"
             android:elevation="0dp"
             app:srcCompat="@drawable/information_outline_24" />

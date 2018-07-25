@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#801b1b1b">
@@ -51,21 +52,19 @@
                 android:layout_below="@+id/description"
                 android:layout_marginTop="24dp">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout2"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/Card_1_Ringtone_ID"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="22dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Card_2_Ringtone_ID"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent">
 
                         <TextView
                             android:id="@+id/textView29"
@@ -80,9 +79,11 @@
                         android:id="@+id/Card_2_Ringtone_ID"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="22dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Card_3_Ringtone_ID"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Card_1_Ringtone_ID">
 
                         <TextView
                             android:id="@+id/textView31"
@@ -97,9 +98,11 @@
                         android:id="@+id/Card_3_Ringtone_ID"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="22dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Card_5_Ringtone_ID"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Card_2_Ringtone_ID">
 
                         <TextView
                             android:id="@+id/textView32"
@@ -114,9 +117,11 @@
                         android:id="@+id/Card_5_Ringtone_ID"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="22dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Card_10_Ringtone_ID"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Card_3_Ringtone_ID">
 
                         <TextView
                             android:id="@+id/textView33"
@@ -131,9 +136,11 @@
                         android:id="@+id/Card_10_Ringtone_ID"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="22dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Card_15_Ringtone_ID"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Card_5_Ringtone_ID">
 
                         <TextView
                             android:id="@+id/TexView_34"
@@ -149,7 +156,10 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Card_10_Ringtone_ID">
 
                         <TextView
                             android:id="@+id/textView35"
@@ -159,7 +169,8 @@
                             android:text="15"
                             android:textColor="@color/DefaultColorText" />
                     </android.support.v7.widget.CardView>
-                </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
+
             </RelativeLayout>
 
             <android.support.v7.widget.CardView

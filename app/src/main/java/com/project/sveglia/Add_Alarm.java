@@ -3,8 +3,10 @@ package com.project.sveglia;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -80,7 +82,6 @@ public class Add_Alarm extends Activity {
         TextView detail_origin_textView = (TextView)findViewById(R.id.text_detail_transit_origin);
         TextView detail_destination_textView = (TextView)findViewById(R.id.text_detail_transit_destination);
 
-
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
         CardView timePicker_Card = (CardView)findViewById(R.id.Show_time_Card_ID);
@@ -103,15 +104,19 @@ public class Add_Alarm extends Activity {
 
         // ImageButton
         ImageButton infoImageButton = (ImageButton)findViewById(R.id.info_image_button_ID);
+        ImageButton arrow_back = (ImageButton)findViewById(R.id.arrow_back_add_alarm);
 
         // ImageView
         ImageView detail_transit_imageView = (ImageView)findViewById(R.id.detail_transit_image);
         ImageView place_detail_ImageView = (ImageView)findViewById(R.id.detail_location_image);
         ImageView point_detail_ImageView = (ImageView)findViewById(R.id.detail_dot_image);
 
-        // Recupero Immagine info per infoImageButton --------------
+        // Recupero Immagine info e freccia per infoImageButton e arrow_back --------------
         Bitmap infoImage = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.information_outline_24);
+        Bitmap arrowImageback = BitmapFactory.decodeResource(Add_Alarm.this.getResources(), R.drawable.icons8_left_48);
         infoImageButton.setImageBitmap(infoImage);
+        arrow_back.setImageBitmap(arrowImageback);
+        arrow_back.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
         // Setto visualizzazione layout --------------------
         arrowTextEtichetta.setTextColor(getResources().getColor(R.color.DefaultColorText));
@@ -404,6 +409,14 @@ public class Add_Alarm extends Activity {
         });
 
         btn_cancel_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Alarm.this.finish();
+            }
+        });
+
+        // Aggiungo azione alla freccia per tornare alla lista sveglie --
+        arrow_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Add_Alarm.this.finish();

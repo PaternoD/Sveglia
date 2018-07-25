@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/_idView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -47,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/nome_sveglia"
                     android:layout_below="@+id/nome_sveglia"
+                    android:translationY="0dp"
                     app:srcCompat="@drawable/google_maps" />
             </RelativeLayout>
 
@@ -104,27 +106,21 @@
                 android:translationY="-8dp"
                 android:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignStart="@+id/ce"
-                    android:layout_below="@+id/nome_sveglia"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:textAlignment="center"
-                    android:visibility="visible">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/Lun_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="7dp"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Mar_Circle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:id="@+id/timeView"
@@ -139,11 +135,13 @@
                         android:id="@+id/Mar_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Mer_Circle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Lun_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:id="@+id/textView18"
@@ -159,12 +157,14 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_below="@+id/nome_sveglia"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
                         android:layout_toEndOf="@+id/nome_sveglia"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Gio_Circle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Mar_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -178,11 +178,13 @@
                         android:id="@+id/Gio_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Ven_Circle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Mer_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:id="@+id/textView16"
@@ -197,11 +199,13 @@
                         android:id="@+id/Ven_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Sab_Circle"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Gio_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:id="@+id/textView15"
@@ -216,11 +220,13 @@
                         android:id="@+id/Sab_Circle"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="7dp"
-                        android:layout_marginStart="7dp"
                         app:cardBackgroundColor="@color/CircleRepetitionAlarm"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:layout_constraintEnd_toStartOf="@+id/Dom_Circle_rl"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Ven_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <TextView
                             android:id="@+id/textView14"
@@ -236,8 +242,11 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical|center_horizontal|center"
-                        android:layout_marginStart="7dp"
-                        android:textAlignment="center">
+                        android:textAlignment="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/Sab_Circle"
+                        tools:layout_editor_absoluteY="8dp">
 
                         <android.support.v7.widget.CardView
                             android:id="@+id/Dom_Circle"
@@ -260,8 +269,8 @@
                         </android.support.v7.widget.CardView>
 
                     </RelativeLayout>
+                </android.support.constraint.ConstraintLayout>
 
-                </LinearLayout>
             </RelativeLayout>
 
         </RelativeLayout>
