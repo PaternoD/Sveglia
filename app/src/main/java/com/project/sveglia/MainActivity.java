@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
@@ -52,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent settingIntent = new Intent(MainActivity.this, Setting_Class.class);
                 startActivity(settingIntent);
+            }
+        });
+
+        //bottone info
+        ImageButton infoButton = findViewById(R.id.infoMain_ID);
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,Tutorial_MainActivity.class);
+                startActivity(intent);
             }
         });
 

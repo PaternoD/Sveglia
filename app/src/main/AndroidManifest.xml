@@ -76,6 +76,9 @@
         <activity android:name=".Time_Passed_Pop_Up_Google"
             android:screenOrientation="portrait"
             android:theme="@style/PopUp_Setting_Style"></activity>
+        <activity android:name=".Tutorial_MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 

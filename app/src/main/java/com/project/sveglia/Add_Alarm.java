@@ -379,6 +379,8 @@ public class Add_Alarm extends Activity {
             }
         });
 
+
+
         // Bottone per salvare la sveglia ---------------------------------
         btn_save_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
