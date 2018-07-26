@@ -426,6 +426,15 @@ public class Add_Alarm extends Activity {
             }
         });
 
+        //bottone tutorial
+        infoImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Add_Alarm.this,Tutorial_AddSveglia.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     /**

@@ -79,6 +79,15 @@
         <activity android:name=".Tutorial_MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Tutorial"></activity>
+        <activity android:name=".Tutorial_Setting"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial"></activity>
+        <activity android:name=".Tutorial_AddSveglia"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial"></activity>
+        <activity android:name=".Tutorial_TravelTo"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial"></activity>
 
         <service android:name=".Notification_Sound_Service"></service>
 

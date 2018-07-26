@@ -227,6 +227,15 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
+        //bottone tutorial
+        info_Maps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapsActivity.this,Tutorial_TravelTo.class);
+                startActivity(intent);
+            }
+        });
+
         destination_Card_autocomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
