@@ -102,8 +102,10 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         final CardView sveglia = holder.sveglia;
         ImageView img_destinazione = holder.img_destinazione;
 
-        if(position==dataSet.size()-1){
+        if(dataSet.get(position).getId()==999999999){
             sveglia.setVisibility(View.INVISIBLE);
+        }else{
+            sveglia.setVisibility(View.VISIBLE);
         }
 
         final int id = dataSet.get(position).getId();
@@ -127,8 +129,6 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             img_destinazione.setVisibility(View.GONE);
 
         }
-
-        Log.i("****ON-OFF****", "valore: " + dataSet.get(position).isOn_off());
 
 
         repetitions_day = dataSet.get(position).getRepetitions_day();
@@ -281,8 +281,6 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         sveglia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("-----------------CLICK -------- modifica SVEGLIA-----------");
-
                 Intent intent = new Intent(context,Add_Alarm.class);
                 intent.putExtra("isModifyAlarm",true);
                 intent.putExtra("position",position);
