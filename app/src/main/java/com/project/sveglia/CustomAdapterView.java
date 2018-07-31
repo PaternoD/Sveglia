@@ -1,6 +1,7 @@
 package com.project.sveglia;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -140,10 +141,9 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             }
         }
 
-        if(on_off.isChecked()) {
+        if(dataSet.get(position).isOn_off()) {
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
             giorni_ripetizioni = holder.giorni_ripetizioni;
-
             if(repetitions){
                 giorni_ripetizioni.setVisibility(View.VISIBLE);
 
@@ -166,7 +166,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                 giorni_ripetizioni.setVisibility(View.GONE);
 
             }
-        }else{
+        }
+        if (!dataSet.get(position).isOn_off()){
             sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_non_attiva);
             giorni_ripetizioni = holder.giorni_ripetizioni;
 
@@ -207,6 +208,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
                 if (on_off.isChecked()){
                     db.SetOn_Off(id,true);
+                    dataSet.get(position).on_off=true;
 
                     ArrayList<String>time_str=db.getAllTimeView();
                     Long time_long = Long.parseLong(time_str.get(position));
@@ -245,6 +247,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                 }
                 if (!on_off.isChecked()){
                     db.SetOn_Off(id,false);
+                    dataSet.get(position).on_off=false;
 
                     Cancel_Alarm_Class.cancel_Alarm(id,context,db,false);
 
@@ -299,18 +302,6 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                     SetViewSveglie.aggiornaAdapter(position);
                 }
                 return false;
-            }
-        });
-
-        dom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            db.getBadToCar();
-            db.getDurataSuoneria();
-            db.getRitardaMinuti();
-            db.getRitardaVolte();
-            db.getSensoriOn();
-            db.getSensoriOpzione();
             }
         });
 
