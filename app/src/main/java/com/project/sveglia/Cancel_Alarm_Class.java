@@ -36,7 +36,7 @@ public class Cancel_Alarm_Class extends Activity {
 
             int id_Alarm = vector.elementAt(i);
             //cancellazione alarm manager
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent);
 
             Log.i("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");

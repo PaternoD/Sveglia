@@ -24,7 +24,7 @@ public class AutomaticCancelNotification extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    public static void startCountDownTimer(int delayTime,
+    public static void startCountDownTimer(long delayTime,
                                            final int notification_ID,
                                            Activity activity,
                                            int alarm_Music_ID,

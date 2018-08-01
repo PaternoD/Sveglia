@@ -15,13 +15,12 @@ import java.util.Calendar;
 public class SetViewSveglie {
 
 
-    DB_Manager db;
+    static DB_Manager db;
 
     private static ArrayList<DataModelView> data;
     private static RecyclerView.Adapter adapter;
 
     public void setViewSveglie(RecyclerView recyclerView, Context c){
-
 
         db = new DB_Manager(c);
         db.open();
@@ -127,6 +126,11 @@ public class SetViewSveglie {
 
     public static void aggiornaAdapter(int pos){
         data.remove(pos);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static void aggiornaAdapter_2(){
+        data.clear();
         adapter.notifyDataSetChanged();
     }
 

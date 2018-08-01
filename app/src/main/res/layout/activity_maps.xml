@@ -50,7 +50,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/MyActionBar"
-        android:layout_margin="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
         app:cardBackgroundColor="@color/CardDefaultColor"
         app:cardCornerRadius="18dp"
         app:cardElevation="0dp">
@@ -58,15 +61,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="4dp">
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
@@ -127,7 +127,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="0dp"
                     android:layout_toEndOf="@+id/relativeLayout"
                     android:layout_toStartOf="@+id/relativeLayout3">
 
@@ -239,7 +238,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="4dp"
                 android:visibility="visible">
 
                 <ImageButton
@@ -277,8 +275,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="18dp"
-                android:layout_marginTop="12dp">
+                android:layout_marginBottom="12dp">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="200dp"

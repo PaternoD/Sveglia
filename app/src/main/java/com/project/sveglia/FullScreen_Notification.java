@@ -43,7 +43,7 @@ public class FullScreen_Notification extends Activity {
     boolean is_Delay_Alarm;
     String alarm_Name;
     String notification_Channel;
-    int DelayTimeForCancel;
+    long DelayTimeForCancel;
     //per sensore di prossimità
     SensorManager mySensorManager;
     Sensor myProximitySensor;
@@ -70,7 +70,7 @@ public class FullScreen_Notification extends Activity {
         is_Delay_Alarm = getIntent().getExtras().getBoolean("isDelayAlarm");
         alarm_Name = getIntent().getExtras().getString("alarm_name");
         notification_Channel = getIntent().getExtras().getString("notification_Channel");
-        DelayTimeForCancel = getIntent().getExtras().getInt("delayTimeForCancelForNotification");
+        DelayTimeForCancel = getIntent().getExtras().getLong("delayTimeForCancelForNotification");
         isRepetitionDayAlarm = getIntent().getExtras().getBoolean("isRepetitionDayAlarm");
         repeatAlarmNumberTimes = getIntent().getExtras().getInt("repeatAlarmNumberTimes");
 
@@ -271,9 +271,6 @@ public class FullScreen_Notification extends Activity {
                 finishAffinity();
             }
         });
-
-
-
 
 
     }

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.MyViewHolder> {
 
-    ArrayList<DataModelView> dataSet;
+    static ArrayList<DataModelView> dataSet;
     boolean [] repetitions_day;
     DB_Manager db;
     Context context;
@@ -314,6 +314,18 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
     @Override
     public int getItemCount() {
         return dataSet.size();
+    }
+
+    public static int getPosition(int id){
+        int position = 9999;
+
+        for(int i=0; i<dataSet.size(); i++){
+            if(id == dataSet.get(i).getId()) {
+                position = i;
+            }
+        }
+
+        return position;
     }
 
 

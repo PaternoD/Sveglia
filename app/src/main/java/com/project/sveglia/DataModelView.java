@@ -24,6 +24,10 @@ public class DataModelView {
     String mezzo;
     long time_in_millis;
 
+    public DataModelView(int id){
+        this.id = id;
+    }
+
     public DataModelView(int id, String time, String nome_sveglia, boolean [] repetitions_day, boolean on_off, boolean ritarda,
                          int id_suoneria, int posizione_suoneria, boolean travel_to, String from, String to,
                          String mezzo, long time_in_millis) {

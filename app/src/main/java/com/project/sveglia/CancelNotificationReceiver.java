@@ -36,7 +36,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             int countDownAlarmID = intent.getExtras().getInt("alarm_ID");
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             Intent alarmToBeDeleted = new Intent(context, AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, countDownAlarmID, alarmToBeDeleted, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, countDownAlarmID, alarmToBeDeleted, PendingIntent.FLAG_UPDATE_CURRENT);
             // Cancello l'allarme ---
             alarmManager.cancel(pendingIntent);
 
@@ -67,7 +67,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             int ALARM_ID = createID(newAlarmTimeInMillis);
             Intent startRepetitionAlarm = new Intent(context, AlarmReceiver.class);
-            PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
 
             //
