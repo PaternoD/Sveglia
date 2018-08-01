@@ -82,6 +82,7 @@ public class Add_Alarm extends Activity {
         TextView text_ripetition = (TextView)findViewById(R.id.text_giorni_ripetizione_ID);
         TextView detail_origin_textView = (TextView)findViewById(R.id.text_detail_transit_origin);
         TextView detail_destination_textView = (TextView)findViewById(R.id.text_detail_transit_destination);
+        TextView titolo = (TextView)findViewById(R.id.titolo_add_alarm);
 
         // CardView
         CardView etichetta_name_card = (CardView)findViewById(R.id.Card_etichetta_ID);
@@ -136,13 +137,16 @@ public class Add_Alarm extends Activity {
             System.out.println("Alarm_position_modify:" + modify_alarm_position);
         }
 
-        // Setto testo bottone salva/modifica allarme --------------
+        // Setto testo bottone salva/modifica allarme e titolo classe--------------
         if(modify_alarm){
             btn_save_alarm.setText("Modifica");
             btn_cancel_alarm.setText("Annulla");
+            titolo.setText("MODIFICA SVEGLIA");
         }else{
             btn_save_alarm.setText("Salva");
             btn_cancel_alarm.setText("Annulla");
+            titolo.setText("AGGIUNGI SVEGLIA");
+
         }
 
         // Attivo o disattivo visualizzazione Detail_Transit_Card in base a variabile modify_alarm --
@@ -742,8 +746,11 @@ public class Add_Alarm extends Activity {
                 }
             }
         }
-        if (noripetizioni){
+        if (noripetizioni && db.getAllTravelTO().get(modify_alarm_position).equals((String)"1")){
             res="Non Disponibile";
+        }
+        if (noripetizioni && db.getAllTravelTO().get(modify_alarm_position).equals((String)"0")){
+            res="Mai";
         }
 
         return res;
