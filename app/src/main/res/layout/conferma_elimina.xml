@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#801b1b1b">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_conferma_elimina"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:background="@color/CardDefaultColor"
+        app:cardBackgroundColor="@color/CardDefaultColor"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/testo_conferma_elimina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="22sp" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/testo_conferma_elimina"
+                android:layout_below="@+id/testo_conferma_elimina"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/annulla_conferma_elimina"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
+                    android:text="Annulla"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/testo_conferma_elimina"
+                android:layout_below="@+id/testo_conferma_elimina"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/CircleRepetitionAlarm"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp">
+
+                <Button
+                    android:id="@+id/ok_conferma_elimina"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/fira_sans_light"
+                    android:stateListAnimator="@null"
+                    android:text="Elimina"
+                    android:textColor="@color/DefaultColorText"
+                    android:textSize="15sp" />
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

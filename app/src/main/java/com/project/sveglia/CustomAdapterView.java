@@ -296,8 +296,13 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
 
                 if(position!=dataSet.size()-1){
-                    Cancel_Alarm_Class.cancel_Alarm(id,context,db,true);
-                    SetViewSveglie.aggiornaAdapter(position);
+                    Intent intent = new Intent(context,Conferma_elimina.class);
+                    intent.putExtra("time_sveglia", dataSet.get(position).getTime());
+                    intent.putExtra("id",id);
+                    intent.putExtra("position", position);
+                    context.startActivity(intent);
+                    Activity activity = (Activity) context;
+                    activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
                 return false;
             }

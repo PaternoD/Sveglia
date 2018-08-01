@@ -125,6 +125,9 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_maps"
             android:theme="@style/Maps_Activity"></activity>
+        <activity android:name=".Conferma_elimina"
+            android:screenOrientation="portrait"
+            android:theme="@style/Tutorial"></activity>
     </application>
 
 </manifest>
