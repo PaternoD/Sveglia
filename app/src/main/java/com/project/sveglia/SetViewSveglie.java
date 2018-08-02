@@ -124,12 +124,12 @@ public class SetViewSveglie {
 
     }
 
-    public static void aggiornaAdapter(int pos){
+    public static void aggiornaAdapter_rimuovi(int pos){
         data.remove(pos);
         adapter.notifyDataSetChanged();
     }
 
-    public static void aggiornaAdapter_2(int position){
+    public static void aggiornaAdapter_disattiva(int position){
         data.get(position).on_off=false;
         adapter.notifyItemChanged(position);
 

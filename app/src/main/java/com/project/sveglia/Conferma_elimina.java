@@ -1,10 +1,8 @@
 package com.project.sveglia;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,7 +42,7 @@ public class Conferma_elimina extends Activity {
                 db.open();
                 Cancel_Alarm_Class.cancel_Alarm(id,getApplicationContext(),db,true);
                 db.close();
-                SetViewSveglie.aggiornaAdapter(position);
+                SetViewSveglie.aggiornaAdapter_rimuovi(position);
                 finish();
             }
         });
