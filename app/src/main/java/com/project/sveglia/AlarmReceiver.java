@@ -22,6 +22,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 /**
  * Created by simonerigon on 15/03/18.
@@ -74,8 +75,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // setto visualizzazione sveglia a "non attiva" --
         int position = CustomAdapterView.getPosition(alarmID);
         db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
-        SetViewSveglie.aggiornaAdapter_2();
-
+        SetViewSveglie.aggiornaAdapter_2(position);
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
             startRepeatNotification(context, alarmName, alarm_music_ID, enableVibrate, isDelayAlarm);
