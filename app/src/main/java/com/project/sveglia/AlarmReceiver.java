@@ -75,8 +75,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // setto visualizzazione sveglia a "non attiva" --
         int position = CustomAdapterView.getPosition(alarmViewID);
         db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
-        SetViewSveglie.aggiornaAdapter_2();
-
+        SetViewSveglie.aggiornaAdapter_disattiva(position);
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
             startRepeatNotification(context, alarmName, alarm_music_ID, enableVibrate, isDelayAlarm, maps_direction_request, alarmViewID);
