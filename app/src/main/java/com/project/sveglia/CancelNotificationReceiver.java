@@ -80,6 +80,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             startRepetitionAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             startRepetitionAlarm.putExtra("maps_direction_request", maps_direction_request);
             */
+
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
 
