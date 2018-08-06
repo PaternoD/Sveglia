@@ -74,8 +74,23 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // setto visualizzazione sveglia a "non attiva" --
         int position = CustomAdapterView.getPosition(alarmViewID);
-        db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
-        SetViewSveglie.aggiornaAdapter_disattiva(position);
+
+        if (!isRepetitionDayAlarm){
+            System.out.println("riga 76 di alarmReciver-------------------");
+            System.out.println("posizione: "+position+ " ---- viewID: "+alarmViewID);
+            db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
+            SetViewSveglie.aggiornaAdapter_disattiva(position);
+        }
+
+        //elimino sveglia con il travel to dopo che ha suonato
+        if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
+            System.out.println("entrato nell'if di riga 86");
+            int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
+            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+            SetViewSveglie.aggiornaAdapter_rimuovi(position);
+
+        }
+
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
             startRepeatNotification(context, alarmName, alarm_music_ID, enableVibrate, isDelayAlarm, maps_direction_request, alarmViewID);
@@ -98,6 +113,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         Calendar cal = Calendar.getInstance();
         int NOT_ID = createID(cal.getTimeInMillis());
 
+        DB_Manager db = new DB_Manager(context);
+        db.open();
+        boolean sensor_on = db.getSensoriOn();
+        db.close();
         proximitySensorEventListener = new SensorEventListener() {
 
 
@@ -106,6 +125,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
 
+                    if (!sensor_on) {
+                        mySensorManager.unregisterListener(this);
+                    }
                     if (sensorEvent.values[0]==0) {//se a pancia in giu
                         System.out.println("pancia in giu");
                         nero_nero=true;
@@ -114,7 +136,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             mySensorManager.unregisterListener(this);
                             DB_Manager db = new DB_Manager(context);
                             db.open();
-                            if (db.getSensoriOpzione().equals((String)"cancella")){
+                            if (db.getSensoriOpzione().equals((String)"elimina")){
                                 //CANCELLO SVEGLIA
                                 Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
                                 cancelAction.putExtra("notification_ID", NOT_ID);
@@ -160,7 +182,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                         bianco_nero=true;
 
                     }
-
                 }
             }
 
@@ -345,7 +366,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Calendar cal = Calendar.getInstance();
         int NOT_ID = createID(cal.getTimeInMillis());
-
+        DB_Manager db = new DB_Manager(context);
+        db.open();
+        boolean sensor_on = db.getSensoriOn();
+        db.close();
         proximitySensorEventListener = new SensorEventListener() {
 
 
@@ -353,10 +377,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             public void onSensorChanged(SensorEvent sensorEvent) {
 
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
-
-                    if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        System.out.println("pancia in giu");
-                        nero_nero=true;
+                    if (sensor_on){
+                        if (sensorEvent.values[0]==0) {//se a pancia in giu
+                            System.out.println("pancia in giu");
+                            nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
                             mySensorManager.unregisterListener(this);
@@ -405,11 +429,14 @@ public class AlarmReceiver extends BroadcastReceiver {
                             }
 
 
-                        }
-                    }else{//se a pancia in su
-                        System.out.println("pancia in su");
-                        bianco_nero=true;
+                            }
+                        }else{//se a pancia in su
+                            System.out.println("pancia in su");
+                            bianco_nero=true;
 
+                        }
+                    }else{
+                        mySensorManager.unregisterListener(this);
                     }
 
                 }

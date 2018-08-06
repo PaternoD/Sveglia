@@ -121,6 +121,10 @@ public class FullScreen_Notification extends Activity {
         // Nascondi bottone Snooze se la sveglia è senza ripetizione
 
         //SENSORE per spegnere o rimandare la sveglia
+        DB_Manager db = new DB_Manager(FullScreen_Notification.this);
+        db.open();
+        boolean sensor_on = db.getSensoriOn();
+        db.close();
         SensorEventListener proximitySensorEventListener = new SensorEventListener() {
 
 
@@ -129,9 +133,10 @@ public class FullScreen_Notification extends Activity {
 
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
 
-                    if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        System.out.println("pancia in giu");
-                        nero_nero=true;
+                    if (sensor_on){
+                        if (sensorEvent.values[0]==0) {//se a pancia in giu
+                            System.out.println("pancia in giu");
+                            nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
                             mySensorManager.unregisterListener(this);
@@ -182,6 +187,10 @@ public class FullScreen_Notification extends Activity {
                     }else{//se a pancia in su
                         System.out.println("pancia in su");
                         bianco_nero=true;
+
+                        }
+                    }else {
+                        mySensorManager.unregisterListener(this);
 
                     }
 
