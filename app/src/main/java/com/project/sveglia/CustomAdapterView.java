@@ -220,7 +220,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                             dataSet.get(position).getRepetitions_day(),
                             dataSet.get(position).getTravelTo(),dataSet.get(position).getPosizione_suoneria(),
                             dataSet.get(position).getFrom(),dataSet.get(position).getTo(),
-                            dataSet.get(position).getMezzo());
+                            dataSet.get(position).getMezzo(), null);
 
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 

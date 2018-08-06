@@ -8,7 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.model.Step;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.TravelMode;
 
 import org.joda.time.DateTime;
@@ -31,6 +33,8 @@ public class SetGoogleMapsResult {
     static String departure_detail;
     static String start_address;
     static String end_address;
+    static String origin_location;
+    static String destination_location;
 
 
 
@@ -89,7 +93,17 @@ public class SetGoogleMapsResult {
 
                 end_address = result.routes[i].legs[0].endAddress;
 
-                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address));
+                origin_location = "&origin=" + result.routes[i].legs[0].startLocation.lat + "," + result.routes[i].legs[0].startLocation.lng;
+
+                destination_location = "&destination=" + result.routes[i].legs[0].endLocation.lat + "," + result.routes[i].legs[0].endLocation.lng;
+
+                String googleMapsRequest = "";
+
+                int stepsLenght = result.routes[i].legs[0].steps.length;
+                DirectionsStep[] step = result.routes[i].legs[0].steps;
+                googleMapsRequest =  googleMapsRequest + "&waypoints=" + step[stepsLenght/2].endLocation.lat + "," + step[stepsLenght/2].endLocation.lng;
+
+                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, googleMapsRequest, origin_location, destination_location));
 
             }
 
@@ -174,7 +188,9 @@ public class SetGoogleMapsResult {
                         departure_detail = "nessuna informazione";
                     }
 
-                    data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address));
+                    String googleMapsRequest = "";
+
+                    data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, googleMapsRequest, "", ""));
 
 
                 }
@@ -233,7 +249,9 @@ public class SetGoogleMapsResult {
 
                 end_address = result.routes[i].legs[0].endAddress;
 
-                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address));
+                String googleMapsRequest = "";
+
+                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, googleMapsRequest, "", ""));
 
             }
 
@@ -279,5 +297,12 @@ public class SetGoogleMapsResult {
         }
 
         return dayString;
+    }
+
+    public static void clearRecyclerView(){
+        if(data != null) {
+            data.clear();
+            adapter.notifyDataSetChanged();
+        }
     }
 }

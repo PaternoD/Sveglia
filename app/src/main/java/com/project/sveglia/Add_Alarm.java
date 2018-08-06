@@ -49,6 +49,7 @@ public class Add_Alarm extends Activity {
     String alarm_Name = "Sveglia";
     String alarm_music_name;
     String traffic_model;
+    String maps_direction_request;
     DB_Manager db;
 
     // CardView
@@ -407,7 +408,8 @@ public class Add_Alarm extends Activity {
                         listPositionMusic,
                         start_address_detail,
                         end_address_detail,
-                        traffic_model);
+                        traffic_model,
+                        maps_direction_request);
                 Intent  main= new Intent(Add_Alarm.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(main);
                 Add_Alarm.this.finish();
@@ -501,13 +503,16 @@ public class Add_Alarm extends Activity {
                 //setto stringa
                 TextView text_ripetition = (TextView)findViewById(R.id.text_giorni_ripetizione_ID);
                 text_ripetition.setText("Non disponibile");
+
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
                 alarm_time = google_maps_time_in_millis;
                 traffic_model = data.getExtras().getString("transit_model");
-
                 start_address_detail = data.getExtras().getString("start_address");
                 end_address_detail = data.getExtras().getString("end_address");
+                if(traffic_model != "TRANSIT"){
+                    maps_direction_request = data.getExtras().getString("maps_direction_request");
+                }
 
                 // Recupero riferimenti layout ------------------------
                 // TextView

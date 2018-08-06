@@ -43,6 +43,7 @@ public class FullScreen_Notification extends Activity {
     boolean is_Delay_Alarm;
     String alarm_Name;
     String notification_Channel;
+    String maps_direction_request;
     long DelayTimeForCancel;
     //per sensore di prossimità
     SensorManager mySensorManager;
@@ -73,6 +74,7 @@ public class FullScreen_Notification extends Activity {
         DelayTimeForCancel = getIntent().getExtras().getLong("delayTimeForCancelForNotification");
         isRepetitionDayAlarm = getIntent().getExtras().getBoolean("isRepetitionDayAlarm");
         repeatAlarmNumberTimes = getIntent().getExtras().getInt("repeatAlarmNumberTimes");
+        maps_direction_request = getIntent().getExtras().getString("maps_direction_request");
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
@@ -138,6 +140,7 @@ public class FullScreen_Notification extends Activity {
                                 //CANCELLO SVEGLIA
                                 Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                                 cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                                cancelNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                                 try {
                                     cancelPendingIntent.send();
@@ -219,7 +222,7 @@ public class FullScreen_Notification extends Activity {
         AutomaticCancelNotification.startCountDown();
 
 
-        // Bottone per cancella la notifica --------------
+        // Bottone per cancellare la notifica --------------
         delete_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,6 +231,7 @@ public class FullScreen_Notification extends Activity {
                 cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
                 cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                 cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
+                cancelNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     cancelPendingIntent.send();

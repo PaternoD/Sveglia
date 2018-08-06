@@ -2,6 +2,7 @@ package com.project.sveglia;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,13 +86,36 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
                 long currentTime = calendar.getTimeInMillis();
 
                 if(alarm_Time > currentTime){
+
+                    String origin_loc = dataSet.get(listPosition).getOrigin_location();
+                    String dest_loc = dataSet.get(listPosition).getDestination_location();
+                    String waypoint = dataSet.get(listPosition).getGoogleMapsRequest();
+
+                    System.out.println("Path_" + listPosition + ": " + origin_loc + " - " + dest_loc + " - " + waypoint);
+
+                    String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=driving&dir_action=navigate";
+
+                    /*
+                    // Create a Uri from an intent string. Use the result to create an Intent.
+                    Uri gmmIntentUri = Uri.parse(maps_direction);
+                    // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    // Make the Intent explicit by setting the Google Maps package
+                    mapIntent.setPackage("com.google.android.apps.maps");
+
+                    // Attempt to start an activity that can handle the Intent
+                    myActivity.startActivity(mapIntent);
+                    */
+
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("alarm_time", alarm_Time);
                     resultIntent.putExtra("transit_model", "DRIVING");
                     resultIntent.putExtra("start_address", start_address_detail);
                     resultIntent.putExtra("end_address", end_address_detail);
+                    resultIntent.putExtra("maps_direction_request", maps_direction_request);
                     myActivity.setResult(Activity.RESULT_OK, resultIntent);
                     myActivity.finish();
+
                 }else{
                     Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
                     myActivity.startActivity(intent_Time_Passed);

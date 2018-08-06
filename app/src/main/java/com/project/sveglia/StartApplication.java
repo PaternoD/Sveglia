@@ -201,6 +201,8 @@ public class StartApplication extends BroadcastReceiver {
         // recuperare numero di volte di questa fariabile dal database --
         int repeatAlarmNumberTimes = db_manager.getRitardaVolte();
 
+        String maps_direction_request = null;
+
         // Inizializzo allarme principale-----
         if(!there_Are_Repetitions_Days(repetitionArray)){
             startAlarm(timeInMillis,
@@ -217,7 +219,8 @@ public class StartApplication extends BroadcastReceiver {
                     end_address_detail,
                     traffic_model,
                     db_manager,
-                    repeatAlarmNumberTimes);
+                    repeatAlarmNumberTimes,
+                    maps_direction_request);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -233,7 +236,8 @@ public class StartApplication extends BroadcastReceiver {
                     end_address_detail,
                     traffic_model,
                     db_manager,
-                    repeatAlarmNumberTimes);
+                    repeatAlarmNumberTimes,
+                    maps_direction_request);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -249,7 +253,8 @@ public class StartApplication extends BroadcastReceiver {
                     end_address_detail,
                     traffic_model,
                     db_manager,
-                    repeatAlarmNumberTimes);
+                    repeatAlarmNumberTimes,
+                    maps_direction_request);
         }
     }
 
@@ -285,7 +290,8 @@ public class StartApplication extends BroadcastReceiver {
                                    String end_address_detail,
                                    String traffic_model,
                                    DB_Manager db_manager,
-                                   int repeatAlarmNumberTimes){
+                                   int repeatAlarmNumberTimes,
+                                   String maps_direction_request){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
@@ -310,6 +316,7 @@ public class StartApplication extends BroadcastReceiver {
         startPrincipalAlarmIntent.putExtra("alarmName", alarm_name);
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
         startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+        startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
         startPrincipalAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
@@ -378,7 +385,8 @@ public class StartApplication extends BroadcastReceiver {
                                         String end_address_detail,
                                         String traffic_model,
                                         DB_Manager db_manager,
-                                        int repeatAlarmNumberTimes){
+                                        int repeatAlarmNumberTimes,
+                                        String maps_direction_request){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMillis);
@@ -484,6 +492,7 @@ public class StartApplication extends BroadcastReceiver {
                 startRepeatAlarmIntent.putExtra("isRepetitionDayAlarm", true);
                 startRepeatAlarmIntent.putExtra("alarmTimeInMillis", timeInMillis);
                 startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
                 startRepeatAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);

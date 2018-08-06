@@ -29,7 +29,8 @@
                 android:layout_margin="12dp"
                 android:text="TextView"
                 android:textAlignment="center"
-                android:textSize="22sp" />
+                android:textColor="@color/DefaultColorText"
+                android:textSize="18sp" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"

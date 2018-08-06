@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by simonerigon on 27/03/18.
@@ -28,7 +29,10 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         // Recupero id notifica da intent chiamante ----------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
-
+        String maps_direction_request = intent.getExtras().getString("maps_direction_request");
+        int ID_View = intent.getExtras().getInt("View_ID");
+        int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
+        boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         System.out.println("Sono entrato in cancel notification receiver");
 
         // Cancello allarme CountDown ------------------------------
@@ -67,10 +71,35 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             int ALARM_ID = createID(newAlarmTimeInMillis);
             Intent startRepetitionAlarm = new Intent(context, AlarmReceiver.class);
+            /*
+            startRepetitionAlarm.putExtra("View_ID", ID_View);
+            startRepetitionAlarm.putExtra("alarm_music_ID", alarm_music_ID);
+            startRepetitionAlarm.putExtra("isDelayAlarm", isDelayAlarm);
+            startRepetitionAlarm.putExtra("alarmName", alarm_name);
+            startRepetitionAlarm.putExtra("isRepetitionDayAlarm", false);
+            startRepetitionAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            startRepetitionAlarm.putExtra("maps_direction_request", maps_direction_request);
+            */
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
 
-            //
+        }
+
+        if(maps_direction_request != null){
+            DB_Manager db_manager = new DB_Manager(context);
+            db_manager.open();
+            long googleMapsTime = db_manager.getBadToCar();
+
+            // Setto avviso per aprire google Maps
+            Calendar calendar = Calendar.getInstance();
+            long currentTime = calendar.getTimeInMillis();
+
+            // Setto la notifica per aprire google maps ---------------
+            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            int ALARM_ID = createID(currentTime);
+            Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
+            PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, currentTime + 60000, startRepetitionAlarm_PendingIntent);
 
         }
 

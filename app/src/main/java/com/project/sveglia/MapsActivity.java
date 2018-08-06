@@ -1,17 +1,25 @@
 package com.project.sveglia;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,9 +31,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.gcm.Task;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceDetectionApi;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DirectionsResult;
@@ -37,12 +51,15 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap;
     private String originString = null;
+    private String originPosition = null;
     private String destinationSring = null;
     private DateTime arrival_DateTime = null;
     private TravelMode travel_Mode = TravelMode.DRIVING;
@@ -50,12 +67,22 @@ public class MapsActivity extends FragmentActivity {
     RecyclerView recyclerView_Data;
     RelativeLayout relativeLayout_ProgressBar;
     private boolean isNullTime = true;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private boolean mLocationPermissionsGranted = false;
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCAL_PERMISSION_REQUEST_CODE = 1234;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        // Recupero posizione device --
+        getLocationPermission();
+        getCurrentLocation();
 
         // Recupero riferimenti oggetti nel layout ----------------------------
         // CardView
@@ -92,8 +119,12 @@ public class MapsActivity extends FragmentActivity {
         // Relative Layout
         relativeLayout_ProgressBar = (RelativeLayout)findViewById(R.id.progressBar_Relative_Layout_ID);
 
-        // Setto visualizzazione "relativeLayout_ProgressBar" -----------------
+        // Progress Bar
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+
+        // Setto visualizzazione "relativeLayout_ProgressBar" e progressBar ---
         relativeLayout_ProgressBar.setVisibility(View.GONE);
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.CircleRepetitionAlarm), android.graphics.PorterDuff.Mode.MULTIPLY);
 
         // Recupero informazioni da activity chiamante ------------------------
         modify_intent = getIntent().getExtras().getBoolean("modify_intent");
@@ -216,6 +247,8 @@ public class MapsActivity extends FragmentActivity {
                 setNormalTextColor(origin_TextView, null);
 
                 try{
+
+
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .build(MapsActivity.this);
                     startActivityForResult(intent, ORIGIN_PLACE_ID);
@@ -244,9 +277,11 @@ public class MapsActivity extends FragmentActivity {
                 setNormalTextColor(destination_TextView, null);
 
                 try{
+
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .build(MapsActivity.this);
                     startActivityForResult(intent, DESTINATION_PLACE_ID);
+
                 } catch(GooglePlayServicesRepairableException e){
                     // TODO: Handle the error.
                 } catch (GooglePlayServicesNotAvailableException e) {
@@ -259,7 +294,9 @@ public class MapsActivity extends FragmentActivity {
         btn_search_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("IsNullTime: " + isNullTime);
+
+                SetGoogleMapsResult.clearRecyclerView();
+
                 if(originString == null || destinationSring == null || isNullTime == true){
                     Toast.makeText(MapsActivity.this, "Completa tutti i campi", Toast.LENGTH_LONG).show();
                     // Vedere se si riesce a colorare i campi da completare !!!!
@@ -332,6 +369,7 @@ public class MapsActivity extends FragmentActivity {
                 Place origin_Place = PlaceAutocomplete.getPlace(this, data);
                 origin_TextView.setText(origin_Place.getAddress());
                 originString = origin_Place.getAddress().toString();
+                originPosition = origin_Place.getAddress().toString();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
@@ -396,13 +434,15 @@ public class MapsActivity extends FragmentActivity {
         RelativeLayout relativeLayout_noResult = (RelativeLayout)findViewById(R.id.relative_Layout_no_result_ID);
 
         // Setto la chiave Google
-        GeoApiContext geoContext = new GeoApiContext().setApiKey("AIzaSyCN3jt2CpuG_SNF2uKNa5_cfPtyAMpXVVQ");
+        GeoApiContext geoContext = new GeoApiContext.Builder()
+                .apiKey("AIzaSyCN3jt2CpuG_SNF2uKNa5_cfPtyAMpXVVQ")
+                .build();
 
         DirectionsResult result = null;
 
         try{
             result = DirectionsApi.newRequest(geoContext)
-                    .origin(originString)
+                    .origin(originPosition)
                     .destination(destinationSring)
                     .alternatives(true)
                     .mode(travel_Mode)
@@ -485,4 +525,65 @@ public class MapsActivity extends FragmentActivity {
         }
 
     }
+
+    /**
+     * Funzione per ricavare la posizione del device
+     */
+    private void getCurrentLocation(){
+        Log.d("MAPS_ACTIVITY", "getCurrentLocation: getting the device current location.");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        getLocationPermission();
+        System.out.println("getLocationPermission: " + mLocationPermissionsGranted);
+
+        try{
+            if(mLocationPermissionsGranted){
+                com.google.android.gms.tasks.Task<Location> location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<Location> task) {
+                        if(task.isSuccessful()){
+                            Log.d("MAPS_ACTIVITY", "onComplete: Found Current Location");
+                            Location currentLocation = (Location)task.getResult();
+                            originString = "Origine: la tua posizione";
+                            originPosition = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+
+                            TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
+                            origin_TextView.setText(originString);
+
+                            System.out.println("****** Current Location : Lat: " + currentLocation.getLatitude() + ", long: " + currentLocation.getLongitude());
+
+                        }else{
+                            Log.d("MAPS_ACTIVITY", "onComplete: Current location is null");
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+            Log.e("MAPS_ACTIVITY", "getCurrentLocation: SecurityException: " + e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * Funzione per controllare se abbiamo il permesso di calcolare la posizione del device, in caso non
+     * avessimo il permesso verrà chiesto all'utente di se desidera consentire la ricerca della posizione
+     * del dispositivo.
+     */
+    private void getLocationPermission(){
+        Log.d("MAPS_ACTIVITY", "getLocationPermission: getting location permission");
+        String[] permission = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ){
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                mLocationPermissionsGranted = true;
+            }else{
+                ActivityCompat.requestPermissions(this, permission, LOCAL_PERMISSION_REQUEST_CODE);
+            }
+        }else{
+            ActivityCompat.requestPermissions(this, permission, LOCAL_PERMISSION_REQUEST_CODE);
+        }
+    }
+
 }

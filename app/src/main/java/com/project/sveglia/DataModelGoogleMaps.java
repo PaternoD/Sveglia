@@ -10,6 +10,8 @@ public class DataModelGoogleMaps {
 
     String route_detail;
     String time_to_travel;
+    String origin_location;
+    String destination_location;
     long time_to_travel_in_seconds;
     long arrival_time;
     long departure_time;
@@ -17,8 +19,7 @@ public class DataModelGoogleMaps {
     String departure;
     String start_address;
     String end_address;
-
-
+    String googleMapsRequest;
 
 
     public DataModelGoogleMaps(String route_detail,
@@ -29,7 +30,10 @@ public class DataModelGoogleMaps {
                                String distance,
                                String departure,
                                String start_address,
-                               String end_address){
+                               String end_address,
+                               String googleMapsRequest,
+                               String origin_location,
+                               String destination_location){
 
         this.route_detail = route_detail;
         this.time_to_travel = time_to_travel;
@@ -40,7 +44,26 @@ public class DataModelGoogleMaps {
         this.departure = departure;
         this.start_address = start_address;
         this.end_address = end_address;
+        this.googleMapsRequest = googleMapsRequest;
+        this.origin_location = origin_location;
+        this.destination_location = destination_location;
 
+    }
+
+    public String getOrigin_location() {
+        return origin_location;
+    }
+
+    public void setOrigin_location(String origin_location) {
+        this.origin_location = origin_location;
+    }
+
+    public String getDestination_location() {
+        return destination_location;
+    }
+
+    public void setDestination_location(String destination_location) {
+        this.destination_location = destination_location;
     }
 
     public String getStart_address() {
@@ -115,5 +138,12 @@ public class DataModelGoogleMaps {
         this.departure = departure;
     }
 
+    public String getGoogleMapsRequest() {
+        return googleMapsRequest;
+    }
+
+    public void setGoogleMapsRequest(String googleMapsRequest) {
+        this.googleMapsRequest = googleMapsRequest;
+    }
 
 }
