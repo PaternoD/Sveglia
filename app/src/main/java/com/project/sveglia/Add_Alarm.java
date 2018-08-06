@@ -22,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -504,15 +506,21 @@ public class Add_Alarm extends Activity {
                 TextView text_ripetition = (TextView)findViewById(R.id.text_giorni_ripetizione_ID);
                 text_ripetition.setText("Non disponibile");
 
+                Calendar calendar = Calendar.getInstance();
+
                 // Recupero Extra da Activity chiamata
                 long google_maps_time_in_millis = data.getExtras().getLong("alarm_time");
-                alarm_time = google_maps_time_in_millis;
+                calendar.setTimeInMillis(google_maps_time_in_millis);
+                calendar.set(Calendar.SECOND, 0);
+                alarm_time = calendar.getTimeInMillis();
                 traffic_model = data.getExtras().getString("transit_model");
                 start_address_detail = data.getExtras().getString("start_address");
                 end_address_detail = data.getExtras().getString("end_address");
                 if(traffic_model != "TRANSIT"){
                     maps_direction_request = data.getExtras().getString("maps_direction_request");
                 }
+
+
 
                 // Recupero riferimenti layout ------------------------
                 // TextView

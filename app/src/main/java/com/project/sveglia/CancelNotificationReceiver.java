@@ -33,6 +33,9 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         int ID_View = intent.getExtras().getInt("View_ID");
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
+        String alarm_name = intent.getExtras().getString("alarmName");
+        int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
+
         System.out.println("Sono entrato in cancel notification receiver");
 
         // Cancello allarme CountDown ------------------------------
@@ -71,7 +74,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             int ALARM_ID = createID(newAlarmTimeInMillis);
             Intent startRepetitionAlarm = new Intent(context, AlarmReceiver.class);
-            /*
+
             startRepetitionAlarm.putExtra("View_ID", ID_View);
             startRepetitionAlarm.putExtra("alarm_music_ID", alarm_music_ID);
             startRepetitionAlarm.putExtra("isDelayAlarm", isDelayAlarm);
@@ -79,7 +82,6 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             startRepetitionAlarm.putExtra("isRepetitionDayAlarm", false);
             startRepetitionAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             startRepetitionAlarm.putExtra("maps_direction_request", maps_direction_request);
-            */
 
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
@@ -99,6 +101,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             int ALARM_ID = createID(currentTime);
             Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
+            popUPGoogleMapsAPP.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, currentTime + 60000, startRepetitionAlarm_PendingIntent);
 

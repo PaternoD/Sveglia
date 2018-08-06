@@ -116,7 +116,10 @@
         <receiver android:name=".NotificationGoogleMaps"
             android:enabled="true"
             android:exported="true">
-
+        </receiver>
+        <receiver android:name=".openGoogleMapsReceiver">
+            android:enabled="true"
+            android:exported="true">
         </receiver>
 
         <service android:name=".Notification_Sound_Service"

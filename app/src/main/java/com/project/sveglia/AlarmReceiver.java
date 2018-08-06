@@ -124,6 +124,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("View_ID", alarmViewID);
                                 cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
                                 cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
+                                cancelAction.putExtra("alarmName", alarmName);
+                                cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     cancelPendingIntent.send();
@@ -192,6 +194,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("View_ID", alarmViewID);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
+            cancelAction.putExtra("alarmName", alarmName);
+            cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
 
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -265,6 +269,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("View_ID", alarmViewID);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
+            cancelAction.putExtra("alarmName", alarmName);
+            cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -366,6 +372,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("View_ID", alarmViewID);
                                 cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
                                 cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
+                                cancelAction.putExtra("alarmName", alarmName);
+                                cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     cancelPendingIntent.send();
@@ -438,6 +446,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("View_ID", alarmViewID);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
+            cancelAction.putExtra("alarmName", alarmName);
+            cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -491,7 +501,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("View_ID", alarmViewID);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
-            PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_ONE_SHOT);
+            cancelAction.putExtra("alarmName", alarmName);
+            cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
             NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "Alarm Notification", NotificationManager.IMPORTANCE_HIGH);

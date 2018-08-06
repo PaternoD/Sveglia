@@ -75,6 +75,7 @@ public class FullScreen_Notification extends Activity {
         isRepetitionDayAlarm = getIntent().getExtras().getBoolean("isRepetitionDayAlarm");
         repeatAlarmNumberTimes = getIntent().getExtras().getInt("repeatAlarmNumberTimes");
         maps_direction_request = getIntent().getExtras().getString("maps_direction_request");
+        int alarmViewID = getIntent().getExtras().getInt("View_ID");
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
@@ -140,7 +141,14 @@ public class FullScreen_Notification extends Activity {
                                 //CANCELLO SVEGLIA
                                 Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                                 cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                                cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                                cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                                 cancelNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
+                                cancelNotificationIntent.putExtra("View_ID", alarmViewID);
+                                cancelNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                                cancelNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                                cancelNotificationIntent.putExtra("alarmName", alarm_Name);
+                                cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                                 try {
                                     cancelPendingIntent.send();
@@ -232,6 +240,11 @@ public class FullScreen_Notification extends Activity {
                 cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                 cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                 cancelNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
+                cancelNotificationIntent.putExtra("View_ID", alarmViewID);
+                cancelNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                cancelNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                cancelNotificationIntent.putExtra("alarmName", alarm_Name);
+                cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     cancelPendingIntent.send();
