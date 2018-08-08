@@ -35,6 +35,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarm_name = intent.getExtras().getString("alarmName");
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
+        long alarmTimeForGoogleMaps = intent.getExtras().getLong("alarmTimeForGoogleMaps");
 
         System.out.println("Sono entrato in cancel notification receiver");
 
@@ -93,17 +94,16 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             db_manager.open();
             long googleMapsTime = db_manager.getBadToCar();
 
-            // Setto avviso per aprire google Maps
-            Calendar calendar = Calendar.getInstance();
-            long currentTime = calendar.getTimeInMillis();
+            // Setto ora e minuti in cui aprire google Maps --
+            long timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
 
             // Setto la notifica per aprire google maps ---------------
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            int ALARM_ID = createID(currentTime);
+            int ALARM_ID = createID(timeForFirenotification);
             Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
             popUPGoogleMapsAPP.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, currentTime + 60000, startRepetitionAlarm_PendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startRepetitionAlarm_PendingIntent);
 
         }
 

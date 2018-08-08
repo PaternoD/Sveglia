@@ -76,6 +76,7 @@ public class FullScreen_Notification extends Activity {
         repeatAlarmNumberTimes = getIntent().getExtras().getInt("repeatAlarmNumberTimes");
         maps_direction_request = getIntent().getExtras().getString("maps_direction_request");
         int alarmViewID = getIntent().getExtras().getInt("View_ID");
+        long alarmTimeForGoogleMaps = getIntent().getExtras().getLong("alarmTimeForGoogleMaps");
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
@@ -154,6 +155,7 @@ public class FullScreen_Notification extends Activity {
                                 cancelNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
                                 cancelNotificationIntent.putExtra("alarmName", alarm_Name);
                                 cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                                cancelNotificationIntent.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                                 try {
                                     cancelPendingIntent.send();
@@ -172,6 +174,9 @@ public class FullScreen_Notification extends Activity {
                                 snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
                                 snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
                                 snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                                snoozeNotificationIntent.putExtra("View_ID", alarmViewID);
+                                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                                 try {
                                     snoozePendingIntent.send();
@@ -254,6 +259,7 @@ public class FullScreen_Notification extends Activity {
                 cancelNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
                 cancelNotificationIntent.putExtra("alarmName", alarm_Name);
                 cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                cancelNotificationIntent.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
                     cancelPendingIntent.send();

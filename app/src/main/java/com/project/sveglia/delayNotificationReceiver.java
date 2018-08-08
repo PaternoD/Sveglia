@@ -36,6 +36,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         String alarm_name = intent.getExtras().getString("alarm_name");
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
+        int ID_View = intent.getExtras().getInt("View_ID");
 
         repeatAlarmNumberTimes -= 1;
         //System.out.println("**** RepeatAlarmNumeberTimes: " + repeatAlarmNumberTimes);
@@ -66,6 +67,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
         Intent startRepeatAlarm = new Intent(context, AlarmReceiver.class);
+        startRepeatAlarm.putExtra("View_ID", ID_View);
         startRepeatAlarm.putExtra("isRepeatAlarm", false);
         startRepeatAlarm.putExtra("alarm_music_ID", alarm_music_ID);
         startRepeatAlarm.putExtra("isDelayAlarm", isDelayAlarm);

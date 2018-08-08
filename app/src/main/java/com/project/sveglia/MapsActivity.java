@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.TravelMode;
 import com.google.maps.DirectionsApi;
 
