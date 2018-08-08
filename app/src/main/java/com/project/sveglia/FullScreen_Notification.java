@@ -143,10 +143,11 @@ public class FullScreen_Notification extends Activity {
                             mySensorManager.unregisterListener(this);
                             DB_Manager db = new DB_Manager(FullScreen_Notification.this);
                             db.open();
-                            if (db.getSensoriOpzione().equals((String)"cancella")){
+                            if (db.getSensoriOpzione().equals((String)"elimina")){
                                 //CANCELLO SVEGLIA
                                 Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                                 cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
+                                System.out.println("NOTIFICATION ID____________________"+NOT_ID);
                                 cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 cancelNotificationIntent.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                                 cancelNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
@@ -278,31 +279,36 @@ public class FullScreen_Notification extends Activity {
         });
 
         // Bottone per cancellare la notifica e ritardare la sveglia --
-        snooze_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mySensorManager.unregisterListener(proximitySensorEventListener);
-                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
-                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
-                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
-                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
-                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
-                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    snoozePendingIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+        if (is_Delay_Alarm){
+            snooze_notification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mySensorManager.unregisterListener(proximitySensorEventListener);
+                    Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
+                    snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
+                    snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
+                    snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
+                    snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
+                    snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                    snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                    PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                    try {
+                        snoozePendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                        Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+                    }
+
+                    // termino il conto alla rovesca per la cancellazione automatica della notifica
+                    AutomaticCancelNotification.cancelCountDown();
+
+                    finishAffinity();
                 }
+            });
 
-                // termino il conto alla rovesca per la cancellazione automatica della notifica
-                AutomaticCancelNotification.cancelCountDown();
-
-                finishAffinity();
-            }
-        });
+        }else{
+            snooze_notification.setVisibility(View.INVISIBLE);
+        }
 
 
     }
