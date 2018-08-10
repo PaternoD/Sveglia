@@ -163,7 +163,7 @@ public class StartApplication extends BroadcastReceiver {
 
             int id_Alarm = vector.elementAt(i);
             //cancellazione alarm manager
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent);
 
             Log.i("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");
@@ -317,6 +317,8 @@ public class StartApplication extends BroadcastReceiver {
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
         startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
+        startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
+        startPrincipalAlarmIntent.putExtra("isRebootAlarm", true);
         startPrincipalAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
@@ -357,6 +359,7 @@ public class StartApplication extends BroadcastReceiver {
 
         db_manager.insert_repetition_id((int) getRandomID(timeInMillis), vector_id_alarm);
         db_manager.insert_sveglia(ALARM_ID, timeInMillis);
+
 
 
     }
@@ -493,6 +496,8 @@ public class StartApplication extends BroadcastReceiver {
                 startRepeatAlarmIntent.putExtra("alarmTimeInMillis", timeInMillis);
                 startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
+                startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
+                startRepeatAlarmIntent.putExtra("isRebootAlarm", true);
                 startRepeatAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
@@ -505,8 +510,6 @@ public class StartApplication extends BroadcastReceiver {
                  */
 
                 db_manager.insert_repetition_id((int) getRandomID(timeInMillis), vector_id_sveglia);
-
-
 
             }
         }

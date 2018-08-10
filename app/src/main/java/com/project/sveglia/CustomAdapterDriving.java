@@ -95,18 +95,6 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
 
                     String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=driving&dir_action=navigate";
 
-                    /*
-                    // Create a Uri from an intent string. Use the result to create an Intent.
-                    Uri gmmIntentUri = Uri.parse(maps_direction);
-                    // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    // Make the Intent explicit by setting the Google Maps package
-                    mapIntent.setPackage("com.google.android.apps.maps");
-
-                    // Attempt to start an activity that can handle the Intent
-                    myActivity.startActivity(mapIntent);
-                    */
-
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("alarm_time", alarm_Time);
                     resultIntent.putExtra("transit_model", "DRIVING");

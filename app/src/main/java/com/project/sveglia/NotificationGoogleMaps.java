@@ -50,13 +50,14 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
             PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_ONE_SHOT);
 
-            String not_content = "È ora di partire, desideri aprire Google Maps per la navigazione?";
+            String not_content = "Desideri aprire Google Maps per la navigazione?";
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle("Apri Google Maps")
+                    .setContentTitle("È ora di partire")
                     .setContentText(not_content)
                     .setSmallIcon(R.drawable.icons8_alarm_clock_24)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setSound(null)
                     .addAction(0, "APRI", openGoogleMapsAppPendingIntent)
                     .addAction(0, "ANNULLA", cancelnotificationGoogleMapsPendingIntent)
                     .setAutoCancel(true)

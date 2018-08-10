@@ -156,7 +156,9 @@ public class SetAlarmManager {
         startPrincipalAlarmIntent.putExtra("isRepetitionDayAlarm", false);
         startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
+        startPrincipalAlarmIntent.putExtra("isRebootAlarm", false);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
@@ -331,7 +333,9 @@ public class SetAlarmManager {
                 startRepeatAlarmIntent.putExtra("alarmTimeInMillis", timeInMilllis);
                 startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
-                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
+                startRepeatAlarmIntent.putExtra("isRebootAlarm", false);
+                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 
                 // Salvo id sveglia in vector_id_sveglia -----------------------------

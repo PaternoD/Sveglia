@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity {
     private String originString = null;
     private String originPosition = null;
     private String destinationSring = null;
+    private String destinationPosition = null;
     private DateTime arrival_DateTime = null;
     private TravelMode travel_Mode = TravelMode.DRIVING;
     private boolean modify_intent = false;
@@ -81,15 +82,14 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        // Recupero posizione device --
-        getLocationPermission();
-        getCurrentLocation();
+
 
         // Recupero riferimenti oggetti nel layout ----------------------------
         // CardView
         CardView origin_Card_autocomplete = (CardView)findViewById(R.id.autocomp_origin_Card_ID);
         CardView destination_Card_autocomplete = (CardView)findViewById(R.id.autocomp_destination_Card_ID);
         CardView btn_arrival_time = (CardView) findViewById(R.id.Arrival_time_Card);
+        CardView card_Current_Location = (CardView)findViewById(R.id.Card_CurrentLocation);
 
         // Button
         //final Button btn_arrival_time = (Button)findViewById(R.id.btn_arrival_time_ID);
@@ -100,6 +100,7 @@ public class MapsActivity extends FragmentActivity {
         final ImageButton train_imageButton = (ImageButton)findViewById(R.id.imageButton_transit_ID);
         final ImageButton walking_imageButton = (ImageButton)findViewById(R.id.imageButton_walking_ID);
         ImageButton info_Maps = (ImageButton)findViewById(R.id.info_maps_id);
+        ImageButton imageButton_current_location = (ImageButton)findViewById(R.id.ImageButton_Current_View);
 
         // ImageView
         ImageView time_imageView = (ImageView)findViewById(R.id.time_clock_Image_ID);
@@ -131,10 +132,16 @@ public class MapsActivity extends FragmentActivity {
         modify_intent = getIntent().getExtras().getBoolean("modify_intent");
         if(modify_intent){
             originString = getIntent().getExtras().getString("startAddress");
+            originPosition = originString;
             destinationSring = getIntent().getExtras().getString("endAddress");
+            destinationPosition = destinationSring;
 
             origin_TextView.setText(originString);
             destination_TextView.setText(destinationSring);
+        }else{
+            // Recupero posizione device --
+            getLocationPermission();
+            getCurrentLocation();
         }
 
         // Recupero immagini da assegnare al layout ---------------------------
@@ -148,6 +155,7 @@ public class MapsActivity extends FragmentActivity {
         Bitmap arrow_switch_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_up_down_arrow_48);
         Bitmap arrow_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_left_48);
         Bitmap info_image = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.information_outline_24);
+        Bitmap currentLocation = BitmapFactory.decodeResource(MapsActivity.this.getResources(), R.drawable.icons8_target_24);
 
         // Setto immagini al layout -------------------------------------------
         car_imageButton.setImageBitmap(car_image);
@@ -160,6 +168,7 @@ public class MapsActivity extends FragmentActivity {
         location_ImageView.setImageBitmap(location_image);
         arrow_switch_ImageView.setImageBitmap(arrow_switch_image);
         info_Maps.setImageBitmap(info_image);
+        imageButton_current_location.setImageBitmap(currentLocation);
 
         arrow_ImageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
 
@@ -203,23 +212,40 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
+        // Aggiungo azione bottone current Location --
+        card_Current_Location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCurrentLocation();
+            }
+        });
+
         // Aggiungo azione al bottone di switch (origin / destination location) --
         arrow_switch_ImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // inverto origin e destination String --
-                String temp = originString;
-                originString = destinationSring;
-                destinationSring = temp;
 
-                // Recupero riferimenti layout
-                // TextView
-                TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
-                TextView destination_TextView = (TextView)findViewById(R.id.text_destination_ID);
+                if(originString == null || destinationSring == null){
+                    Log.i("INVERT POSITION MAP", "Non posso invertire le posizioni in quanto alcune non sono state ancora settate");
+                }else{
+                    // inverto origin e destination String --
+                    String temp = originString;
+                    String temp_1 = originPosition;
+                    originString = destinationSring;
+                    originPosition = destinationPosition;
+                    destinationSring = temp;
+                    destinationPosition = temp_1;
 
-                if(originString != null && destinationSring != null) {
+                    // Recupero riferimenti layout
+                    // TextView
+                    TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
+                    TextView destination_TextView = (TextView)findViewById(R.id.text_destination_ID);
+
                     origin_TextView.setText(originString);
                     destination_TextView.setText(destinationSring);
+
+                    System.out.println("ORIGIN POSITION = " + originPosition);
+                    System.out.println("DESTINATION POSITION = " + destinationPosition);
                 }
             }
         });
@@ -248,7 +274,6 @@ public class MapsActivity extends FragmentActivity {
                 setNormalTextColor(origin_TextView, null);
 
                 try{
-
 
                     Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .build(MapsActivity.this);
@@ -381,6 +406,7 @@ public class MapsActivity extends FragmentActivity {
                 Place destination_Place = PlaceAutocomplete.getPlace(this, data);
                 destination_TextView.setText(destination_Place.getAddress());
                 destinationSring = destination_Place.getAddress().toString();
+                destinationPosition = destination_Place.getAddress().toString();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
@@ -444,7 +470,7 @@ public class MapsActivity extends FragmentActivity {
         try{
             result = DirectionsApi.newRequest(geoContext)
                     .origin(originPosition)
-                    .destination(destinationSring)
+                    .destination(destinationPosition)
                     .alternatives(true)
                     .mode(travel_Mode)
                     .arrivalTime(arrival_DateTime)
@@ -546,14 +572,15 @@ public class MapsActivity extends FragmentActivity {
                         if(task.isSuccessful()){
                             Log.d("MAPS_ACTIVITY", "onComplete: Found Current Location");
                             Location currentLocation = (Location)task.getResult();
-                            originString = "Origine: la tua posizione";
-                            originPosition = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+                            if(currentLocation != null) {
+                                originString = "Origine: la tua posizione";
+                                originPosition = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
 
-                            TextView origin_TextView = (TextView)findViewById(R.id.text_origin_ID);
-                            origin_TextView.setText(originString);
+                                TextView origin_TextView = (TextView) findViewById(R.id.text_origin_ID);
+                                origin_TextView.setText(originString);
 
-                            System.out.println("****** Current Location : Lat: " + currentLocation.getLatitude() + ", long: " + currentLocation.getLongitude());
-
+                                System.out.println("****** Current Location : Lat: " + currentLocation.getLatitude() + ", long: " + currentLocation.getLongitude());
+                            }
                         }else{
                             Log.d("MAPS_ACTIVITY", "onComplete: Current location is null");
                         }

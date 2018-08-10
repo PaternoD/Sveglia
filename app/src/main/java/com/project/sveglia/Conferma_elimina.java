@@ -2,6 +2,7 @@ package com.project.sveglia;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
@@ -28,10 +29,15 @@ public class Conferma_elimina extends Activity {
         testo_conferma_elimina.setText("Confermi di eliminare la sveglia impostata alle " + time_sveglia+"?");
 
         btn_annulla.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                finish();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 100);
             }
         });
 
@@ -43,7 +49,14 @@ public class Conferma_elimina extends Activity {
                 Cancel_Alarm_Class.cancel_Alarm(id,getApplicationContext(),db,true);
                 db.close();
                 SetViewSveglie.aggiornaAdapter_rimuovi(position);
-                finish();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                }, 100);
             }
         });
     }

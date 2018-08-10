@@ -30,14 +30,36 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         int notification_ID = intent.getExtras().getInt("notification_ID");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
-        int ID_View = intent.getExtras().getInt("View_ID");
+        int position = intent.getExtras().getInt("View_ID_position");
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarm_name = intent.getExtras().getString("alarmName");
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
         long alarmTimeForGoogleMaps = intent.getExtras().getLong("alarmTimeForGoogleMaps");
 
+        Log.e("REBOOT TEST CANCEL NOT", "onReceive: ++++++++++++++ Not_id - Reboot = " + notification_ID);
+
         System.out.println("Sono entrato in cancel notification receiver");
+
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
+        ArrayList<String> all_Database_ID = db_manager.getAllID();
+
+        if (!isRepetitionDayAlarm){
+            db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
+            SetViewSveglie.aggiornaAdapter_disattiva(position);
+        }
+
+        //elimino sveglia con il travel to dopo che ha suonato
+        if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
+            System.out.println("entrato nell'if di riga 86");
+            alarmTimeForGoogleMaps = Long.parseLong(db_manager.getAllTimeView().get(position));
+            int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
+            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+            SetViewSveglie.aggiornaAdapter_rimuovi(position);
+        }
+
+        db_manager.close();
 
         // Cancello allarme CountDown ------------------------------
         try{
@@ -48,7 +70,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             // Cancello l'allarme ---
             alarmManager.cancel(pendingIntent);
 
-        }catch ( Exception e){
+        }catch (Exception e){
             Log.i("CountDownAlarmCancel", "onReceive: La richiesta di cancellazione non avviene dalla notifica di CountDown Timer. \n" + e);
         }
 
@@ -75,14 +97,14 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             int ALARM_ID = createID(newAlarmTimeInMillis);
             Intent startRepetitionAlarm = new Intent(context, AlarmReceiver.class);
-
-            startRepetitionAlarm.putExtra("View_ID", ID_View);
+            startRepetitionAlarm.putExtra("View_ID_position", position);
             startRepetitionAlarm.putExtra("alarm_music_ID", alarm_music_ID);
             startRepetitionAlarm.putExtra("isDelayAlarm", isDelayAlarm);
             startRepetitionAlarm.putExtra("alarmName", alarm_name);
             startRepetitionAlarm.putExtra("isRepetitionDayAlarm", false);
             startRepetitionAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             startRepetitionAlarm.putExtra("maps_direction_request", maps_direction_request);
+            startRepetitionAlarm.putExtra("isFirstTimeAlarm", false);
 
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
@@ -90,9 +112,9 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         }
 
         if(maps_direction_request != null){
-            DB_Manager db_manager = new DB_Manager(context);
-            db_manager.open();
-            long googleMapsTime = db_manager.getBadToCar();
+            DB_Manager db_manager_1 = new DB_Manager(context);
+            db_manager_1.open();
+            long googleMapsTime = db_manager_1.getBadToCar();
 
             // Setto ora e minuti in cui aprire google Maps --
             long timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
@@ -105,6 +127,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startRepetitionAlarm_PendingIntent);
 
+            db_manager_1.close();
         }
 
     }

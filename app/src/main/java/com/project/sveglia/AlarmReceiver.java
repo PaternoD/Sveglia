@@ -45,6 +45,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     boolean bianco_nero=false;
 
     boolean ritarda;
+    int position = 0;
+    boolean isRebootAlarm;
+    int FLAG;
 
 
     @Override
@@ -62,6 +65,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
         }
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
+        boolean isFirstTimeAlarm = intent.getExtras().getBoolean("isFirstTimeAlarm");
+        isRebootAlarm = intent.getExtras().getBoolean("isRebootAlarm");
+
+
+        if(isRebootAlarm){
+            FLAG = PendingIntent.FLAG_UPDATE_CURRENT;
+        }else{
+            FLAG = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
 
         // Apro il database --------------------------------------
         DB_Manager db_manager = new DB_Manager(context);
@@ -71,26 +83,25 @@ public class AlarmReceiver extends BroadcastReceiver {
         // ----> recupero informazioni sulla vibrazione
         boolean enableVibrate = true;
         delayTimeForCancelForNotification = db_manager.getDurataSuoneria();
-        ArrayList<String> all_Database_ID = db_manager.getAllID();
+
+        Log.e("REBOOT TEST", "onReceive: ++++++++++++++ Alarm View ID - Reboot = " + alarmViewID);
+
 
         // setto visualizzazione sveglia a "non attiva" --
-        int position = CustomAdapterView.getPosition(alarmViewID);
+        if(isFirstTimeAlarm) {
+            //position = CustomAdapterView.getPosition(alarmViewID);
+            for(int i=0; i<db_manager.getAllID().size(); i++){
+                if(alarmViewID == Integer.parseInt(db_manager.getAllID().get(i))){
+                    position = i;
+                }
+            }
 
-        if (!isRepetitionDayAlarm){
-            System.out.println("riga 76 di alarmReciver-------------------");
-            System.out.println("posizione: "+position+ " ---- viewID: "+alarmViewID);
-            db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
-            SetViewSveglie.aggiornaAdapter_disattiva(position);
+        }else{
+            position = intent.getExtras().getInt("View_ID_position");
         }
 
-        //elimino sveglia con il travel to dopo che ha suonato
-        if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
-            System.out.println("entrato nell'if di riga 86");
-            alarmTimeForGoogleMaps = Long.parseLong(db_manager.getAllTimeView().get(position));
-            int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
-            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
-            SetViewSveglie.aggiornaAdapter_rimuovi(position);
-        }
+        Log.e("REBOOT TEST", "onReceive: ++++++++++++++ Position - Reboot = " + position);
+        System.out.println("++++++++++++ alarm_music_id ++++++++ " + alarm_music_ID);
 
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
@@ -144,7 +155,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                                 cancelAction.putExtra("maps_direction_request", maps_direction_request);
-                                cancelAction.putExtra("View_ID", alarmViewID);
+                                cancelAction.putExtra("View_ID_position", position);
                                 cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
                                 cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
                                 cancelAction.putExtra("alarmName", alarmName);
@@ -170,7 +181,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("notification_Channel", "");
                                 delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                                delayAction.putExtra("View_ID", alarmViewID);
+                                delayAction.putExtra("View_ID_position", position);
+                                delayAction.putExtra("isRebootAlarm", isRebootAlarm);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -216,7 +228,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             cancelAction.putExtra("maps_direction_request", maps_direction_request);
-            cancelAction.putExtra("View_ID", alarmViewID);
+            cancelAction.putExtra("View_ID_position", position);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
             cancelAction.putExtra("alarmName", alarmName);
@@ -234,7 +246,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("notification_Channel", "");
             delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-            delayAction.putExtra("View_ID", alarmViewID);
+            delayAction.putExtra("View_ID_position", position);
+            delayAction.putExtra("isRebootAlarm", isRebootAlarm);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -249,9 +262,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             fullScreen.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             fullScreen.putExtra("maps_direction_request", maps_direction_request);
-            fullScreen.putExtra("View_ID", alarmViewID);
+            fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo la notifica ------------------------------------------------
@@ -286,7 +300,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             // Attivo servizio per attivare la musica della notifica -----------
             Intent service_intent = new Intent(context, Notification_Sound_Service.class);
             service_intent.putExtra("alarm_music_ID", alarmMusic_ID);
-            context.startForegroundService(service_intent);
+            if(isRebootAlarm){
+                context.startForegroundService(service_intent);
+            }else{
+                context.startForegroundService(service_intent);
+            }
+
 
             // Aggiungo azione cancella alla notifica --------------------------
             Intent cancelAction = new Intent(context, CancelNotificationReceiver.class);
@@ -294,7 +313,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             cancelAction.putExtra("maps_direction_request", maps_direction_request);
-            cancelAction.putExtra("View_ID", alarmViewID);
+            cancelAction.putExtra("View_ID_position", position);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
             cancelAction.putExtra("alarmName", alarmName);
@@ -311,7 +330,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("notification_Channel", not_Channel_ID);
             delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-            delayAction.putExtra("View_ID", alarmViewID);
+            delayAction.putExtra("View_ID_position", position);
+            delayAction.putExtra("isRebootAlarm", isRebootAlarm);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
@@ -330,10 +350,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarm_name", alarmName);
             fullScreen.putExtra("notification_Channel", not_Channel_ID);
             fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            fullScreen.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             fullScreen.putExtra("maps_direction_request", maps_direction_request);
-            fullScreen.putExtra("View_ID", alarmViewID);
+            fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
@@ -403,7 +427,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
                                 cancelAction.putExtra("maps_direction_request", maps_direction_request);
-                                cancelAction.putExtra("View_ID", alarmViewID);
+                                cancelAction.putExtra("View_ID_position", position);
                                 cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
                                 cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
                                 cancelAction.putExtra("alarmName", alarmName);
@@ -431,7 +455,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("alarm_name", alarmName);
                                 delayAction.putExtra("notification_Channel", "");
                                 delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-                                delayAction.putExtra("View_ID", alarmViewID);
+                                delayAction.putExtra("View_ID_position", position);
+                                delayAction.putExtra("isRebootAlarm", isRebootAlarm);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -482,7 +507,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             cancelAction.putExtra("maps_direction_request", maps_direction_request);
-            cancelAction.putExtra("View_ID", alarmViewID);
+            cancelAction.putExtra("View_ID_position", position);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
             cancelAction.putExtra("alarmName", alarmName);
@@ -493,12 +518,19 @@ public class AlarmReceiver extends BroadcastReceiver {
             // fullScreen notification intent ----------------------------------
             Intent fullScreen = new Intent(context, FullScreen_Notification.class);
             fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", isDelayAlarm);
+            fullScreen.putExtra("alarm_name", alarmName);
             fullScreen.putExtra("notification_Channel", "");
             fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            fullScreen.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             fullScreen.putExtra("maps_direction_request", maps_direction_request);
-            fullScreen.putExtra("View_ID", alarmViewID);
+            fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
@@ -539,7 +571,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             cancelAction.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             cancelAction.putExtra("maps_direction_request", maps_direction_request);
-            cancelAction.putExtra("View_ID", alarmViewID);
+            cancelAction.putExtra("View_ID_position", position);
             cancelAction.putExtra("alarm_music_ID", alarmMusic_ID);
             cancelAction.putExtra("isDelayAlarm", isDelayAlarm);
             cancelAction.putExtra("alarmName", alarmName);
@@ -557,12 +589,19 @@ public class AlarmReceiver extends BroadcastReceiver {
             // fullScreen notification intent ----------------------------------
             Intent fullScreen = new Intent(context, FullScreen_Notification.class);
             fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", isDelayAlarm);
+            fullScreen.putExtra("alarm_name", alarmName);
             fullScreen.putExtra("notification_Channel", not_Channel_ID);
             fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+            fullScreen.putExtra("alarmTimeInMillis", alarmTimeInMillis);
             fullScreen.putExtra("maps_direction_request", maps_direction_request);
-            fullScreen.putExtra("View_ID", alarmViewID);
+            fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
@@ -616,6 +655,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         delayNotificationIntent.putExtra("isDelayAlarm", isDelayAlarm);
                         delayNotificationIntent.putExtra("alarm_name", alarm_name);
                         delayNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                        delayNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
                         PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, 0, delayNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
                             delayPendingIntent.send();

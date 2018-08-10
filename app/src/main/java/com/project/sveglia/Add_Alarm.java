@@ -171,6 +171,7 @@ public class Add_Alarm extends Activity {
             alarm_music_name=getMusicData.getMusicName(Integer.parseInt(db.getAllPosSuoneria().get(modify_alarm_position))+1);
             listPositionMusic= Integer.parseInt(db.getAllPosSuoneria().get(modify_alarm_position));
             alarm_Name = db.getAllNameView().get(modify_alarm_position);
+            alarm_music_ID = Integer.parseInt(db.getAllIDsuoneria().get(modify_alarm_position));
             etichetta_name.setText(alarm_Name);
 //SETTO RITARDA
             if (db.getAllRitarda().get(modify_alarm_position).equals((String)"0")){
@@ -400,6 +401,9 @@ public class Add_Alarm extends Activity {
                     Cancel_Alarm_Class.cancel_Alarm(Integer.parseInt(db.getAllID().get(modify_alarm_position)),Add_Alarm.this,db,true);
 
                 }
+
+                System.out.println("Add_Alarm_Class alarmMusicID = " + alarm_music_ID);
+
                 SetAlarmManager.SetAlarmManager(Add_Alarm.this,
                         alarm_time,
                         alarm_music_ID,
@@ -519,8 +523,6 @@ public class Add_Alarm extends Activity {
                 if(traffic_model != "TRANSIT"){
                     maps_direction_request = data.getExtras().getString("maps_direction_request");
                 }
-
-
 
                 // Recupero riferimenti layout ------------------------
                 // TextView

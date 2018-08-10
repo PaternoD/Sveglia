@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -111,6 +112,7 @@ public class CustomAdapterForMusic extends RecyclerView.Adapter<CustomAdapterFor
                     // La prima volta da errore, in quanto mediaplayer non è stato avviato
                     Log.i("MEDIAPLAYER_ERROR_BACK", "onClick: I can't stop music for the first time");
                 }
+
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("music_name", music_name_result);

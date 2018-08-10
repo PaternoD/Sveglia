@@ -24,6 +24,9 @@ import java.util.Calendar;
  */
 
 public class delayNotificationReceiver extends BroadcastReceiver {
+
+    int FLAG;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
@@ -36,7 +39,14 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         String alarm_name = intent.getExtras().getString("alarm_name");
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
-        int ID_View = intent.getExtras().getInt("View_ID");
+        int position = intent.getExtras().getInt("View_ID_position");
+        boolean isRebootAlarm = intent.getExtras().getBoolean("isRebootAlarm");
+
+        if(isRebootAlarm){
+            FLAG = PendingIntent.FLAG_UPDATE_CURRENT;
+        }else{
+            FLAG = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
 
         repeatAlarmNumberTimes -= 1;
         //System.out.println("**** RepeatAlarmNumeberTimes: " + repeatAlarmNumberTimes);
@@ -66,14 +76,19 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         int repeatAlarmID = createID(timeDelayAlarm);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
+        Log.e("REBOOT TEST DELAY NOT", "onReceive: ++++++++++++++ Position - Reboot = " + position);
+
         Intent startRepeatAlarm = new Intent(context, AlarmReceiver.class);
-        startRepeatAlarm.putExtra("View_ID", ID_View);
+        startRepeatAlarm.putExtra("View_ID", 0);
+        startRepeatAlarm.putExtra("View_ID_position", position);
         startRepeatAlarm.putExtra("isRepeatAlarm", false);
         startRepeatAlarm.putExtra("alarm_music_ID", alarm_music_ID);
         startRepeatAlarm.putExtra("isDelayAlarm", isDelayAlarm);
         startRepeatAlarm.putExtra("alarmName", alarm_name);
         startRepeatAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_ONE_SHOT);
+        startRepeatAlarm.putExtra("isFirstTimeAlarm", false);
+        startRepeatAlarm.putExtra("isRebootAlarm", isRebootAlarm);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
 
         // Attivo notifica con CountDown Timer del tempo di Delay --
@@ -90,7 +105,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         countDown_Notif_Cancel.putExtra("alarm_ID", repeatAlarmID);
         countDown_Notif_Cancel.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
         countDown_Notif_Cancel.putExtra("notification_ID", countDownNotification_ID);
-        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, countDownNotification_ID, countDown_Notif_Cancel, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, countDownNotification_ID, countDown_Notif_Cancel, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Creazione della notifica "countDown Timer" --
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

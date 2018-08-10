@@ -137,35 +137,64 @@
                         android:layout_toStartOf="@+id/relativeLayout3"
                         android:orientation="vertical">
 
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/autocomp_origin_Card_ID"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginTop="8dp"
-                            android:layout_toEndOf="@+id/imageView3"
-                            app:cardBackgroundColor="@color/DefaultMapsSearch"
-                            app:cardCornerRadius="4dp"
-                            app:cardElevation="0dp">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp">
 
-                            <TextView
-                                android:id="@+id/text_origin_ID"
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/Card_CurrentLocation"
+                                android:layout_width="40dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="8dp"
+                                app:cardBackgroundColor="@color/DefaultMapsSearch"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="0dp">
+
+                                <ImageButton
+                                    android:id="@+id/ImageButton_Current_View"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:background="@android:color/transparent"
+                                    android:scaleX="0.85"
+                                    android:scaleY="0.85"
+                                    app:srcCompat="@drawable/icons8_target_24" />
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/autocomp_origin_Card_ID"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="16dp"
-                                android:fontFamily="@font/fira_sans_light"
-                                android:singleLine="true"
-                                android:text="Origine"
-                                android:textColor="@color/DefaultColorText" />
-                        </android.support.v7.widget.CardView>
+                                android:layout_height="30dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginTop="8dp"
+                                android:layout_toEndOf="@+id/imageView3"
+                                android:layout_toStartOf="@+id/Card_CurrentLocation"
+                                app:cardBackgroundColor="@color/DefaultMapsSearch"
+                                app:cardCornerRadius="4dp"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:id="@+id/text_origin_ID"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginRight="16dp"
+                                    android:fontFamily="@font/fira_sans_light"
+                                    android:singleLine="true"
+                                    android:text="Origine"
+                                    android:textColor="@color/DefaultColorText" />
+                            </android.support.v7.widget.CardView>
+                        </RelativeLayout>
 
                         <android.support.v7.widget.CardView
                             android:id="@+id/autocomp_destination_Card_ID"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:layout_marginTop="14dp"
+                            android:layout_marginTop="8dp"
                             app:cardBackgroundColor="@color/DefaultMapsSearch"
                             app:cardCornerRadius="4dp"
                             app:cardElevation="0dp">

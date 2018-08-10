@@ -53,7 +53,6 @@ public class add_alarm_music extends Activity {
 
         getMusicData.getMusicDataForAlarm(add_alarm_music.this, recyclerView, btn_save_music, add_alarm_music.this, listPositionMusic, music_name, alarm_music_ID);
 
-
         View decorView = getWindow().getDecorView();
         // Hide both the navigation bar and the status bar.
         // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as

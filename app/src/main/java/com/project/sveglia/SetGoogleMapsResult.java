@@ -97,13 +97,23 @@ public class SetGoogleMapsResult {
 
                 destination_location = "&destination=" + result.routes[i].legs[0].endLocation.lat + "," + result.routes[i].legs[0].endLocation.lng;
 
-                String googleMapsRequest = "";
+                String waypoint = "";
+                DirectionsStep[] step = result.routes[i].legs[0].steps;
 
                 int stepsLenght = result.routes[i].legs[0].steps.length;
-                DirectionsStep[] step = result.routes[i].legs[0].steps;
-                googleMapsRequest =  googleMapsRequest + "&waypoints=" + step[stepsLenght/2].endLocation.lat + "," + step[stepsLenght/2].endLocation.lng;
+                if(stepsLenght > 5){
+                    int mid = stepsLenght/2;
+                    int mid_min = mid/2;
+                    int mid_max = mid + mid_min;
 
-                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, googleMapsRequest, origin_location, destination_location));
+                    waypoint =  waypoint + "&waypoints=" + step[mid_min].endLocation.lat + "," + step[mid_min].endLocation.lng;
+                    waypoint =  waypoint + "&waypoints=" + step[mid].endLocation.lat + "," + step[mid].endLocation.lng;
+                    waypoint =  waypoint + "&waypoints=" + step[mid_max].endLocation.lat + "," + step[mid_max].endLocation.lng;
+                }else{
+                    waypoint =  waypoint + "&waypoints=" + step[stepsLenght/2].endLocation.lat + "," + step[stepsLenght/2].endLocation.lng;
+                }
+
+                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, waypoint, origin_location, destination_location));
 
             }
 
@@ -249,9 +259,27 @@ public class SetGoogleMapsResult {
 
                 end_address = result.routes[i].legs[0].endAddress;
 
-                String googleMapsRequest = "";
+                origin_location = "&origin=" + result.routes[i].legs[0].startLocation.lat + "," + result.routes[i].legs[0].startLocation.lng;
 
-                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, googleMapsRequest, "", ""));
+                destination_location = "&destination=" + result.routes[i].legs[0].endLocation.lat + "," + result.routes[i].legs[0].endLocation.lng;
+
+                String waypoint = "";
+                DirectionsStep[] step = result.routes[i].legs[0].steps;
+
+                int stepsLenght = result.routes[i].legs[0].steps.length;
+                if(stepsLenght > 5){
+                    int mid = stepsLenght/2;
+                    int mid_min = mid/2;
+                    int mid_max = mid + mid_min;
+
+                    waypoint =  waypoint + "&waypoints=" + step[mid_min].endLocation.lat + "," + step[mid_min].endLocation.lng;
+                    waypoint =  waypoint + "&waypoints=" + step[mid].endLocation.lat + "," + step[mid].endLocation.lng;
+                    waypoint =  waypoint + "&waypoints=" + step[mid_max].endLocation.lat + "," + step[mid_max].endLocation.lng;
+                }else{
+                    waypoint =  waypoint + "&waypoints=" + step[stepsLenght/2].endLocation.lat + "," + step[stepsLenght/2].endLocation.lng;
+                }
+
+                data.add(new DataModelGoogleMaps(route_detail, duration_detail, duration_in_seconds, arrival_time_in_millis, departure_time, distance_detail, departure_detail, start_address, end_address, waypoint, origin_location, destination_location));
 
             }
 

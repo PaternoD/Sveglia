@@ -44,7 +44,7 @@ public class Notification_Sound_Service extends Service {
 
         startForeground(1, new Notification());
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override

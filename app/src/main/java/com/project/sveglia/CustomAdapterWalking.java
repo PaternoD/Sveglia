@@ -85,11 +85,19 @@ public class CustomAdapterWalking extends RecyclerView.Adapter<CustomAdapterWalk
                 long currentTime = calendar.getTimeInMillis();
 
                 if(alarm_Time > currentTime) {
+
+                    String origin_loc = dataSet.get(listPosition).getOrigin_location();
+                    String dest_loc = dataSet.get(listPosition).getDestination_location();
+                    String waypoint = dataSet.get(listPosition).getGoogleMapsRequest();
+
+                    String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=walking&dir_action=navigate";
+
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("alarm_time", alarm_Time);
                     resultIntent.putExtra("transit_model", "WALKING");
                     resultIntent.putExtra("start_address", start_address_detail);
                     resultIntent.putExtra("end_address", end_address_detail);
+                    resultIntent.putExtra("maps_direction_request", maps_direction_request);
                     myActivity.setResult(Activity.RESULT_OK, resultIntent);
                     myActivity.finish();
                 }else{
