@@ -12,6 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
+        app:cardBackgroundColor="@color/CardDefaultColor"
         app:cardCornerRadius="18dp"
         app:cardElevation="0dp">
 

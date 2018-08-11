@@ -92,30 +92,28 @@ public class StartApplication extends BroadcastReceiver {
 
             if(time_in_millis > current_time){
 
-                if(is_travel_to == false){
+                Toast.makeText(context, "Sto settando la sveglia", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "is_delay_alarm: " + is_delay_alarm, Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(context, "Sto settando la sveglia", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(context, "is_delay_alarm: " + is_delay_alarm, Toast.LENGTH_LONG).show();
+                // Cancello informazioni nel database --
+                cancelAlarm(Integer.parseInt(all_Database_ID.get(i)), context, db_manager, true);
+                Toast.makeText(context, "Ho cancellato la sveglia", Toast.LENGTH_SHORT).show();
 
-                    // Cancello informazioni nel database --
-                    cancelAlarm(Integer.parseInt(all_Database_ID.get(i)), context, db_manager, true);
-                    Toast.makeText(context, "Ho cancellato la sveglia", Toast.LENGTH_SHORT).show();
+                // Setto nuovamente la sveglia --
+                setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model);
+                Toast.makeText(context, "Ho risettato la sveglia", Toast.LENGTH_SHORT).show();
 
-                    // Setto nuovamente la sveglia --
-                    setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model);
-                    Toast.makeText(context, "Ho risettato la sveglia", Toast.LENGTH_SHORT).show();
-
-                }else{
-
-                    // Cancello informazioni nel database --
-                    cancelAlarm(Integer.parseInt(all_Database_ID.get(i)), context, db_manager, true);
-                }
 
             }else{
 
                 Toast.makeText(context, "non sono riuscito a settare la sveglia", Toast.LENGTH_SHORT).show();
 
                 db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(i)), false);
+
+                if(is_travel_to == true){
+                    // Cancello informazioni nel database --
+                    cancelAlarm(Integer.parseInt(all_Database_ID.get(i)), context, db_manager, true);
+                }
 
             }
 

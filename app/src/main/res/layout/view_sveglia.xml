@@ -21,23 +21,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:id="@+id/Rel_Lay_infoMap_Sveglia_ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/nome_sveglia"
+                android:layout_alignStart="@+id/ImageView_Calendar"
+                android:layout_below="@+id/Data_Sveglia_ID"
                 android:layout_marginBottom="12dp"
-                android:layout_marginStart="18dp">
+                android:layout_marginTop="6dp">
 
                 <TextView
                     android:id="@+id/info_Maps_Sveglia_ID"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/imageView"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="8dp"
                     android:layout_toEndOf="@+id/imageView"
                     android:text="MapsInfo"
                     android:textColor="@color/DefaultColorText" />
@@ -48,6 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/nome_sveglia"
                     android:layout_below="@+id/nome_sveglia"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
                     android:translationY="0dp"
                     app:srcCompat="@drawable/google_maps" />
             </RelativeLayout>
@@ -56,9 +58,8 @@
                 android:id="@+id/nome_sveglia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/time_sveglia"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="18dp"
+                android:layout_alignBottom="@+id/imageView_Name"
+                android:layout_toEndOf="@+id/imageView_Name"
                 android:maxLength="18"
                 android:text="nome_sveglia"
                 android:textColor="@color/DefaultColorText" />
@@ -67,9 +68,8 @@
                 android:id="@+id/Data_Sveglia_ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/time_sveglia"
-                android:layout_marginStart="18dp"
-                android:layout_toEndOf="@+id/nome_sveglia"
+                android:layout_alignBottom="@+id/ImageView_Calendar"
+                android:layout_toEndOf="@+id/ImageView_Calendar"
                 android:text="Data_sveglia"
                 android:textColor="@color/DefaultColorText" />
 
@@ -101,14 +101,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/Rel_Lay_infoMap_Sveglia_ID"
+                android:layout_below="@+id/imageView_Name"
+                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
                 android:translationY="-8dp"
                 android:visibility="visible">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/Lun_Circle"
@@ -272,6 +274,30 @@
                 </android.support.constraint.ConstraintLayout>
 
             </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageView_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/time_sveglia"
+                android:layout_below="@+id/time_sveglia"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="6dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/icons8_car_24" />
+
+            <ImageView
+                android:id="@+id/ImageView_Calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/imageView_Name"
+                android:layout_below="@+id/imageView_Name"
+                android:layout_marginEnd="8dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                app:srcCompat="@drawable/icons8_calendar_24" />
 
         </RelativeLayout>
 

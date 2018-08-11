@@ -15,6 +15,7 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity {
 
     private DB_Manager db_manager;
+    public static boolean isActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isActive = false;
     }
 
 

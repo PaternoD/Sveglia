@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +49,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         RelativeLayout giorni_ripetizioni;
         CardView sveglia;
         ImageView img_destinazione;
+        ImageView img_nome_sveglia;
+        ImageView img_data_sveglia;
 
 
         public MyViewHolder(View itemView) {
@@ -65,6 +71,8 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
             dataSveglia=(TextView)itemView.findViewById(R.id.Data_Sveglia_ID);
             destinazione=(TextView)itemView.findViewById(R.id.info_Maps_Sveglia_ID);
             img_destinazione=(ImageView)itemView.findViewById(R.id.imageView);
+            img_data_sveglia =(ImageView)itemView.findViewById(R.id.ImageView_Calendar);
+            img_nome_sveglia=(ImageView)itemView.findViewById(R.id.imageView_Name);
         }
     }
 
@@ -101,6 +109,14 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         CardView dom = holder.dom;
         final CardView sveglia = holder.sveglia;
         ImageView img_destinazione = holder.img_destinazione;
+        ImageView img_data_sveglia = holder.img_data_sveglia;
+        ImageView img_nome_sveglia = holder.img_nome_sveglia;
+
+        Bitmap image_calendar = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_calendar_24);
+        Bitmap image_name = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_autograph_24);
+
+        img_data_sveglia.setImageBitmap(image_calendar);
+        img_nome_sveglia.setImageBitmap(image_name);
 
         if(dataSet.get(position).getId()==999999999){
             sveglia.setVisibility(View.INVISIBLE);
@@ -116,7 +132,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         RelativeLayout giorni_ripetizioni = holder.giorni_ripetizioni;
 
         if (dataSet.get(position).getTravelTo()){
-            data_sveglia.setText("Impostata il: "+dataSet.get(position).getDataSveglia());
+            data_sveglia.setText("Impostata per il: "+dataSet.get(position).getDataSveglia());
             destinazione_sveglia.setText(dataSet.get(position).getTo());
             giorni_ripetizioni.setVisibility(View.GONE);
             data_sveglia.setVisibility(View.VISIBLE);
@@ -125,6 +141,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
         }else{
             giorni_ripetizioni.setVisibility(View.VISIBLE);
             data_sveglia.setVisibility(View.GONE);
+            img_data_sveglia.setVisibility(View.GONE);
             destinazione_sveglia.setVisibility(View.GONE);
             img_destinazione.setVisibility(View.GONE);
 

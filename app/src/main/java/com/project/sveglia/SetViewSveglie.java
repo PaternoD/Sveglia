@@ -2,6 +2,7 @@ package com.project.sveglia;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -125,14 +126,23 @@ public class SetViewSveglie {
     }
 
     public static void aggiornaAdapter_rimuovi(int pos){
-        data.remove(pos);
-        adapter.notifyDataSetChanged();
+        if(MainActivity.isActive){
+            data.remove(pos);
+            adapter.notifyDataSetChanged();
+        }else{
+            // Da Finire !!!!!!!!
+        }
+
+
     }
 
     public static void aggiornaAdapter_disattiva(int position){
-        data.get(position).on_off=false;
-        adapter.notifyItemChanged(position);
-
+        if(MainActivity.isActive) {
+            data.get(position).on_off = false;
+            adapter.notifyItemChanged(position);
+        }else{
+            // Da Finire !!!!!!!!
+        }
     }
 
 

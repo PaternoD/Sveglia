@@ -1,6 +1,8 @@
 package com.project.sveglia;
 
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -118,6 +120,8 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
 
             // Setto ora e minuti in cui aprire google Maps --
             long timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
+
+            System.out.println("+++++++++++ alarmTimeForGOogleMaps = "+ alarmTimeForGoogleMaps);
 
             // Setto la notifica per aprire google maps ---------------
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
