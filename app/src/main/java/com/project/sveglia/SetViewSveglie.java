@@ -128,8 +128,6 @@ public class SetViewSveglie {
         if(MainActivity.isActive){
             data.remove(pos);
             adapter.notifyDataSetChanged();
-        }else{
-            // Da Finire !!!!!!!!
         }
 
 
@@ -139,8 +137,6 @@ public class SetViewSveglie {
         if(MainActivity.isActive) {
             data.get(position).on_off = false;
             adapter.notifyItemChanged(position);
-        }else{
-            // Da Finire !!!!!!!!
         }
     }
 

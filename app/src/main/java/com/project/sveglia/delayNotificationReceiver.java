@@ -41,6 +41,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
         int position = intent.getExtras().getInt("View_ID_position");
         boolean isRebootAlarm = intent.getExtras().getBoolean("isRebootAlarm");
+        int ALARM_ID = intent.getExtras().getInt("alarm_ID");
 
         if(isRebootAlarm){
             FLAG = PendingIntent.FLAG_UPDATE_CURRENT;
@@ -88,6 +89,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         startRepeatAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startRepeatAlarm.putExtra("isFirstTimeAlarm", false);
         startRepeatAlarm.putExtra("isRebootAlarm", isRebootAlarm);
+        startRepeatAlarm.putExtra("alarm_ID", ALARM_ID);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
 

@@ -21,18 +21,13 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        System.out.println("++++++++++ Sono entrato in Notification Google Maps +++++++++++++");
-
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
         Calendar calendar = Calendar.getInstance();
         int NOT_ID = createID(calendar.getTimeInMillis());
 
-        System.out.println("maps_direction_request_1 = " + maps_direction_request);
-
         // Controllo la versione di android
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
 
-            // Attivo servizio per attivare la musica della notifica -----------
             int alarmMusic_ID = R.raw.mp3_quite_impressed;
             Intent service_intent = new Intent(context, Notification_Sound_Service.class);
             service_intent.putExtra("alarm_music_ID", alarmMusic_ID);

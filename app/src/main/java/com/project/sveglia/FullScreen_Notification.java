@@ -40,6 +40,7 @@ public class FullScreen_Notification extends Activity {
 
     int NOT_ID;
     int alarm_Music_ID;
+    int ALARM_ID;
     boolean is_Delay_Alarm;
     String alarm_Name;
     String notification_Channel;
@@ -82,6 +83,7 @@ public class FullScreen_Notification extends Activity {
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
+            ALARM_ID = getIntent().getExtras().getInt("alarm_ID");
         }
 
         Log.e("REBOOT TEST FULLSCREEN", "onReceive: ++++++++++++++ notification_id - Reboot = " + NOT_ID);
@@ -160,6 +162,7 @@ public class FullScreen_Notification extends Activity {
                                 cancelNotificationIntent.putExtra("alarmName", alarm_Name);
                                 cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 cancelNotificationIntent.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+                                cancelNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     cancelPendingIntent.send();
@@ -186,6 +189,7 @@ public class FullScreen_Notification extends Activity {
                                 snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
+                                snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     snoozePendingIntent.send();
@@ -273,6 +277,7 @@ public class FullScreen_Notification extends Activity {
                 cancelNotificationIntent.putExtra("alarmName", alarm_Name);
                 cancelNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 cancelNotificationIntent.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+                cancelNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 try {
                     cancelPendingIntent.send();
@@ -305,6 +310,7 @@ public class FullScreen_Notification extends Activity {
                     snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                     snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                     snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
+                    snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                     PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     try {
                         snoozePendingIntent.send();
@@ -359,6 +365,7 @@ public class FullScreen_Notification extends Activity {
                 snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                 snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
+                snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 try {
                     snoozePendingIntent.send();

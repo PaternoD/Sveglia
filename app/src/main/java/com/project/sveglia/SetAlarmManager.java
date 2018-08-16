@@ -148,6 +148,8 @@ db_manager.close();
         int ALARM_ID = createID(timeInMillis);
         int ID_View = (int) getRandomID(timeInMillis);
 
+        Log.e("ALARM_ID ***", "startAlarm: alrm_id alla creazione è " + ALARM_ID);
+
         Intent startPrincipalAlarmIntent = new Intent(context, AlarmReceiver.class);
         startPrincipalAlarmIntent.putExtra("View_ID", ID_View);
         startPrincipalAlarmIntent.putExtra("alarm_music_ID", alarm_music_ID);
@@ -158,7 +160,7 @@ db_manager.close();
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
         startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
         startPrincipalAlarmIntent.putExtra("isRebootAlarm", false);
-        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
@@ -231,7 +233,6 @@ db_manager.close();
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
         int ID_View = (int) getRandomID(timeInMilllis);
-        int PRIMARY_ALARM_ID = ALARM_ID;
         long repeatTimeInMillis = timeInMilllis;
         Vector<Integer> vector_id_sveglia = new Vector<>(2);
 
@@ -335,7 +336,8 @@ db_manager.close();
                 startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
                 startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
                 startRepeatAlarmIntent.putExtra("isRebootAlarm", false);
-                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_ONE_SHOT);
+                startRepeatAlarmIntent.putExtra("alarm_ID", ALARM_ID);
+                PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 
                 // Salvo id sveglia in vector_id_sveglia -----------------------------

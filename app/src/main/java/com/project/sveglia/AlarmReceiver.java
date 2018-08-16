@@ -48,6 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     int position = 0;
     boolean isRebootAlarm;
     int FLAG;
+    int ALARM_ID = 0;
 
 
     @Override
@@ -63,6 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         ritarda=isDelayAlarm;
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = intent.getExtras().getLong("alarmTimeInMillis");
+            ALARM_ID = intent.getExtras().getInt("alarm_ID");
         }
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
         boolean isFirstTimeAlarm = intent.getExtras().getBoolean("isFirstTimeAlarm");
@@ -161,6 +163,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("alarmName", alarmName);
                                 cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+                                cancelAction.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     cancelPendingIntent.send();
@@ -183,6 +186,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 delayAction.putExtra("View_ID_position", position);
                                 delayAction.putExtra("isRebootAlarm", isRebootAlarm);
+                                delayAction.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -234,7 +238,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("alarmName", alarmName);
             cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-
+            cancelAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -248,6 +252,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             delayAction.putExtra("View_ID_position", position);
             delayAction.putExtra("isRebootAlarm", isRebootAlarm);
+            delayAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -265,6 +270,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -319,6 +325,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("alarmName", alarmName);
             cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+            cancelAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione Ritarda alla notifica ---------------------------
@@ -332,6 +339,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             delayAction.putExtra("View_ID_position", position);
             delayAction.putExtra("isRebootAlarm", isRebootAlarm);
+            delayAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
@@ -357,6 +365,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -434,6 +443,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 cancelAction.putExtra("alarmName", alarmName);
                                 cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+                                cancelAction.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     cancelPendingIntent.send();
@@ -458,6 +468,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 delayAction.putExtra("View_ID_position", position);
                                 delayAction.putExtra("isRebootAlarm", isRebootAlarm);
+                                delayAction.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -515,6 +526,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("alarmName", alarmName);
             cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+            cancelAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -532,6 +544,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -579,6 +592,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             cancelAction.putExtra("alarmName", alarmName);
             cancelAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
             cancelAction.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+            cancelAction.putExtra("alarm_ID", ALARM_ID);
             PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
@@ -603,6 +617,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("View_ID_position", position);
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -658,6 +673,7 @@ db.close();
                         delayNotificationIntent.putExtra("alarm_name", alarm_name);
                         delayNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                         delayNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
+                        delayNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                         PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, 0, delayNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
                             delayPendingIntent.send();

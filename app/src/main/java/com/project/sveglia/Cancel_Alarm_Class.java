@@ -39,7 +39,7 @@ public class Cancel_Alarm_Class extends Activity {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent);
 
-            Log.i("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");
+            Log.e("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");
 
             //cancellazione table_sveglie
             db_manager.delete_sveglia(id_Alarm);
