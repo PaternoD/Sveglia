@@ -200,7 +200,7 @@ public class FullScreen_Notification extends Activity {
                                 finishAndRemoveTask();
                             }
 
-
+                        db.close();
                         }
                     }else{//se a pancia in su
                         System.out.println("pancia in su");

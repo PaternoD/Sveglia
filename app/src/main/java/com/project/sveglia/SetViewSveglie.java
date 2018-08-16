@@ -122,7 +122,6 @@ public class SetViewSveglie {
         recyclerView.setAdapter(adapter);
 
 
-
     }
 
     public static void aggiornaAdapter_rimuovi(int pos){

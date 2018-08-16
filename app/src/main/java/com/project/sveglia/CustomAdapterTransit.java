@@ -94,8 +94,7 @@ public class CustomAdapterTransit extends RecyclerView.Adapter<CustomAdapterTran
                 }else{
                     Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
                     myActivity.startActivity(intent_Time_Passed);
-                }
-
+                }db_manager.close();
             }
         });
 

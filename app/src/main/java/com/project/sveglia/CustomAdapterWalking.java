@@ -137,7 +137,7 @@ public class CustomAdapterWalking extends RecyclerView.Adapter<CustomAdapterWalk
         cal.setTimeInMillis(time);
 
         res = cal.getTimeInMillis();
-
+        db_manager.close();
         return res;
     }
 

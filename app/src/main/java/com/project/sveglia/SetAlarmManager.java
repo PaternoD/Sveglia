@@ -94,7 +94,7 @@ public class SetAlarmManager {
                     repeatAlarmNumberTimes,
                     maps_direction_request);
         }
-
+db_manager.close();
     }
 
     /**

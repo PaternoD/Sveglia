@@ -143,7 +143,7 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
         cal.setTimeInMillis(time);
 
         res = cal.getTimeInMillis();
-
+        db_manager.close();
         return res;
     }
 

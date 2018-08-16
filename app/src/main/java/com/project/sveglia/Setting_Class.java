@@ -199,7 +199,6 @@ public class Setting_Class extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
     /**
@@ -225,6 +224,7 @@ public class Setting_Class extends Activity {
                 // Recupero riferimento layout ---------
                 TextView fromBedToCarTexView = (TextView)findViewById(R.id.TextView_FBTC_ID);
                 fromBedToCarTexView.setText(fromBedToCar_Value + " minuti");
+                db_manager.close();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
@@ -246,6 +246,7 @@ public class Setting_Class extends Activity {
                 // Recupero riferimento layout ---------
                 TextView ringToneTextView = (TextView)findViewById(R.id.TextView_RingTone_Duration_ID);
                 ringToneTextView.setText(ringTone_Duration_Value + " minuti");
+                db_manager.close();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla
@@ -263,7 +264,7 @@ public class Setting_Class extends Activity {
 
                 db_manager.setRitardaMinuti(interval_duration);
                 db_manager.setRitardaVolte((repetition_time));
-
+                db_manager.close();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 // Azioni nel caso l'intent non restituisca nulla

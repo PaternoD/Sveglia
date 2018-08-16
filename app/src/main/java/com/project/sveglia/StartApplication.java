@@ -119,7 +119,7 @@ public class StartApplication extends BroadcastReceiver {
 
 
         }
-
+        db_manager.close();
     }
 
     /**
@@ -254,6 +254,7 @@ public class StartApplication extends BroadcastReceiver {
                     repeatAlarmNumberTimes,
                     maps_direction_request);
         }
+        db_manager.close();
     }
 
     /**

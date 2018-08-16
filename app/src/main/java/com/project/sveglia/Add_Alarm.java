@@ -446,7 +446,6 @@ public class Add_Alarm extends Activity {
                 startActivity(intent);
             }
         });
-
     }
 
     /**

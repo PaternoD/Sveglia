@@ -149,7 +149,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
             CountDownTimer.startCountDown();
 
         }
-
+db_manager.close();
     }
 
 

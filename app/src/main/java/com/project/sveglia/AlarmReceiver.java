@@ -99,7 +99,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }else{
             position = intent.getExtras().getInt("View_ID_position");
         }
-
+        db_manager.close();
         Log.e("REBOOT TEST", "onReceive: ++++++++++++++ Position - Reboot = " + position);
         System.out.println("++++++++++++ alarm_music_id ++++++++ " + alarm_music_ID);
 
@@ -190,7 +190,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                     e.printStackTrace();
                                 }
                             }
-
+                        db.close();
 
                         }
                     }else{//se a pancia in su
@@ -386,6 +386,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent);
 
         }
+        db.close();
     }
 
     /**
@@ -467,6 +468,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
                             }
+                            db.close();
                         }else{//se a pancia in su
                             System.out.println("pancia in su");
                             bianco_nero=true;
@@ -627,7 +629,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(notificationChannel);
 
         }
-
+db.close();
     }
 
     /**

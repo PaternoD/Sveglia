@@ -111,7 +111,6 @@ public class Sensor_Setting_PopUp extends Activity {
 
             }
         });
-
     }
 
     private void cardView_Animation(CardView cardView){
