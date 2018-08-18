@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -29,17 +30,51 @@ public class Notification_Sound_Service extends Service {
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
 
         Log.i("** Forground Service **", "alarm_music_ID: " + alarm_music_ID);
+        Log.i("** Forground Service **", "mediaplayer: " + mediaPlayer);
 
-        if(mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, alarm_music_ID);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        }else{
-            mediaPlayer.stop();
+        Uri uriSong = Uri.parse("android.resource://" + this.getPackageName() + "/" + alarm_music_ID);
 
-            mediaPlayer = MediaPlayer.create(this, alarm_music_ID);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
+        try {
+            if (mediaPlayer == null) {
+                mediaPlayer = MediaPlayer.create(this, uriSong);
+
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mediaPlayer.release();
+                    }
+                });
+
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.setLooping(true);
+                        mp.start();
+                    }
+                });
+
+
+            } else {
+                mediaPlayer.stop();
+                mediaPlayer = MediaPlayer.create(this, uriSong);
+
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mediaPlayer.release();
+                    }
+                });
+
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.setLooping(true);
+                        mp.start();
+                    }
+                });
+            }
+        }catch (Exception e){
+            Log.e("Sound_Service", "Non sono riuscito a settare il mediaplayer per la musica");
         }
 
         startForeground(1, new Notification());
@@ -50,9 +85,11 @@ public class Notification_Sound_Service extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Nullable

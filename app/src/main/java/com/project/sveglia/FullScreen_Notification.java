@@ -54,7 +54,6 @@ public class FullScreen_Notification extends Activity {
     boolean isRepetitionDayAlarm;
     int repeatAlarmNumberTimes;
     long alarmTimeInMillis = 0;
-    boolean isRebootAlarm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +76,6 @@ public class FullScreen_Notification extends Activity {
         maps_direction_request = getIntent().getExtras().getString("maps_direction_request");
         int position = getIntent().getExtras().getInt("View_ID_position");
         long alarmTimeForGoogleMaps = getIntent().getExtras().getLong("alarmTimeForGoogleMaps");
-        isRebootAlarm = getIntent().getExtras().getBoolean("isRebootAlarm");
         boolean isGoogleMapsNavigationNot = getIntent().getExtras().getBoolean("isGoogleMapsNavigationNot");
 
         if(isRepetitionDayAlarm){
@@ -204,7 +202,6 @@ public class FullScreen_Notification extends Activity {
                                 snoozeNotificationIntent.putExtra("View_ID_position", position);
                                 snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                                snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
                                 snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
@@ -307,7 +304,7 @@ public class FullScreen_Notification extends Activity {
                     Intent cancelnotificationGoogleMaps = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
                     cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
                     cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
-                    PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelnotificationGoogleMaps, 0);
 
                     try {
                         cancelnotificationGoogleMapsPendingIntent.send();
@@ -341,7 +338,6 @@ public class FullScreen_Notification extends Activity {
                         snoozeNotificationIntent.putExtra("View_ID_position", position);
                         snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                         snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                        snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
                         snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                         PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
@@ -392,37 +388,5 @@ public class FullScreen_Notification extends Activity {
         date = dateFormat.format(cal.getTime());
 
         return date;
-    }
-
-    /**
-     * Funzione che cancella la notifica in FullScreen dopo un tempo stabilito
-     *
-     */
-    private void removeFullScreenNotification(int delayTime, final int notification_ID) {
-        Handler handler = new Handler();
-        final long delayInMilliseconds = delayTime;
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-                Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
-                snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
-                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
-                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
-                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
-                snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-                snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
-                snoozeNotificationIntent.putExtra("isRebootAlarm", isRebootAlarm);
-                snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
-                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                try {
-                    snoozePendingIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
-                }
-
-                finishAndRemoveTask();
-            }
-        }, delayInMilliseconds);
     }
 }

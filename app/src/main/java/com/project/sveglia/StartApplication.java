@@ -317,7 +317,6 @@ public class StartApplication extends BroadcastReceiver {
         startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
         startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
-        startPrincipalAlarmIntent.putExtra("isRebootAlarm", true);
         startPrincipalAlarmIntent.putExtra("alarm_ID", ALARM_ID);
         startPrincipalAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -497,7 +496,6 @@ public class StartApplication extends BroadcastReceiver {
                 startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
                 startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
-                startRepeatAlarmIntent.putExtra("isRebootAlarm", true);
                 startRepeatAlarmIntent.putExtra("alarm_ID", ALARM_ID);
                 startRepeatAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);

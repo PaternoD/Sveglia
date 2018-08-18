@@ -129,8 +129,8 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             popUPGoogleMapsAPP.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             popUPGoogleMapsAPP.putExtra("isRebootAlarm", false);
             popUPGoogleMapsAPP.putExtra("alarm_ID", ALARM_ID);
-            PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeForGoogleMaps + 120000, startRepetitionAlarm_PendingIntent);
+            PendingIntent startGoogleMapsNavigation = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, 0);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeForGoogleMaps + 120000, startGoogleMapsNavigation);
 
             db_manager_1.close();
         }else {

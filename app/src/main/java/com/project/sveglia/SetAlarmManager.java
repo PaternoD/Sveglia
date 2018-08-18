@@ -159,7 +159,6 @@ db_manager.close();
         startPrincipalAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
         startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
-        startPrincipalAlarmIntent.putExtra("isRebootAlarm", false);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
@@ -335,7 +334,6 @@ db_manager.close();
                 startRepeatAlarmIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                 startRepeatAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
                 startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
-                startRepeatAlarmIntent.putExtra("isRebootAlarm", false);
                 startRepeatAlarmIntent.putExtra("alarm_ID", ALARM_ID);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);

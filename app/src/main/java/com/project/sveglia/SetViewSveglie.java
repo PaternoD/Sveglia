@@ -86,16 +86,14 @@ public class SetViewSveglie {
             //get id suoneria
             int id_suoneria;
             String id_str = array_id_suoneria.get(i);
-            id_suoneria = Integer.parseInt(id_string);
+            id_suoneria = Integer.parseInt(id_str);
 
             //get posizione suoneria
-
             int pos_suoneria;
             String pos_str = array_pos_suoneria.get(i);
             pos_suoneria = Integer.parseInt(pos_str);
 
             //get travel to, from e to
-
             boolean travel_to=false;
             String from=null;
             String to = null;
