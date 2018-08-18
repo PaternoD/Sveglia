@@ -22,28 +22,57 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
+        boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
+        String alarmName = intent.getExtras().getString("alarm_name");
+        int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
+        int position = intent.getExtras().getInt("View_ID_position");
+        long alarmTimeForGoogleMaps = intent.getExtras().getLong("alarmTimeForGoogleMaps");
+        boolean isRebootAlarm = intent.getExtras().getBoolean("isRebootAlarm");
+        int ALARM_ID = intent.getExtras().getInt("alarm_ID");
+
         Calendar calendar = Calendar.getInstance();
         int NOT_ID = createID(calendar.getTimeInMillis());
+
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
+        long delayTimeForCancelForNotification = db_manager.getDurataSuoneria();
+        db_manager.close();
 
         // Controllo la versione di android
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
 
             int alarmMusic_ID = R.raw.mp3_quite_impressed;
-            Intent service_intent = new Intent(context, Notification_Sound_Service.class);
-            service_intent.putExtra("alarm_music_ID", alarmMusic_ID);
-            context.startService(service_intent);
+            Uri uriSong = Uri.parse("android.resource://" + context.getPackageName() + "/" + alarmMusic_ID);
 
             // Aggiungo azione per aprire google maps --
             Intent openGoogleMapsApp = new Intent(context, openGoogleMapsReceiver.class);
             openGoogleMapsApp.putExtra("openGoogleMaps", true);
             openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
             openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
-            PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
             Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
             cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
-            PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_ONE_SHOT);
+            cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
+            PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
+            fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", isDelayAlarm);
+            fullScreen.putExtra("alarm_name", alarmName);
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", false);
+            fullScreen.putExtra("maps_direction_request", maps_direction_request);
+            fullScreen.putExtra("View_ID_position", position);
+            fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", true);
+            PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             String not_content = "Desideri aprire Google Maps per la navigazione?";
 
@@ -52,9 +81,10 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
                     .setContentText(not_content)
                     .setSmallIcon(R.drawable.icons8_alarm_clock_24)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setSound(null)
+                    .setSound(uriSong)
                     .addAction(0, "APRI", openGoogleMapsAppPendingIntent)
                     .addAction(0, "ANNULLA", cancelnotificationGoogleMapsPendingIntent)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC);
 
@@ -77,12 +107,30 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             openGoogleMapsApp.putExtra("openGoogleMaps", true);
             openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
             openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
-            PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
             Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
             cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
-            PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_ONE_SHOT);
+            cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
+            PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // fullScreen notification intent ----------------------------------
+            Intent fullScreen = new Intent(context, FullScreen_Notification.class);
+            fullScreen.putExtra("notification_ID", NOT_ID);
+            fullScreen.putExtra("alarm_music_ID", alarmMusic_ID);
+            fullScreen.putExtra("isDelayAlarm", true);
+            fullScreen.putExtra("alarm_name", alarmName);
+            fullScreen.putExtra("delayTimeForCancelForNotification", delayTimeForCancelForNotification);
+            fullScreen.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+            fullScreen.putExtra("isRepetitionDayAlarm", false);
+            fullScreen.putExtra("maps_direction_request", maps_direction_request);
+            fullScreen.putExtra("View_ID_position", position);
+            fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+            fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
+            fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", true);
+            PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
             NotificationChannel notificationChannel = new NotificationChannel(not_Channel_ID, "Alarm Notification", NotificationManager.IMPORTANCE_HIGH);
@@ -102,6 +150,7 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .addAction(0, "APRI", openGoogleMapsAppPendingIntent)
                     .addAction(0, "ANNULLA", cancelnotificationGoogleMapsPendingIntent)
+                    .setFullScreenIntent(fullScreenPendingIntent, true)
                     .setAutoCancel(true)
                     .setVisibility(Notification.VISIBILITY_PUBLIC);
 

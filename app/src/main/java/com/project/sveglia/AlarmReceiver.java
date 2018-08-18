@@ -271,6 +271,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", false);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -366,6 +367,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", false);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -545,6 +547,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", false);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -618,6 +621,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
+            fullScreen.putExtra("isGoogleMapsNavigationNot", false);
             //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 

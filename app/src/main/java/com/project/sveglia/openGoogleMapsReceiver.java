@@ -14,7 +14,7 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        boolean openGoogleMaps = intent.getExtras().getBoolean("openGoogleMaps");
+        boolean openGoogleMaps = intent.getBooleanExtra("openGoogleMaps", false);
         int notification_ID = intent.getExtras().getInt("notification_ID");
 
         System.out.println("Notication ID = " + notification_ID);

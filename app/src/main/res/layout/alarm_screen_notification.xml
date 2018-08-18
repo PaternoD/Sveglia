@@ -84,7 +84,7 @@
                     app:srcCompat="@drawable/alarm_snooze" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView_ritarda"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -93,7 +93,8 @@
                     android:text="Ritarda"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -127,7 +128,7 @@
                     app:srcCompat="@drawable/alarm_off" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView_elimina"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -136,7 +137,8 @@
                     android:text="Elimina"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
