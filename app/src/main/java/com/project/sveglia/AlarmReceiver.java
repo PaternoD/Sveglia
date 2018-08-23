@@ -406,7 +406,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             public void onSensorChanged(SensorEvent sensorEvent) {
 
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY){
-                    if (sensor_on){
+                    if (!sensor_on  ) {
+                        mySensorManager.unregisterListener(this);
+                    } else {
                         if (sensorEvent.values[0]==0) {//se a pancia in giu
                             System.out.println("pancia in giu");
                             nero_nero=true;
@@ -470,8 +472,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                             bianco_nero=true;
 
                         }
-                    }else{
-                        mySensorManager.unregisterListener(this);
                     }
 
                 }

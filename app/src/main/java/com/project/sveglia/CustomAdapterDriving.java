@@ -137,7 +137,6 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
     private long getTime(int listPosition, long duration_in_seconds, long arrival_time_in_millis){
         long res = 0;
 
-
         long time = arrival_time_in_millis - (duration_in_seconds * 1000);
 
         Calendar cal = Calendar.getInstance();

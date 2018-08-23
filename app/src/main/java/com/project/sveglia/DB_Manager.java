@@ -384,6 +384,11 @@ public class DB_Manager {
             res.moveToNext();
         }
 
+        // Test
+        for(int i=0; i<array.size(); i++) {
+            System.out.println("array in DBMANAGER = " + array.get(i));
+        }
+
         return array;
 
     }

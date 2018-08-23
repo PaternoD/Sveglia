@@ -45,6 +45,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
         ArrayList<String> all_Database_ID = db_manager.getAllID();
+        ArrayList<String> allAddFromBedToCar = db_manager.getAllAddFromBedToCar();
 
         if (!isRepetitionDayAlarm){
             db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);
@@ -119,16 +120,10 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             // Setto ora e minuti in cui aprire google Maps --
             long timeForFirenotification;
 
-            System.out.println("Dal database risulta che add_from_bed_to_car  = " + db_manager_1.getAllAddFromBedToCar().get(position));
-
-            if(db_manager_1.getAllAddFromBedToCar().get(position)=="1"){
-                System.out.println("Dal database risulta che add_from_bed_to_car chart = true");
-            }
-
-            if(1 == 1){
+            if(allAddFromBedToCar.get(position).charAt(0) == (Character)'1'){
                 //timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
                 timeForFirenotification = alarmTimeForGoogleMaps + 180000;
-                //System.out.println("Dal database risulta che add_from_bed_to_car = true");
+                System.out.println("Dal database risulta che add_from_bed_to_car = true");
             }else {
                 timeForFirenotification = calendar.getTimeInMillis() + 60000;
                 System.out.println("Dal database risulta che add_from_bed_to_car = false");

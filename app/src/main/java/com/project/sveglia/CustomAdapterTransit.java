@@ -73,28 +73,22 @@ public class CustomAdapterTransit extends RecyclerView.Adapter<CustomAdapterTran
                 DB_Manager db_manager = new DB_Manager(myActivity);
                 db_manager.open();
 
-                long fromBedToCarTime = db_manager.getBadToCar();
-
-                long alarm_Time = dataSet.get(listPosition).getDeparture_time() - fromBedToCarTime;
+                long alarm_Time = dataSet.get(listPosition).getDeparture_time();
 
                 String start_address_detail = dataSet.get(listPosition).start_address;
                 String end_address_detail = dataSet.get(listPosition).end_address;
 
-                Calendar calendar = Calendar.getInstance();
-                long currentTime = calendar.getTimeInMillis();
+                int ACTIVITY_ID = 8;
 
-                if(alarm_Time > currentTime) {
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("alarm_time", alarm_Time);
-                    resultIntent.putExtra("transit_model", "TRANSIT");
-                    resultIntent.putExtra("start_address", start_address_detail);
-                    resultIntent.putExtra("end_address", end_address_detail);
-                    myActivity.setResult(Activity.RESULT_OK, resultIntent);
-                    myActivity.finish();
-                }else{
-                    Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
-                    myActivity.startActivity(intent_Time_Passed);
-                }db_manager.close();
+                Intent add_time_google_maps = new Intent(myActivity, Add_From_Bed_To_Car_Time.class);
+                add_time_google_maps.putExtra("alarm_time", alarm_Time);
+                add_time_google_maps.putExtra("transit_model", "DRIVING");
+                add_time_google_maps.putExtra("start_address", start_address_detail);
+                add_time_google_maps.putExtra("end_address", end_address_detail);
+                add_time_google_maps.putExtra("maps_direction_request", "");
+                myActivity.startActivityForResult(add_time_google_maps, ACTIVITY_ID);
+
+                db_manager.close();
             }
         });
 

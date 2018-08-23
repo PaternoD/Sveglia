@@ -156,6 +156,7 @@ db_manager.close();
         Log.e("ALARM_ID ***", "startAlarm: alrm_id alla creazione è " + ALARM_ID);
 
         if(from_bed_to_car_added.equals("0")){
+            System.out.println("is delay alarm è settato a false **************");
             isDelayAlarm = false;
         }
 

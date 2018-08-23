@@ -112,7 +112,6 @@ public class SetViewSveglie {
             // get fromBedToCarAdded
             String fromBedToCarAdded = arrary_from_bed_to_car_added.get(i);
 
-
             DataModelView view = new DataModelView(id, getFormattedTimeFromMillis(time), name,repetitions_day_array, on_off, ritarda,id_suoneria,
                     pos_suoneria,travel_to,from,to,mezzo,Long.parseLong(time), fromBedToCarAdded);
 

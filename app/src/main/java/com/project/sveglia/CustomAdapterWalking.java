@@ -81,29 +81,25 @@ public class CustomAdapterWalking extends RecyclerView.Adapter<CustomAdapterWalk
                 String start_address_detail = dataSet.get(listPosition).start_address;
                 String end_address_detail = dataSet.get(listPosition).end_address;
 
-                Calendar calendar = Calendar.getInstance();
-                long currentTime = calendar.getTimeInMillis();
 
-                if(alarm_Time > currentTime) {
+                String origin_loc = dataSet.get(listPosition).getOrigin_location();
+                String dest_loc = dataSet.get(listPosition).getDestination_location();
+                String waypoint = dataSet.get(listPosition).getGoogleMapsRequest();
 
-                    String origin_loc = dataSet.get(listPosition).getOrigin_location();
-                    String dest_loc = dataSet.get(listPosition).getDestination_location();
-                    String waypoint = dataSet.get(listPosition).getGoogleMapsRequest();
+                String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=walking&dir_action=navigate";
 
-                    String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=walking&dir_action=navigate";
 
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("alarm_time", alarm_Time);
-                    resultIntent.putExtra("transit_model", "WALKING");
-                    resultIntent.putExtra("start_address", start_address_detail);
-                    resultIntent.putExtra("end_address", end_address_detail);
-                    resultIntent.putExtra("maps_direction_request", maps_direction_request);
-                    myActivity.setResult(Activity.RESULT_OK, resultIntent);
-                    myActivity.finish();
-                }else{
-                    Intent intent_Time_Passed = new Intent(myActivity, Time_Passed_Pop_Up_Google.class);
-                    myActivity.startActivity(intent_Time_Passed);
-                }
+                int ACTIVITY_ID = 8;
+
+                Intent add_time_google_maps = new Intent(myActivity, Add_From_Bed_To_Car_Time.class);
+                add_time_google_maps.putExtra("alarm_time", alarm_Time);
+                add_time_google_maps.putExtra("transit_model", "DRIVING");
+                add_time_google_maps.putExtra("start_address", start_address_detail);
+                add_time_google_maps.putExtra("end_address", end_address_detail);
+                add_time_google_maps.putExtra("maps_direction_request", maps_direction_request);
+                myActivity.startActivityForResult(add_time_google_maps, ACTIVITY_ID);
+
+
 
             }
         });
@@ -125,19 +121,12 @@ public class CustomAdapterWalking extends RecyclerView.Adapter<CustomAdapterWalk
     private long getTime(int listPosition, long duration_in_seconds, long arrival_time_in_millis){
         long res = 0;
 
-        // ----> Ricordarsi di aggiungere il tempo di preparazione al mattino, prendere da database!!!
-        DB_Manager db_manager = new DB_Manager(myActivity);
-        db_manager.open();
-
-        long fromBedToCarTime = db_manager.getBadToCar();
-
-        long time = arrival_time_in_millis - (duration_in_seconds * 1000) - fromBedToCarTime;
+        long time = arrival_time_in_millis - (duration_in_seconds * 1000);
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(time);
 
         res = cal.getTimeInMillis();
-        db_manager.close();
         return res;
     }
 
