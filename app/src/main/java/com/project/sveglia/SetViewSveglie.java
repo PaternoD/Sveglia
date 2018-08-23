@@ -39,6 +39,7 @@ public class SetViewSveglie {
         ArrayList<String> array_to = db.getAllTo();
         ArrayList<String> array_mezzo = db.getAllMezzo();
         ArrayList<String> array_id = db.getAllID();
+        ArrayList<String> arrary_from_bed_to_car_added = db.getAllAddFromBedToCar();
 
 
         for(int i=0;i<db.numberOfRows();i++) {
@@ -108,9 +109,12 @@ public class SetViewSveglie {
                 mezzo=array_mezzo.get(i);
             }
 
+            // get fromBedToCarAdded
+            String fromBedToCarAdded = arrary_from_bed_to_car_added.get(i);
+
 
             DataModelView view = new DataModelView(id, getFormattedTimeFromMillis(time), name,repetitions_day_array, on_off, ritarda,id_suoneria,
-                    pos_suoneria,travel_to,from,to,mezzo,Long.parseLong(time));
+                    pos_suoneria,travel_to,from,to,mezzo,Long.parseLong(time), fromBedToCarAdded);
 
             data.add(view);
 

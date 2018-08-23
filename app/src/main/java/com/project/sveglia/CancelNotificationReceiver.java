@@ -114,24 +114,43 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             DB_Manager db_manager_1 = new DB_Manager(context);
             db_manager_1.open();
             long googleMapsTime = db_manager_1.getBadToCar();
+            Calendar calendar = Calendar.getInstance();
 
             // Setto ora e minuti in cui aprire google Maps --
-            long timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
+            long timeForFirenotification;
 
-            // Setto la notifica per aprire google maps ---------------
-            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
-            popUPGoogleMapsAPP.putExtra("maps_direction_request", maps_direction_request);
-            popUPGoogleMapsAPP.putExtra("isDelayAlarm", isDelayAlarm);
-            popUPGoogleMapsAPP.putExtra("alarm_name", alarm_name);
-            popUPGoogleMapsAPP.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
-            popUPGoogleMapsAPP.putExtra("View_ID_position", position);
-            popUPGoogleMapsAPP.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
-            popUPGoogleMapsAPP.putExtra("isRebootAlarm", false);
-            popUPGoogleMapsAPP.putExtra("alarm_ID", ALARM_ID);
-            PendingIntent startGoogleMapsNavigation = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, 0);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeForGoogleMaps + 120000, startGoogleMapsNavigation);
+            System.out.println("Dal database risulta che add_from_bed_to_car  = " + db_manager_1.getAllAddFromBedToCar().get(position));
 
+            if(db_manager_1.getAllAddFromBedToCar().get(position)=="1"){
+                System.out.println("Dal database risulta che add_from_bed_to_car chart = true");
+            }
+
+            if(1 == 1){
+                //timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
+                timeForFirenotification = alarmTimeForGoogleMaps + 180000;
+                //System.out.println("Dal database risulta che add_from_bed_to_car = true");
+            }else {
+                timeForFirenotification = calendar.getTimeInMillis() + 60000;
+                System.out.println("Dal database risulta che add_from_bed_to_car = false");
+            }
+
+            if(calendar.getTimeInMillis() < timeForFirenotification) {
+                // Setto la notifica per aprire google maps ---------------
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
+                popUPGoogleMapsAPP.putExtra("maps_direction_request", maps_direction_request);
+                popUPGoogleMapsAPP.putExtra("isDelayAlarm", isDelayAlarm);
+                popUPGoogleMapsAPP.putExtra("alarm_name", alarm_name);
+                popUPGoogleMapsAPP.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                popUPGoogleMapsAPP.putExtra("View_ID_position", position);
+                popUPGoogleMapsAPP.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
+                popUPGoogleMapsAPP.putExtra("isRebootAlarm", false);
+                popUPGoogleMapsAPP.putExtra("alarm_ID", ALARM_ID);
+                PendingIntent startGoogleMapsNavigation = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, 0);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
+            }else {
+                Log.i("MAPS_RESULT_INFO", "L'ora corrente è maggiore dell'ora in cui l'utente dovrebbe partire, quindi non posso aggiungere la notifica per aprire google maps");
+            }
             db_manager_1.close();
         }else {
             Log.i("MAPS_RESULT_INFO", "onReceive: maps_direction_result is null");

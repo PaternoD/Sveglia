@@ -40,6 +40,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         boolean isRepetitionDayAlarm = intent.getExtras().getBoolean("isRepetitionDayAlarm");
         int position = intent.getExtras().getInt("View_ID_position");
         int ALARM_ID = intent.getExtras().getInt("alarm_ID");
+        String maps_direction_request = intent.getExtras().getString("maps_direction_request");
 
 
         repeatAlarmNumberTimes -= 1;
@@ -82,6 +83,8 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         startRepeatAlarm.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
         startRepeatAlarm.putExtra("isFirstTimeAlarm", false);
         startRepeatAlarm.putExtra("alarm_ID", ALARM_ID);
+        startRepeatAlarm.putExtra("maps_direction_request", maps_direction_request);
+
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
 

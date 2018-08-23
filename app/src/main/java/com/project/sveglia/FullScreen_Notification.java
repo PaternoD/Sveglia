@@ -203,6 +203,7 @@ public class FullScreen_Notification extends Activity {
                                 snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
+                                snoozeNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                                 PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     snoozePendingIntent.send();
@@ -324,11 +325,12 @@ public class FullScreen_Notification extends Activity {
         });
 
         // Bottone per cancellare la notifica e ritardare la sveglia --
-        if (is_Delay_Alarm){
-            snooze_notification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!isGoogleMapsNavigationNot) {
+
+        snooze_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isGoogleMapsNavigationNot) {
+                    if (is_Delay_Alarm) {
                         mySensorManager.unregisterListener(proximitySensorEventListener);
                         Intent snoozeNotificationIntent = new Intent(FullScreen_Notification.this, delayNotificationReceiver.class);
                         snoozeNotificationIntent.putExtra("notification_ID", NOT_ID);
@@ -339,6 +341,7 @@ public class FullScreen_Notification extends Activity {
                         snoozeNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                         snoozeNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                         snoozeNotificationIntent.putExtra("alarm_ID", ALARM_ID);
+                        snoozeNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                         PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, snoozeNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
                             snoozePendingIntent.send();
@@ -347,31 +350,31 @@ public class FullScreen_Notification extends Activity {
                             Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
                         }
                     }else{
-                        // Aggiungo azione per aprire google maps --
-                        Intent openGoogleMapsApp = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
-                        openGoogleMapsApp.putExtra("openGoogleMaps", true);
-                        openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
-                        openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
-                        PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_ONE_SHOT);
-
-                        try {
-                            openGoogleMapsAppPendingIntent.send();
-                        } catch (PendingIntent.CanceledException e) {
-                            e.printStackTrace();
-                            Log.i("SendPendingIntentGM", "onClick: Non posso inviare (send) il pending intent per annullare la apertura di google maps");
-                        }
+                        snooze_notification.setVisibility(View.INVISIBLE);
                     }
+                }else{
+                    // Aggiungo azione per aprire google maps --
+                    Intent openGoogleMapsApp = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
+                    openGoogleMapsApp.putExtra("openGoogleMaps", true);
+                    openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
+                    openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
+                    PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_ONE_SHOT);
 
-                    // termino il conto alla rovesca per la cancellazione automatica della notifica
-                    AutomaticCancelNotification.cancelCountDown();
-
-                    finishAndRemoveTask();
-
+                    try {
+                        openGoogleMapsAppPendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                        Log.i("SendPendingIntentGM", "onClick: Non posso inviare (send) il pending intent per annullare la apertura di google maps");
+                    }
                 }
-            });
-        }else{
-            snooze_notification.setVisibility(View.INVISIBLE);
-        }
+
+                // termino il conto alla rovesca per la cancellazione automatica della notifica
+                AutomaticCancelNotification.cancelCountDown();
+
+                finishAndRemoveTask();
+
+            }
+        });
 
 
     }

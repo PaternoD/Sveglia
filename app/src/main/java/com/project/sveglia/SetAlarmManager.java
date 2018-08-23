@@ -29,7 +29,8 @@ public class SetAlarmManager {
                                        String start_address_detail,
                                        String end_address_detail,
                                        String traffic_model,
-                                       String maps_direction_request){
+                                       String maps_direction_request,
+                                       String from_bed_to_car_added){
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -58,7 +59,8 @@ public class SetAlarmManager {
                     traffic_model,
                     db_manager,
                     repeatAlarmNumberTimes,
-                    maps_direction_request);
+                    maps_direction_request,
+                    from_bed_to_car_added);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -75,7 +77,8 @@ public class SetAlarmManager {
                     traffic_model,
                     db_manager,
                     repeatAlarmNumberTimes,
-                    maps_direction_request);
+                    maps_direction_request,
+                    from_bed_to_car_added);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -92,7 +95,8 @@ public class SetAlarmManager {
                     traffic_model,
                     db_manager,
                     repeatAlarmNumberTimes,
-                    maps_direction_request);
+                    maps_direction_request,
+                    from_bed_to_car_added);
         }
 db_manager.close();
     }
@@ -130,7 +134,8 @@ db_manager.close();
                                    String traffic_model,
                                    DB_Manager db_manager,
                                    int repeatAlarmNumberTimes,
-                                   String maps_direction_request){
+                                   String maps_direction_request,
+                                   String from_bed_to_car_added){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
@@ -149,6 +154,10 @@ db_manager.close();
         int ID_View = (int) getRandomID(timeInMillis);
 
         Log.e("ALARM_ID ***", "startAlarm: alrm_id alla creazione è " + ALARM_ID);
+
+        if(from_bed_to_car_added.equals("0")){
+            isDelayAlarm = false;
+        }
 
         Intent startPrincipalAlarmIntent = new Intent(context, AlarmReceiver.class);
         startPrincipalAlarmIntent.putExtra("View_ID", ID_View);
@@ -191,7 +200,8 @@ db_manager.close();
                 isTravelTo,
                 start_address_detail,
                 end_address_detail,
-                traffic_model);
+                traffic_model,
+                from_bed_to_car_added);
 
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
@@ -227,7 +237,8 @@ db_manager.close();
                                         String traffic_model,
                                         DB_Manager db_manager,
                                         int repeatAlarmNumberTimes,
-                                        String maps_direction_request){
+                                        String maps_direction_request,
+                                        String from_bed_to_car_added){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
@@ -260,7 +271,8 @@ db_manager.close();
                 isTravelTo,
                 start_address_detail,
                 end_address_detail,
-                traffic_model);
+                traffic_model,
+                from_bed_to_car_added);
 
 
 
@@ -322,6 +334,10 @@ db_manager.close();
                     Log.i("Alarm_sunday", "starRepeatAlarm: Set OK, time in millis: " + repeatTimeInMillis);
 
                     db_manager.insert_sveglia(ALARM_ID,repeatTimeInMillis);
+                }
+
+                if(from_bed_to_car_added.equals("0")){
+                    isDelayAlarm = false;
                 }
 
                 Intent startRepeatAlarmIntent = new Intent(context, AlarmReceiver.class);

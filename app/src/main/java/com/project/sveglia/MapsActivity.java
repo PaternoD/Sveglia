@@ -429,6 +429,33 @@ public class MapsActivity extends FragmentActivity {
                 // Azioni nel caso l'intent non restituisca nulla
             }
         }
+        if (requestCode == 8) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Recupero dati da intent --
+                long alarm_time = data.getExtras().getLong("alarm_time");
+                String transit_model = data.getExtras().getString("transit_model");
+                String start_address = data.getExtras().getString("start_address");
+                String end_address = data.getExtras().getString("end_address");
+                String maps_direction_request = data.getExtras().getString("maps_direction_request");
+                String from_bed_to_car_added = data.getExtras().getString("from_bed_to_car_added");
+
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("alarm_time", alarm_time);
+                resultIntent.putExtra("transit_model", transit_model);
+                resultIntent.putExtra("start_address", start_address);
+                resultIntent.putExtra("end_address", end_address);
+                resultIntent.putExtra("maps_direction_request", maps_direction_request);
+                resultIntent.putExtra("from_bed_to_car_added", from_bed_to_car_added);
+                setResult(Activity.RESULT_OK, resultIntent);
+                MapsActivity.this.finish();
+
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                // Azioni nel caso l'intent non restituisca nulla
+            }
+        }
     }
 
     /**

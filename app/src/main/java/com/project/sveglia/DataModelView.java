@@ -23,14 +23,23 @@ public class DataModelView {
     String to;
     String mezzo;
     long time_in_millis;
+    String from_bed_to_car_added;
 
     public DataModelView(int id){
         this.id = id;
     }
 
+    public String isFrom_bed_to_car_added() {
+        return from_bed_to_car_added;
+    }
+
+    public void setFrom_bed_to_car_added(String from_bed_to_car_added) {
+        this.from_bed_to_car_added = from_bed_to_car_added;
+    }
+
     public DataModelView(int id, String time, String nome_sveglia, boolean [] repetitions_day, boolean on_off, boolean ritarda,
                          int id_suoneria, int posizione_suoneria, boolean travel_to, String from, String to,
-                         String mezzo, long time_in_millis) {
+                         String mezzo, long time_in_millis, String from_bed_to_car_added) {
         this.id=id;
         this.time=time;
         this.nome_sveglia=nome_sveglia;
@@ -44,6 +53,7 @@ public class DataModelView {
         this.to=to;
         this.mezzo=mezzo;
         this.time_in_millis=time_in_millis;
+        this.from_bed_to_car_added = from_bed_to_car_added;
     }
 
     public int getId(){return id;}

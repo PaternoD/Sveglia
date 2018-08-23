@@ -91,6 +91,9 @@
         <activity android:name=".Tutorial_TravelTo"
             android:screenOrientation="portrait"
             android:theme="@style/Tutorial"></activity>
+        <activity android:name=".Add_From_Bed_To_Car_Time"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoInternetConnection_Style"></activity>
 
         <receiver
             android:name=".AlarmReceiver"

@@ -3,11 +3,7 @@ package com.project.sveglia;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,7 +19,7 @@ public class NoInternetConnectionActivity extends Activity {
 
         // Recupero riferimenti layout ------------------
         // TextView
-        TextView no_internet_conn_textView = (TextView)findViewById(R.id.no_internet_conn_Text_ID);
+        TextView no_internet_conn_textView = (TextView)findViewById(R.id.add_time_google_maps);
 
         // Button
         Button btn_no_conn = (Button)findViewById(R.id.btn_no_conn_ID);

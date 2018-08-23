@@ -45,6 +45,7 @@ public class Add_Alarm extends Activity {
     boolean disable_repetition_days = false;
     boolean delay_Alarm = true;
     boolean isTravelTo = false;
+    String from_bed_to_car_added = "1";
     long alarm_time;
     String start_address_detail;
     String end_address_detail;
@@ -415,7 +416,8 @@ public class Add_Alarm extends Activity {
                         start_address_detail,
                         end_address_detail,
                         traffic_model,
-                        maps_direction_request);
+                        maps_direction_request,
+                        from_bed_to_car_added);
                 Intent  main= new Intent(Add_Alarm.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(main);
                 Add_Alarm.this.finish();
@@ -500,6 +502,9 @@ public class Add_Alarm extends Activity {
         // Ottengo risposta da MapsActivity -----------
         if (requestCode == 4) {
             if (resultCode == Activity.RESULT_OK) {
+
+                System.out.println("Sono entrato in addAlarm nella sezione di MapsActivity");
+
                 //setto a 0 il vettore di booleani
                 repetitionsArray = fill_Ripetition_Array(modify_alarm);
 
@@ -519,6 +524,7 @@ public class Add_Alarm extends Activity {
                 traffic_model = data.getExtras().getString("transit_model");
                 start_address_detail = data.getExtras().getString("start_address");
                 end_address_detail = data.getExtras().getString("end_address");
+                from_bed_to_car_added = data.getExtras().getString("from_bed_to_car_added");
                 if(traffic_model != "TRANSIT"){
                     maps_direction_request = data.getExtras().getString("maps_direction_request");
                 }

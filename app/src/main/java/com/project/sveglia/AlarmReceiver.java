@@ -177,6 +177,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 delayAction.putExtra("View_ID_position", position);
                                 delayAction.putExtra("alarm_ID", ALARM_ID);
+                                delayAction.putExtra("maps_direction_request", maps_direction_request);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -242,6 +243,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             delayAction.putExtra("View_ID_position", position);
             delayAction.putExtra("alarm_ID", ALARM_ID);
+            delayAction.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -283,7 +285,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification mNotification = notificationBuilder.build();
             mNotification.flags |= Notification.FLAG_INSISTENT;
             notificationManager.notify(NOT_ID, mNotification);
-            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent);
+            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent, maps_direction_request);
 
         } else {
 
@@ -323,6 +325,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
             delayAction.putExtra("View_ID_position", position);
             delayAction.putExtra("alarm_ID", ALARM_ID);
+            delayAction.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------
@@ -374,7 +377,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             mNotification.flags |= Notification.FLAG_INSISTENT;
             notificationManager.notify(NOT_ID, mNotification);
             notificationManager.createNotificationChannel(notificationChannel);
-            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent);
+            removeDelayNotification(NOT_ID, notificationManager, context, isDelayAlarm, alarmMusic_ID, alarmName, fullScreenPendingIntent, maps_direction_request);
 
         }
         db.close();
@@ -450,6 +453,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                                 delayAction.putExtra("View_ID_position", position);
                                 delayAction.putExtra("alarm_ID", ALARM_ID);
+                                delayAction.putExtra("maps_direction_request", maps_direction_request);
                                 PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, delayAction, PendingIntent.FLAG_UPDATE_CURRENT);
                                 try {
                                     delayPendingIntent.send();
@@ -637,7 +641,8 @@ db.close();
                                     final boolean isDelayAlarm,
                                     final int alarm_music_ID,
                                     final String alarm_name,
-                                         final PendingIntent fullScreenPendingIntent) {
+                                         final PendingIntent fullScreenPendingIntent,
+                                         String maps_direction_request) {
         Handler handler = new Handler();
         final long delayInMilliseconds = delayTimeForCancelForNotification;
         if(repeatAlarmNumberTimes > 0) {
@@ -652,6 +657,7 @@ db.close();
                         delayNotificationIntent.putExtra("alarm_name", alarm_name);
                         delayNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
                         delayNotificationIntent.putExtra("alarm_ID", ALARM_ID);
+                        delayNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                         PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, 0, delayNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
                             delayPendingIntent.send();

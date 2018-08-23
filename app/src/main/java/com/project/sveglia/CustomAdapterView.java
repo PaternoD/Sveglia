@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.CardView;
@@ -114,9 +116,17 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         Bitmap image_calendar = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_calendar_24);
         Bitmap image_name = BitmapFactory.decodeResource(context.getResources(), R.drawable.icons8_autograph_24);
+        Bitmap image_google_maps = BitmapFactory.decodeResource(context.getResources(), R.drawable.google_maps);
 
         img_data_sveglia.setImageBitmap(image_calendar);
         img_nome_sveglia.setImageBitmap(image_name);
+        img_destinazione.setImageBitmap(image_google_maps);
+
+        img_data_sveglia.setColorFilter(context.getResources().getColor(R.color.DefaultColorText));
+        img_nome_sveglia.setColorFilter(context.getResources().getColor(R.color.DefaultColorText));
+        img_destinazione.setColorFilter(context.getResources().getColor(R.color.DefaultColorText));
+
+        time_sveglia.setTextColor(R.color.DefaultColorText);
 
         if(dataSet.get(position).getId()==999999999){
             sveglia.setVisibility(View.INVISIBLE);
@@ -237,7 +247,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                             dataSet.get(position).getRepetitions_day(),
                             dataSet.get(position).getTravelTo(),dataSet.get(position).getPosizione_suoneria(),
                             dataSet.get(position).getFrom(),dataSet.get(position).getTo(),
-                            dataSet.get(position).getMezzo(), null);
+                            dataSet.get(position).getMezzo(), null, dataSet.get(position).isFrom_bed_to_car_added());
 
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 

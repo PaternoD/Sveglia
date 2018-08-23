@@ -40,7 +40,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@+id/imageView"
                     android:text="MapsInfo"
-                    android:textColor="@color/DefaultColorText" />
+                    android:textColor="@color/DefaultColorText"
+                    android:translationY="-2dp" />
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -62,7 +63,8 @@
                 android:layout_toEndOf="@+id/imageView_Name"
                 android:maxLength="18"
                 android:text="nome_sveglia"
-                android:textColor="@color/DefaultColorText" />
+                android:textColor="@color/DefaultColorText"
+                android:translationY="-2dp" />
 
             <TextView
                 android:id="@+id/Data_Sveglia_ID"
@@ -71,7 +73,8 @@
                 android:layout_alignBottom="@+id/ImageView_Calendar"
                 android:layout_toEndOf="@+id/ImageView_Calendar"
                 android:text="Data_sveglia"
-                android:textColor="@color/DefaultColorText" />
+                android:textColor="@color/DefaultColorText"
+                android:translationY="-2dp" />
 
             <Switch
                 android:id="@+id/on_off"
@@ -94,6 +97,7 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="4dp"
                 android:text="6:30"
+                android:textColor="@color/DefaultColorText"
                 android:textSize="50sp" />
 
             <RelativeLayout
