@@ -122,7 +122,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
 
             if(allAddFromBedToCar.get(position).charAt(0) == (Character)'1'){
                 //timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
-                timeForFirenotification = alarmTimeForGoogleMaps + 180000;
+                timeForFirenotification = alarmTimeForGoogleMaps + 120000;
                 System.out.println("Dal database risulta che add_from_bed_to_car = true");
             }else {
                 timeForFirenotification = calendar.getTimeInMillis() + 60000;

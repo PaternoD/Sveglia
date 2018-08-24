@@ -34,7 +34,7 @@ public class DB_Manager {
 
         boolean[]b = new boolean[7];
         if(this.getAllID().size()==0){
-            this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 0, null, null, null, null);
+            this.insert_view(999999999, Long.valueOf(32423), "", b, "1", 1, 0, 1, 0, null, null, null, null, null);
             this.inizializza_setting();
         }
 
@@ -60,7 +60,8 @@ public class DB_Manager {
                             String from,
                             String to,
                             String mezzo,
-                            String add_from_bed_to_car
+                            String add_from_bed_to_car,
+                            String maps_direction_request
                             //String array_id //inserito da un altra funzione!!
     ){
         ContentValues cv = new ContentValues();
@@ -77,6 +78,7 @@ public class DB_Manager {
         cv.put(DB_Helper.GOOGLE_TO, to);
         cv.put(DB_Helper.MEZZO,mezzo);
         cv.put(DB_Helper.ADD_FROM_BED_TO_CAR, add_from_bed_to_car);
+        cv.put(DB_Helper.MAPS_DIRECTION_REQUEST, maps_direction_request);
         //cv.put(DB_Helper.ARRAY_ID_SVEGLIE,array_id);
         try{
             database.insert(DB_Helper.TABLE_VIEW,null,cv);
@@ -384,9 +386,21 @@ public class DB_Manager {
             res.moveToNext();
         }
 
-        // Test
-        for(int i=0; i<array.size(); i++) {
-            System.out.println("array in DBMANAGER = " + array.get(i));
+        return array;
+
+    }
+
+    public ArrayList<String>getAllMapsDirectionRequest(){
+        ArrayList<String> array = new ArrayList<>();
+
+        SQLiteDatabase db= db_helper.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from TABLE_VIEW", null);
+
+        res.moveToFirst();
+
+        while (!res.isAfterLast()){
+            array.add(res.getString(res.getColumnIndex(db_helper.MAPS_DIRECTION_REQUEST)));
+            res.moveToNext();
         }
 
         return array;

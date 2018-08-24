@@ -77,6 +77,7 @@ public class CustomAdapterTransit extends RecyclerView.Adapter<CustomAdapterTran
 
                 String start_address_detail = dataSet.get(listPosition).start_address;
                 String end_address_detail = dataSet.get(listPosition).end_address;
+                String maps_direction_request = null;
 
                 int ACTIVITY_ID = 8;
 
@@ -85,7 +86,7 @@ public class CustomAdapterTransit extends RecyclerView.Adapter<CustomAdapterTran
                 add_time_google_maps.putExtra("transit_model", "DRIVING");
                 add_time_google_maps.putExtra("start_address", start_address_detail);
                 add_time_google_maps.putExtra("end_address", end_address_detail);
-                add_time_google_maps.putExtra("maps_direction_request", "");
+                add_time_google_maps.putExtra("maps_direction_request", maps_direction_request);
                 myActivity.startActivityForResult(add_time_google_maps, ACTIVITY_ID);
 
                 db_manager.close();

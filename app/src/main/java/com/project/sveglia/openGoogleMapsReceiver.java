@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.util.ArrayList;
+
 /**
  * Created by simonerigon on 06/08/18.
  */
@@ -14,17 +16,16 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        boolean openGoogleMaps = intent.getBooleanExtra("openGoogleMaps", false);
         int notification_ID = intent.getExtras().getInt("notification_ID");
+        String maps_direction_request = intent.getExtras().getString("maps_direction_request");
 
         System.out.println("Notication ID = " + notification_ID);
-        System.out.println("openGoogleMaps = " + openGoogleMaps);
 
         // Attivo servizio per cancellare la musica della notifica --
         context.stopService(new Intent(context, Notification_Sound_Service.class));
 
-        if(openGoogleMaps){
-            String maps_direction_request = intent.getExtras().getString("maps_direction_request");
+
+        if(maps_direction_request != null){
 
             // Apro google maps --
             // Create a Uri from an intent string. Use the result to create an Intent.

@@ -202,7 +202,8 @@ db_manager.close();
                 start_address_detail,
                 end_address_detail,
                 traffic_model,
-                from_bed_to_car_added);
+                from_bed_to_car_added,
+                maps_direction_request);
 
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
@@ -273,7 +274,8 @@ db_manager.close();
                 start_address_detail,
                 end_address_detail,
                 traffic_model,
-                from_bed_to_car_added);
+                from_bed_to_car_added,
+                maps_direction_request);
 
 
 

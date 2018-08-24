@@ -100,19 +100,18 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             int alarmMusic_ID = R.raw.mp3_quite_impressed;
             Intent service_intent = new Intent(context, Notification_Sound_Service.class);
             service_intent.putExtra("alarm_music_ID", alarmMusic_ID);
-            context.startService(service_intent);
+            context.startForegroundService(service_intent);
 
             // Aggiungo azione per aprire google maps --
             Intent openGoogleMapsApp = new Intent(context, openGoogleMapsReceiver.class);
-            openGoogleMapsApp.putExtra("openGoogleMaps", true);
             openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
             openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
             Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
-            cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
             cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
+            cancelnotificationGoogleMaps.putExtra("maps_direction_request", maps_direction_request);
             PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------

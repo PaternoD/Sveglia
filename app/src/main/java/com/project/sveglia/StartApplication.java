@@ -46,6 +46,7 @@ public class StartApplication extends BroadcastReceiver {
         ArrayList<String> all_to_google = db_manager.getAllTo();
         ArrayList<String> all_traffic_model = db_manager.getAllMezzo();
         ArrayList<String> all_from_bed_to_car_added = db_manager.getAllAddFromBedToCar();
+        ArrayList<String> all_maps_direction_request = db_manager.getAllMapsDirectionRequest();
 
 
         for (int i = 0;i<all_Database_ID.size()-1;i++){
@@ -55,6 +56,11 @@ public class StartApplication extends BroadcastReceiver {
             int alarm_music_id = Integer.parseInt(all_alarm_music_id.get(i));
             boolean is_delay_alarm;
             String from_bed_to_car_added = all_from_bed_to_car_added.get(i);
+            String maps_direction_request = all_maps_direction_request.get(i);
+
+            //test
+            Log.e("MAPS_REQUEST_REBOOT", "onReceive: maps direction request database = " + maps_direction_request);
+
             if(all_ritarda.get(i).equals("1")){
                 is_delay_alarm = true;
             }else{
@@ -104,7 +110,7 @@ public class StartApplication extends BroadcastReceiver {
                 Toast.makeText(context, "Ho cancellato la sveglia", Toast.LENGTH_SHORT).show();
 
                 // Setto nuovamente la sveglia --
-                setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model, from_bed_to_car_added);
+                setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model, from_bed_to_car_added, maps_direction_request);
                 Toast.makeText(context, "Ho risettato la sveglia", Toast.LENGTH_SHORT).show();
 
 
@@ -192,7 +198,8 @@ public class StartApplication extends BroadcastReceiver {
                                      String start_address_detail,
                                      String end_address_detail,
                                      String traffic_model,
-                                     String from_bed_to_car_added){
+                                     String from_bed_to_car_added,
+                                     String maps_direction_request){
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -203,8 +210,6 @@ public class StartApplication extends BroadcastReceiver {
 
         // recuperare numero di volte di questa fariabile dal database --
         int repeatAlarmNumberTimes = db_manager.getRitardaVolte();
-
-        String maps_direction_request = null;
 
         // Inizializzo allarme principale-----
         if(!there_Are_Repetitions_Days(repetitionArray)){
@@ -365,7 +370,8 @@ public class StartApplication extends BroadcastReceiver {
                 start_address_detail,
                 end_address_detail,
                 traffic_model,
-                from_bed_to_car_added);
+                from_bed_to_car_added,
+                maps_direction_request);
 
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
@@ -438,7 +444,8 @@ public class StartApplication extends BroadcastReceiver {
                 start_address_detail,
                 end_address_detail,
                 traffic_model,
-                from_bed_to_car_added);
+                from_bed_to_car_added,
+                maps_direction_request);
 
 
 

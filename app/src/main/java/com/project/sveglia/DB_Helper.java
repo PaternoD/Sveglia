@@ -32,6 +32,7 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String MEZZO = "mezzo";
     public static final String ARRAY_ID_SVEGLIE = "array_id_sveglie";
     public static final String ADD_FROM_BED_TO_CAR = "add_from_bed_to_car";
+    public static final String MAPS_DIRECTION_REQUEST = "maps_direction_request";
 
     //Colonne sveglie
     public static final String ID_SVEGLIA = "_id_sveglia";
@@ -57,7 +58,8 @@ public class DB_Helper extends SQLiteOpenHelper {
             GOOGLE_TO + " TEXT, " +
             MEZZO + " TEXT, " +
             ARRAY_ID_SVEGLIE + " TEXT, " +
-            ADD_FROM_BED_TO_CAR + " TEXT" +
+            ADD_FROM_BED_TO_CAR + " TEXT," +
+            MAPS_DIRECTION_REQUEST + " TEXT" +
             ");";
 
     //query creazione tabella sveglie
