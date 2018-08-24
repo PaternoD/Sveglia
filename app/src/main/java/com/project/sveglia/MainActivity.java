@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AndroidException;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -77,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         isActive = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
 

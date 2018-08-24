@@ -49,7 +49,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:maxLength="20"
+                android:maxLength="40"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:singleLine="true"

@@ -46,6 +46,11 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         db_manager.open();
         ArrayList<String> all_Database_ID = db_manager.getAllID();
         ArrayList<String> allAddFromBedToCar = db_manager.getAllAddFromBedToCar();
+        ArrayList<String> allMapsDirectionRequest = db_manager.getAllMapsDirectionRequest();
+
+        if(maps_direction_request == null) {
+            maps_direction_request = allMapsDirectionRequest.get(position);
+        }
 
         if (!isRepetitionDayAlarm){
             db_manager.SetOn_Off(Integer.parseInt(all_Database_ID.get(position)), false);

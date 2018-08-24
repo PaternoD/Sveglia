@@ -191,7 +191,12 @@ public class FullScreen_Notification extends Activity {
                                 // termino il conto alla rovesca per la cancellazione automatica della notifica
                                 AutomaticCancelNotification.cancelCountDown();
 
-                                finishAndRemoveTask();
+                                if(MainActivity.isActive){
+                                    finishAndRemoveTask();
+                                }else{
+                                    finishAffinity();
+                                }
+
                             }
                             if(!is_Delay_Alarm){
                                 mySensorManager.unregisterListener(this);
@@ -218,7 +223,11 @@ public class FullScreen_Notification extends Activity {
                                 // termino il conto alla rovesca per la cancellazione automatica della notifica
                                 AutomaticCancelNotification.cancelCountDown();
 
-                                finishAndRemoveTask();
+                                if(MainActivity.isActive){
+                                    finishAndRemoveTask();
+                                }else{
+                                    finishAffinity();
+                                }
                             }
 
                         db.close();
@@ -320,7 +329,15 @@ public class FullScreen_Notification extends Activity {
                 // termino il conto alla rovesca per la cancellazione automatica della notifica
                 AutomaticCancelNotification.cancelCountDown();
 
-                finishAndRemoveTask();
+                if(MainActivity.isActive){
+                    finishAndRemoveTask();
+                }else{
+                    // capire come cancellare la sveglia.
+                    Log.e("INTENT *****", "ho cancellato la fullscreen notification");
+                    finishAffinity();
+                    //android.os.Process.killProcess(android.os.Process.myUid());
+
+                }
             }
         });
 
@@ -354,7 +371,11 @@ public class FullScreen_Notification extends Activity {
                     // termino il conto alla rovesca per la cancellazione automatica della notifica
                     AutomaticCancelNotification.cancelCountDown();
 
-                    finishAndRemoveTask();
+                    if(MainActivity.isActive){
+                        finishAndRemoveTask();
+                    }else{
+                        finishAffinity();
+                    }
 
                 }
             });
@@ -383,7 +404,11 @@ public class FullScreen_Notification extends Activity {
                     // termino il conto alla rovesca per la cancellazione automatica della notifica
                     AutomaticCancelNotification.cancelCountDown();
 
-                    finishAndRemoveTask();
+                    if(MainActivity.isActive){
+                        finishAndRemoveTask();
+                    }else{
+                        finishAffinity();
+                    }
                 }
 
             });

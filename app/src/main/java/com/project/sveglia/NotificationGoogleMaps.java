@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -20,6 +21,8 @@ import java.util.Calendar;
 public class NotificationGoogleMaps extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        Log.e("NOT_GOOGLE_MAPS", "onReceive: sono entrato in notification google maps ");
 
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");

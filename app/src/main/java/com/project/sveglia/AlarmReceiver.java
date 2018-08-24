@@ -262,6 +262,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo la notifica ------------------------------------------------
@@ -352,6 +353,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
@@ -530,6 +532,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
@@ -602,6 +605,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
+            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)

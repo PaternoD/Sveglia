@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/imageView_Name"
                 android:layout_toEndOf="@+id/imageView_Name"
-                android:maxLength="18"
+                android:maxLength="40"
                 android:text="nome_sveglia"
                 android:textColor="@color/DefaultColorText"
                 android:translationY="-2dp" />
