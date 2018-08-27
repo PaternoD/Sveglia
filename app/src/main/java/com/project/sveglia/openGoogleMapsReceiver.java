@@ -18,8 +18,18 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
 
         int notification_ID = intent.getExtras().getInt("notification_ID");
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
+        int id_travel_to = intent.getExtras().getInt("id_travel_to");
+        int position = intent.getExtras().getInt("position");
 
         System.out.println("Notication ID = " + notification_ID);
+
+        DB_Manager db_manager = new DB_Manager(context);
+        db_manager.open();
+        ArrayList<String> maps_direction_request_array = db_manager.getAllMapsDirectionRequest();
+        maps_direction_request = maps_direction_request_array.get(position);
+        id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
+        Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+        db_manager.close();
 
         // Attivo servizio per cancellare la musica della notifica --
         context.stopService(new Intent(context, Notification_Sound_Service.class));

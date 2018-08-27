@@ -77,6 +77,7 @@ public class FullScreen_Notification extends Activity {
         int position = getIntent().getExtras().getInt("View_ID_position");
         long alarmTimeForGoogleMaps = getIntent().getExtras().getLong("alarmTimeForGoogleMaps");
         boolean isGoogleMapsNavigationNot = getIntent().getExtras().getBoolean("isGoogleMapsNavigationNot");
+        int id_travel_to = getIntent().getExtras().getInt("id_travel_to");
 
         if(isRepetitionDayAlarm){
             alarmTimeInMillis = getIntent().getExtras().getLong("alarmTimeInMillis");
@@ -312,8 +313,10 @@ public class FullScreen_Notification extends Activity {
                 }else{
                     // Aggiungo azione per annullare l'apertura di google maps --
                     Intent cancelnotificationGoogleMaps = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
-                    cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
                     cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
+                    cancelnotificationGoogleMaps.putExtra("maps_direction_request", maps_direction_request);
+                    cancelnotificationGoogleMaps.putExtra("id_travel_to", id_travel_to);
+                    cancelnotificationGoogleMaps.putExtra("position", position);
                     PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelnotificationGoogleMaps, 0);
 
                     try {
@@ -389,9 +392,10 @@ public class FullScreen_Notification extends Activity {
                 public void onClick(View v) {
                     // Aggiungo azione per aprire google maps --
                     Intent openGoogleMapsApp = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
-                    openGoogleMapsApp.putExtra("openGoogleMaps", true);
                     openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
                     openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
+                    openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
+                    openGoogleMapsApp.putExtra("position", position);
                     PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_ONE_SHOT);
 
                     try {

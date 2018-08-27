@@ -32,6 +32,7 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
         long alarmTimeForGoogleMaps = intent.getExtras().getLong("alarmTimeForGoogleMaps");
         boolean isRebootAlarm = intent.getExtras().getBoolean("isRebootAlarm");
         int ALARM_ID = intent.getExtras().getInt("alarm_ID");
+        int id_travel_to = intent.getExtras().getInt("id_travel_to");
 
         Calendar calendar = Calendar.getInstance();
         int NOT_ID = createID(calendar.getTimeInMillis());
@@ -49,15 +50,18 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
 
             // Aggiungo azione per aprire google maps --
             Intent openGoogleMapsApp = new Intent(context, openGoogleMapsReceiver.class);
-            openGoogleMapsApp.putExtra("openGoogleMaps", true);
             openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
             openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
+            openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
+            openGoogleMapsApp.putExtra("position", position);
             PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
             Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
-            cancelnotificationGoogleMaps.putExtra("openGoogleMaps", false);
             cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
+            openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
+            openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
+            openGoogleMapsApp.putExtra("position", position);
             PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -75,6 +79,7 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", true);
+            fullScreen.putExtra("id_travel_to", id_travel_to);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             String not_content = "Desideri aprire Google Maps per la navigazione?";
@@ -109,12 +114,16 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             Intent openGoogleMapsApp = new Intent(context, openGoogleMapsReceiver.class);
             openGoogleMapsApp.putExtra("notification_ID", NOT_ID);
             openGoogleMapsApp.putExtra("maps_direction_request", maps_direction_request);
+            openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
+            openGoogleMapsApp.putExtra("position", position);
             PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
             Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
             cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
             cancelnotificationGoogleMaps.putExtra("maps_direction_request", maps_direction_request);
+            openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
+            openGoogleMapsApp.putExtra("position", position);
             PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------
@@ -132,6 +141,7 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             fullScreen.putExtra("isRebootAlarm", isRebootAlarm);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", true);
+            fullScreen.putExtra("id_travel_to", id_travel_to);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo un notification Channel ------------------------------------

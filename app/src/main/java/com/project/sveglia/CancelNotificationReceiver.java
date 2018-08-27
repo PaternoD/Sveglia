@@ -57,13 +57,16 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             SetViewSveglie.aggiornaAdapter_disattiva(position);
         }
 
+        int id_travel_to = 0;
         //elimino sveglia con il travel to dopo che ha suonato
         if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
             alarmTimeForGoogleMaps = Long.parseLong(db_manager.getAllTimeView().get(position));
-            int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
-            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+            id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
+            //Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
             SetViewSveglie.aggiornaAdapter_rimuovi(position);
         }
+
+        System.out.println("ID_travel_to 1 = " + id_travel_to);
 
         db_manager.close();
 
@@ -146,6 +149,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
                 popUPGoogleMapsAPP.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
                 popUPGoogleMapsAPP.putExtra("isRebootAlarm", false);
                 popUPGoogleMapsAPP.putExtra("alarm_ID", ALARM_ID);
+                popUPGoogleMapsAPP.putExtra("id_travel_to", id_travel_to);
                 PendingIntent startGoogleMapsNavigation = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, 0);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
             }else {
