@@ -124,6 +124,10 @@
             android:enabled="true"
             android:exported="true">
         </receiver>
+        <receiver android:name=".cancelNotificationGoogleMaps">
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
 
         <service android:name=".Notification_Sound_Service"
             android:enabled="true"></service>

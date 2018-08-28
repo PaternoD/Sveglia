@@ -26,7 +26,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
-        //System.out.println("start class cancel notification receiver______________________________");
+        System.out.println("start class cancel notification receiver______________________________");
 
         // Recupero id notifica da intent chiamante ----------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
@@ -154,10 +154,12 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
             }else {
                 Log.i("MAPS_RESULT_INFO", "L'ora corrente è maggiore dell'ora in cui l'utente dovrebbe partire, quindi non posso aggiungere la notifica per aprire google maps");
+                Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
             }
             db_manager_1.close();
         }else {
             Log.i("MAPS_RESULT_INFO", "onReceive: maps_direction_result is null");
+            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
         }
 
     }

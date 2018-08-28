@@ -18,6 +18,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -273,6 +274,7 @@ public class FullScreen_Notification extends Activity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
 
+
         // Cancello la notifica dopo un tempo stabilito --
         AutomaticCancelNotification.startCountDownTimer(DelayTimeForCancel,
                 NOT_ID,
@@ -281,7 +283,12 @@ public class FullScreen_Notification extends Activity {
                 is_Delay_Alarm,
                 alarm_Name,
                 mySensorManager,
-                proximitySensorEventListener);
+                proximitySensorEventListener,
+                position,
+                repeatAlarmNumberTimes,
+                isRepetitionDayAlarm,
+                ALARM_ID,
+                maps_direction_request);
         AutomaticCancelNotification.startCountDown();
 
 
@@ -291,6 +298,7 @@ public class FullScreen_Notification extends Activity {
             public void onClick(View v) {
                 if(!isGoogleMapsNavigationNot) {
                     mySensorManager.unregisterListener(proximitySensorEventListener);
+                    System.out.println("Ho premuto il tasco cancella in fullscreen notification +++++++");
                     Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                     cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
                     cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
@@ -312,10 +320,8 @@ public class FullScreen_Notification extends Activity {
                     }
                 }else{
                     // Aggiungo azione per annullare l'apertura di google maps --
-                    Intent cancelnotificationGoogleMaps = new Intent(FullScreen_Notification.this, openGoogleMapsReceiver.class);
+                    Intent cancelnotificationGoogleMaps = new Intent(FullScreen_Notification.this, cancelNotificationGoogleMaps.class);
                     cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
-                    cancelnotificationGoogleMaps.putExtra("maps_direction_request", maps_direction_request);
-                    cancelnotificationGoogleMaps.putExtra("id_travel_to", id_travel_to);
                     cancelnotificationGoogleMaps.putExtra("position", position);
                     PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(FullScreen_Notification.this, 0, cancelnotificationGoogleMaps, 0);
 
@@ -327,7 +333,7 @@ public class FullScreen_Notification extends Activity {
                     }
                 }
 
-                System.out.println("Ho premuto il tasto cancel");
+                //System.out.println("Ho premuto il tasto cancel");
 
                 // termino il conto alla rovesca per la cancellazione automatica della notifica
                 AutomaticCancelNotification.cancelCountDown();
@@ -434,4 +440,5 @@ public class FullScreen_Notification extends Activity {
 
         return date;
     }
+
 }

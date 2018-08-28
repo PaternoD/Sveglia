@@ -31,7 +31,12 @@ public class AutomaticCancelNotification extends Activity {
                                            boolean is_Delay_Alarm,
                                            String alarm_Name,
                                            SensorManager mySensorManager,
-                                           SensorEventListener proxymityEvent){
+                                           SensorEventListener proxymityEvent,
+                                           int position,
+                                           int repeatAlarmNumberTimes,
+                                           boolean isRepetitionDayAlarm,
+                                           int ALARM_ID,
+                                           String maps_direction_request){
 
         countTimer = new android.os.CountDownTimer(delayTime, 1000){
 
@@ -42,22 +47,11 @@ public class AutomaticCancelNotification extends Activity {
 
             @Override
             public void onFinish() {
-                mySensorManager.unregisterListener(proxymityEvent);
-                Intent snoozeNotificationIntent = new Intent(activity, delayNotificationReceiver.class);
-                snoozeNotificationIntent.putExtra("notification_ID", notification_ID);
-                snoozeNotificationIntent.putExtra("alarm_music_ID", alarm_Music_ID);
-                snoozeNotificationIntent.putExtra("isDelayAlarm", is_Delay_Alarm);
-                snoozeNotificationIntent.putExtra("alarm_name", alarm_Name);
-                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(activity, 0, snoozeNotificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    snoozePendingIntent.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                    Log.i("SendPendingIntentSnzNot", "onClick: Non posso inviare (send) il pending intent per ritardare la sveglia");
+                if(MainActivity.isActive){
+                    activity.finish();
+                }else {
+                    activity.finishAffinity();
                 }
-
-                activity.finishAffinity();
-
             }
         };
 

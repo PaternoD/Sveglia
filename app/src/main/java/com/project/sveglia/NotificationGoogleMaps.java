@@ -119,11 +119,9 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
             PendingIntent openGoogleMapsAppPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, openGoogleMapsApp, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Aggiungo azione per annullare l'apertura di google maps --
-            Intent cancelnotificationGoogleMaps = new Intent(context, openGoogleMapsReceiver.class);
+            Intent cancelnotificationGoogleMaps = new Intent(context, cancelNotificationGoogleMaps.class);
             cancelnotificationGoogleMaps.putExtra("notification_ID", NOT_ID);
-            cancelnotificationGoogleMaps.putExtra("maps_direction_request", maps_direction_request);
-            openGoogleMapsApp.putExtra("id_travel_to", id_travel_to);
-            openGoogleMapsApp.putExtra("position", position);
+            cancelnotificationGoogleMaps.putExtra("position", position);
             PendingIntent cancelnotificationGoogleMapsPendingIntent = PendingIntent.getBroadcast(context, NOT_ID, cancelnotificationGoogleMaps, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // fullScreen notification intent ----------------------------------

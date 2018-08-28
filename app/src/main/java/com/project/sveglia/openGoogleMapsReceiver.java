@@ -23,6 +23,7 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
 
         System.out.println("Notication ID = " + notification_ID);
 
+        // Recupero informazioni dal database --
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
         ArrayList<String> maps_direction_request_array = db_manager.getAllMapsDirectionRequest();
@@ -33,7 +34,6 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
 
         // Attivo servizio per cancellare la musica della notifica --
         context.stopService(new Intent(context, Notification_Sound_Service.class));
-
 
         if(maps_direction_request != null){
 

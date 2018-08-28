@@ -120,6 +120,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
                     .setContentText(counteDownTimerText)
                     .setContentIntent(notif_Context_Pend_Intent)
                     .setAutoCancel(true)
+                    .setOngoing(true)
                     .addAction(0, "TERMINA", cancelPendingIntent);
 
             notificationManager.notify(countDownNotification_ID, countDown_Notif.build());

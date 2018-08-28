@@ -455,6 +455,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 delayAction.putExtra("alarm_name", alarmName);
                                 delayAction.putExtra("notification_Channel", "");
                                 delayAction.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                                delayAction.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
                                 delayAction.putExtra("View_ID_position", position);
                                 delayAction.putExtra("alarm_ID", ALARM_ID);
                                 delayAction.putExtra("maps_direction_request", maps_direction_request);
@@ -653,17 +654,19 @@ db.close();
             handler.postDelayed(new Runnable() {
                 public void run() {
                     if (isNotificationActive(id, context)) {
-//da aggiungere stop sensore
                         Intent delayNotificationIntent = new Intent(context, delayNotificationReceiver.class);
                         delayNotificationIntent.putExtra("notification_ID", id);
                         delayNotificationIntent.putExtra("alarm_music_ID", alarm_music_ID);
                         delayNotificationIntent.putExtra("isDelayAlarm", isDelayAlarm);
                         delayNotificationIntent.putExtra("alarm_name", alarm_name);
                         delayNotificationIntent.putExtra("repeatAlarmNumberTimes", repeatAlarmNumberTimes);
+                        delayNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
+                        delayNotificationIntent.putExtra("View_ID_position", position);
                         delayNotificationIntent.putExtra("alarm_ID", ALARM_ID);
                         delayNotificationIntent.putExtra("maps_direction_request", maps_direction_request);
                         PendingIntent delayPendingIntent = PendingIntent.getBroadcast(context, 0, delayNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         try {
+
                             delayPendingIntent.send();
                         } catch (PendingIntent.CanceledException e) {
                             e.printStackTrace();
