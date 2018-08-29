@@ -33,6 +33,7 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String ARRAY_ID_SVEGLIE = "array_id_sveglie";
     public static final String ADD_FROM_BED_TO_CAR = "add_from_bed_to_car";
     public static final String MAPS_DIRECTION_REQUEST = "maps_direction_request";
+    public static final String VISIBLE_ALARM = "visible_alarm";
 
     //Colonne sveglie
     public static final String ID_SVEGLIA = "_id_sveglia";
@@ -59,7 +60,8 @@ public class DB_Helper extends SQLiteOpenHelper {
             MEZZO + " TEXT, " +
             ARRAY_ID_SVEGLIE + " TEXT, " +
             ADD_FROM_BED_TO_CAR + " TEXT," +
-            MAPS_DIRECTION_REQUEST + " TEXT" +
+            MAPS_DIRECTION_REQUEST + " TEXT," +
+            VISIBLE_ALARM + " TEXT" +
             ");";
 
     //query creazione tabella sveglie

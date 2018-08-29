@@ -128,8 +128,13 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
 
         time_sveglia.setTextColor(R.color.DefaultColorText);
 
-        if(dataSet.get(position).getId()==999999999){
+        ArrayList<String> allVisibleAlarm = db.getAllVisibleAlarm();
+        String visible_alarm = allVisibleAlarm.get(position);
+
+        if(dataSet.get(position).getId()==999999999 ){
             sveglia.setVisibility(View.INVISIBLE);
+        }else if(visible_alarm.equals("0")){
+            sveglia.setVisibility(View.GONE);
         }else{
             sveglia.setVisibility(View.VISIBLE);
         }
@@ -248,7 +253,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                             dataSet.get(position).getRepetitions_day(),
                             dataSet.get(position).getTravelTo(),dataSet.get(position).getPosizione_suoneria(),
                             dataSet.get(position).getFrom(),dataSet.get(position).getTo(),
-                            dataSet.get(position).getMezzo(), null, dataSet.get(position).isFrom_bed_to_car_added());
+                            dataSet.get(position).getMezzo(), null, dataSet.get(position).isFrom_bed_to_car_added(), "1");
 
                     sveglia.setBackgroundResource(R.drawable.card_lista_sveglie_attiva);
 

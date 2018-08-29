@@ -30,7 +30,8 @@ public class SetAlarmManager {
                                        String end_address_detail,
                                        String traffic_model,
                                        String maps_direction_request,
-                                       String from_bed_to_car_added){
+                                       String from_bed_to_car_added,
+                                       String visible_alarm){
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -60,7 +61,8 @@ public class SetAlarmManager {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -78,7 +80,8 @@ public class SetAlarmManager {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -96,7 +99,8 @@ public class SetAlarmManager {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }
 db_manager.close();
     }
@@ -135,7 +139,8 @@ db_manager.close();
                                    DB_Manager db_manager,
                                    int repeatAlarmNumberTimes,
                                    String maps_direction_request,
-                                   String from_bed_to_car_added){
+                                   String from_bed_to_car_added,
+                                   String visible_alarm){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
@@ -203,7 +208,8 @@ db_manager.close();
                 end_address_detail,
                 traffic_model,
                 from_bed_to_car_added,
-                maps_direction_request);
+                maps_direction_request,
+                visible_alarm);
 
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
@@ -240,7 +246,8 @@ db_manager.close();
                                         DB_Manager db_manager,
                                         int repeatAlarmNumberTimes,
                                         String maps_direction_request,
-                                        String from_bed_to_car_added){
+                                        String from_bed_to_car_added,
+                                        String visible_alarm){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMilllis);
@@ -275,7 +282,8 @@ db_manager.close();
                 end_address_detail,
                 traffic_model,
                 from_bed_to_car_added,
-                maps_direction_request);
+                maps_direction_request,
+                visible_alarm);
 
 
 

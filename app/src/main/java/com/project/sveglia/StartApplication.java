@@ -110,7 +110,7 @@ public class StartApplication extends BroadcastReceiver {
                 Toast.makeText(context, "Ho cancellato la sveglia", Toast.LENGTH_SHORT).show();
 
                 // Setto nuovamente la sveglia --
-                setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model, from_bed_to_car_added, maps_direction_request);
+                setAlarmAfterReboot(context, time_in_millis, alarm_music_id, is_delay_alarm, alarm_name, repetitionsArray, is_travel_to, list_position_music, start_address, destination_address, traffic_model, from_bed_to_car_added, maps_direction_request, "1");
                 Toast.makeText(context, "Ho risettato la sveglia", Toast.LENGTH_SHORT).show();
 
 
@@ -199,7 +199,8 @@ public class StartApplication extends BroadcastReceiver {
                                      String end_address_detail,
                                      String traffic_model,
                                      String from_bed_to_car_added,
-                                     String maps_direction_request){
+                                     String maps_direction_request,
+                                     String visible_alarm){
 
         long currentTime = getCurrentTime();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -229,7 +230,8 @@ public class StartApplication extends BroadcastReceiver {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }else if(isTravelToAlarm) {
             startAlarm(timeInMillis,
                     currentTime,
@@ -247,7 +249,8 @@ public class StartApplication extends BroadcastReceiver {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }else{
             starRepeatAlarm(timeInMillis,
                     currentTime,
@@ -265,7 +268,8 @@ public class StartApplication extends BroadcastReceiver {
                     db_manager,
                     repeatAlarmNumberTimes,
                     maps_direction_request,
-                    from_bed_to_car_added);
+                    from_bed_to_car_added,
+                    visible_alarm);
         }
         db_manager.close();
     }
@@ -304,7 +308,8 @@ public class StartApplication extends BroadcastReceiver {
                                    DB_Manager db_manager,
                                    int repeatAlarmNumberTimes,
                                    String maps_direction_request,
-                                   String from_bed_to_car_added){
+                                   String from_bed_to_car_added,
+                                   String visible_alarm){
 
         // Controlliamo se l'orario è minore del tempo corrente, in caso affermativo setto la sveglia
         // al giorno successivo, non deve essere fatto sulla sveglia settata con travel_to
@@ -371,7 +376,7 @@ public class StartApplication extends BroadcastReceiver {
                 end_address_detail,
                 traffic_model,
                 from_bed_to_car_added,
-                maps_direction_request);
+                maps_direction_request, visible_alarm);
 
         Vector<Integer> vector_id_alarm = new Vector<>();
         vector_id_alarm.add(ALARM_ID);
@@ -409,7 +414,8 @@ public class StartApplication extends BroadcastReceiver {
                                         DB_Manager db_manager,
                                         int repeatAlarmNumberTimes,
                                         String maps_direction_request,
-                                        String from_bed_to_car_added){
+                                        String from_bed_to_car_added,
+                                        String visible_alarm){
 
         Calendar calendar = Calendar.getInstance();
         int ALARM_ID = createID(timeInMillis);
@@ -445,7 +451,8 @@ public class StartApplication extends BroadcastReceiver {
                 end_address_detail,
                 traffic_model,
                 from_bed_to_car_added,
-                maps_direction_request);
+                maps_direction_request,
+                visible_alarm);
 
 
 

@@ -62,7 +62,6 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
             alarmTimeForGoogleMaps = Long.parseLong(db_manager.getAllTimeView().get(position));
             id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
-            //Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
             SetViewSveglie.aggiornaAdapter_rimuovi(position);
         }
 
@@ -119,9 +118,11 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
 
         }
 
+        DB_Manager db_manager_1 = new DB_Manager(context);
+        db_manager_1.open();
+
         if(maps_direction_request != null){
-            DB_Manager db_manager_1 = new DB_Manager(context);
-            db_manager_1.open();
+
             long googleMapsTime = db_manager_1.getBadToCar();
             Calendar calendar = Calendar.getInstance();
 
@@ -130,14 +131,19 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
 
             if(allAddFromBedToCar.get(position).charAt(0) == (Character)'1'){
                 //timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
-                timeForFirenotification = alarmTimeForGoogleMaps + 120000;
+                timeForFirenotification = alarmTimeForGoogleMaps + 180000;
+
                 System.out.println("Dal database risulta che add_from_bed_to_car = true");
+                System.out.println("timeForFireNotification = " + timeForFirenotification);
             }else {
                 timeForFirenotification = calendar.getTimeInMillis() + 60000;
                 System.out.println("Dal database risulta che add_from_bed_to_car = false");
             }
 
             if(calendar.getTimeInMillis() < timeForFirenotification) {
+
+                db_manager_1.setVisibleAlarm(id_travel_to);
+
                 // Setto la notifica per aprire google maps ---------------
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 Intent popUPGoogleMapsAPP = new Intent(context, NotificationGoogleMaps.class);
@@ -154,13 +160,13 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
             }else {
                 Log.i("MAPS_RESULT_INFO", "L'ora corrente è maggiore dell'ora in cui l'utente dovrebbe partire, quindi non posso aggiungere la notifica per aprire google maps");
-                Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+                Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager_1,true);
             }
-            db_manager_1.close();
         }else {
             Log.i("MAPS_RESULT_INFO", "onReceive: maps_direction_result is null");
-            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
+            Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager_1,true);
         }
+        db_manager_1.close();
 
     }
 

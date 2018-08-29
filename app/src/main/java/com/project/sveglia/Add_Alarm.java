@@ -417,7 +417,8 @@ public class Add_Alarm extends Activity {
                         end_address_detail,
                         traffic_model,
                         maps_direction_request,
-                        from_bed_to_car_added);
+                        from_bed_to_car_added,
+                        "1");
                 Intent  main= new Intent(Add_Alarm.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(main);
                 Add_Alarm.this.finish();

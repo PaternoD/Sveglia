@@ -57,6 +57,7 @@ public class Setting_Class extends Activity {
         TextView fromBedToCarTexView = (TextView)findViewById(R.id.TextView_FBTC_ID);
         TextView ringToneTextView = (TextView)findViewById(R.id.TextView_RingTone_Duration_ID);
         TextView textView_sensor_active = (TextView)findViewById(R.id.TexView_sensor_active);
+        TextView crediti_textView = (TextView)findViewById(R.id.Crediti_applicazione);
 
         // Switch
         sensorSwitch = (Switch)findViewById(R.id.switch_sensor_ID);
@@ -75,6 +76,10 @@ public class Setting_Class extends Activity {
 
         fromBedToCarTexView.setText(fromBedToCardDefaultValue + " minuti");
         ringToneTextView.setText(ringToneDurationDefaultValue + " minuti");
+
+        // Setto la textView dei crediti --
+        String crediti = "Sviluppato da \n Daniele Paterno & Simone Rigon";
+        crediti_textView.setText(crediti);
 
         sensorSwitch.setChecked(sensorDefaultValue);
         if(sensorSwitch.isChecked()){
