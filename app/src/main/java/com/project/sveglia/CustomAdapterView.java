@@ -246,7 +246,7 @@ public class CustomAdapterView extends RecyclerView.Adapter <CustomAdapterView.M
                     Long time_long = Long.parseLong(time_str.get(position));
                     Cancel_Alarm_Class.cancel_Alarm(id,context,db,true);
 
-                    System.out.println("isFrom_bed_to_car_added() in dataset = " + dataSet.get(position).isFrom_bed_to_car_added());
+                    //System.out.println("isFrom_bed_to_car_added() in dataset = " + dataSet.get(position).isFrom_bed_to_car_added());
 
                     SetAlarmManager.SetAlarmManager(context,time_long,dataSet.get(position).getId_suoneria(),
                             dataSet.get(position).getRitarda(),dataSet.get(position).getNome_sveglia(),

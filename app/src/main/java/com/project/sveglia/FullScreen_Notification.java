@@ -85,7 +85,6 @@ public class FullScreen_Notification extends Activity {
             ALARM_ID = getIntent().getExtras().getInt("alarm_ID");
         }
 
-        Log.e("REBOOT TEST FULLSCREEN", "onReceive: ++++++++++++++ notification_id - Reboot = " + NOT_ID);
 
         // recupero riferimenti layout -------------------
         // CardView
@@ -161,7 +160,7 @@ public class FullScreen_Notification extends Activity {
 
                     } else {
                         if (sensorEvent.values[0]==0) {//se a pancia in giu
-                            System.out.println("pancia in giu");
+                            //System.out.println("pancia in giu");
                             nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -235,7 +234,7 @@ public class FullScreen_Notification extends Activity {
                         db.close();
                         }
                     }else{//se a pancia in su
-                        System.out.println("pancia in su");
+                        //System.out.println("pancia in su");
                         bianco_nero=true;
 
                         }
@@ -298,7 +297,7 @@ public class FullScreen_Notification extends Activity {
             public void onClick(View v) {
                 if(!isGoogleMapsNavigationNot) {
                     mySensorManager.unregisterListener(proximitySensorEventListener);
-                    System.out.println("Ho premuto il tasco cancella in fullscreen notification +++++++");
+                    //System.out.println("Ho premuto il tasco cancella in fullscreen notification +++++++");
                     Intent cancelNotificationIntent = new Intent(FullScreen_Notification.this, CancelNotificationReceiver.class);
                     cancelNotificationIntent.putExtra("notification_ID", NOT_ID);
                     cancelNotificationIntent.putExtra("isRepetitionDayAlarm", isRepetitionDayAlarm);
@@ -341,11 +340,7 @@ public class FullScreen_Notification extends Activity {
                 if(MainActivity.isActive){
                     finishAndRemoveTask();
                 }else{
-                    // capire come cancellare la sveglia.
-                    Log.e("INTENT *****", "ho cancellato la fullscreen notification");
                     finishAffinity();
-                    //android.os.Process.killProcess(android.os.Process.myUid());
-
                 }
             }
         });

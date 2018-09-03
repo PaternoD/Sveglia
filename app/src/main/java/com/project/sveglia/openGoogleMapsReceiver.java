@@ -21,7 +21,7 @@ public class openGoogleMapsReceiver extends BroadcastReceiver {
         int id_travel_to = intent.getExtras().getInt("id_travel_to");
         int position = intent.getExtras().getInt("position");
 
-        System.out.println("Notication ID = " + notification_ID);
+        //System.out.println("Notication ID = " + notification_ID);
 
         // Recupero informazioni dal database --
         DB_Manager db_manager = new DB_Manager(context);

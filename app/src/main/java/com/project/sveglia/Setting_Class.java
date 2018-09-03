@@ -296,11 +296,11 @@ public class Setting_Class extends Activity {
 
                 if(activeSensor){
                     relativeLayout_sensor_active.setVisibility(View.VISIBLE);
-                    System.out.println("sensor_active_true: " + activeSensor);
+                    //System.out.println("sensor_active_true: " + activeSensor);
                 }else{
                     relativeLayout_sensor_active.setVisibility(View.GONE);
                     sensorSwitch.setChecked(false);
-                    System.out.println("sensor_active_false: " + activeSensor);
+                    //System.out.println("sensor_active_false: " + activeSensor);
                 }
             }
         }

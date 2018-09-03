@@ -51,7 +51,7 @@ public class Add_From_Bed_To_Car_Time extends Activity {
             @Override
             public void onClick(View v) {
 
-                System.out.println("ho premuto il pulsante si");
+                //System.out.println("ho premuto il pulsante si");
 
                 // ----> Ricordarsi di aggiungere il tempo di preparazione al mattino, prendere da database!!!
                 DB_Manager db_manager = new DB_Manager(Add_From_Bed_To_Car_Time.this);
@@ -86,7 +86,7 @@ public class Add_From_Bed_To_Car_Time extends Activity {
             @Override
             public void onClick(View v) {
 
-                System.out.println("ho premuto il pulsante no");
+                //System.out.println("ho premuto il pulsante no");
 
                 Calendar calendar = Calendar.getInstance();
                 long currentTime = calendar.getTimeInMillis();

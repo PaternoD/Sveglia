@@ -77,8 +77,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         boolean enableVibrate = true;
         delayTimeForCancelForNotification = db_manager.getDurataSuoneria();
 
-        Log.e("REBOOT TEST", "onReceive: ++++++++++++++ Alarm View ID - Reboot = " + alarmViewID);
-
 
         // setto visualizzazione sveglia a "non attiva" --
         if(isFirstTimeAlarm) {
@@ -93,8 +91,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             position = intent.getExtras().getInt("View_ID_position");
         }
         db_manager.close();
-        Log.e("REBOOT TEST", "onReceive: ++++++++++++++ Position - Reboot = " + position);
-        System.out.println("++++++++++++ alarm_music_id ++++++++ " + alarm_music_ID);
+        //System.out.println("++++++++++++ alarm_music_id ++++++++ " + alarm_music_ID);
 
         // Inizializzo notifica ----------------------------------
         if(isDelayAlarm){
@@ -134,7 +131,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         mySensorManager.unregisterListener(this);
                     }
                     if (sensorEvent.values[0]==0) {//se a pancia in giu
-                        System.out.println("pancia in giu");
+                        //System.out.println("pancia in giu");
                         nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -189,7 +186,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                         }
                     }else{//se a pancia in su
-                        System.out.println("pancia in su");
+                        //System.out.println("pancia in su");
                         bianco_nero=true;
 
                     }
@@ -262,7 +259,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Creo la notifica ------------------------------------------------
@@ -353,7 +350,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)
@@ -412,7 +409,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         mySensorManager.unregisterListener(this);
                     } else {
                         if (sensorEvent.values[0]==0) {//se a pancia in giu
-                            System.out.println("pancia in giu");
+                            //System.out.println("pancia in giu");
                             nero_nero=true;
 
                         if (bianco_nero && nero_nero) {
@@ -445,7 +442,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                                 mySensorManager.unregisterListener(this);
                             } else if (db.getSensoriOpzione().equals((String)"ritarda")){
 
-                                System.out.println("Sensore prossimità. rimando allarme");
+                                //System.out.println("Sensore prossimità. rimando allarme");
 
                                 //RIMANDO SVEGLIA
                                 Intent delayAction = new Intent(context, delayNotificationReceiver.class);
@@ -471,7 +468,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                             }
                             db.close();
                         }else{//se a pancia in su
-                            System.out.println("pancia in su");
+                            //System.out.println("pancia in su");
                             bianco_nero=true;
 
                         }
@@ -533,7 +530,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
@@ -606,7 +603,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             fullScreen.putExtra("alarmTimeForGoogleMaps", alarmTimeForGoogleMaps);
             fullScreen.putExtra("alarm_ID", ALARM_ID);
             fullScreen.putExtra("isGoogleMapsNavigationNot", false);
-            fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //fullScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreen, PendingIntent.FLAG_UPDATE_CURRENT);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, not_Channel_ID)

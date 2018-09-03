@@ -29,8 +29,8 @@ public class Notification_Sound_Service extends Service {
 
         int alarm_music_ID = intent.getExtras().getInt("alarm_music_ID");
 
-        Log.i("** Forground Service **", "alarm_music_ID: " + alarm_music_ID);
-        Log.i("** Forground Service **", "mediaplayer: " + mediaPlayer);
+        //Log.i("** Forground Service **", "alarm_music_ID: " + alarm_music_ID);
+        //Log.i("** Forground Service **", "mediaplayer: " + mediaPlayer);
 
         Uri uriSong = Uri.parse("android.resource://" + this.getPackageName() + "/" + alarm_music_ID);
 

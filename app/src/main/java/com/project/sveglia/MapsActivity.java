@@ -244,8 +244,8 @@ public class MapsActivity extends FragmentActivity {
                     origin_TextView.setText(originString);
                     destination_TextView.setText(destinationSring);
 
-                    System.out.println("ORIGIN POSITION = " + originPosition);
-                    System.out.println("DESTINATION POSITION = " + destinationPosition);
+                    //System.out.println("ORIGIN POSITION = " + originPosition);
+                    //System.out.println("DESTINATION POSITION = " + destinationPosition);
                 }
             }
         });
@@ -597,9 +597,9 @@ public class MapsActivity extends FragmentActivity {
                     @Override
                     public void onComplete(@NonNull com.google.android.gms.tasks.Task<Location> task) {
                         if(task.isSuccessful()){
-                            Log.d("MAPS_ACTIVITY", "onComplete: Found Current Location");
                             Location currentLocation = (Location)task.getResult();
                             if(currentLocation != null) {
+                                Log.d("MAPS_ACTIVITY", "onComplete: Found Current Location");
                                 originString = "Origine: la tua posizione";
                                 originPosition = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
 

@@ -26,6 +26,7 @@ public class Cancel_Alarm_Class extends Activity {
     public static void cancel_Alarm(int id, Context context, DB_Manager db_manager, boolean cancella_view_e_sveglie){
 
         Vector<Integer> vector = new Vector<>(1);
+
         vector=db_manager.getVectorID_Ripetizioni(id);
 
         // Cancello Allarmi ---------------------
@@ -38,8 +39,6 @@ public class Cancel_Alarm_Class extends Activity {
             //cancellazione alarm manager
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id_Alarm, alarmToBeDeleted, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent);
-
-            Log.e("CANCEL ALARM", "cancel_Alarm: alarm id = " + id_Alarm + "\n");
 
             //cancellazione table_sveglie
             db_manager.delete_sveglia(id_Alarm);

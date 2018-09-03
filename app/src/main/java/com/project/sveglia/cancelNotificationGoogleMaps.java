@@ -25,7 +25,7 @@ public class cancelNotificationGoogleMaps extends BroadcastReceiver {
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
         int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
-        System.out.println("id_travel_to_3 = " + id_travel_to);
+        //System.out.println("id_travel_to_3 = " + id_travel_to);
         Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager,true);
         db_manager.close();
 

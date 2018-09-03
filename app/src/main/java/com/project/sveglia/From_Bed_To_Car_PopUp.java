@@ -44,7 +44,7 @@ public class From_Bed_To_Car_PopUp extends Activity {
         // Recupero informazioni da Intent chiamante -----------
         long fromBedToCarValue = getIntent().getExtras().getLong("fromBedToCarValue");
 
-        System.out.println("fromBedToCarString: "+ fromBedToCarValue);
+        //System.out.println("fromBedToCarString: "+ fromBedToCarValue);
 
         if(fromBedToCarValue == 900000){
             duration = 900000;

@@ -158,10 +158,8 @@ db_manager.close();
         int ALARM_ID = createID(timeInMillis);
         int ID_View = (int) getRandomID(timeInMillis);
 
-        Log.e("ALARM_ID ***", "startAlarm: alrm_id alla creazione è " + ALARM_ID);
-
         if(from_bed_to_car_added.equals("0")){
-            System.out.println("is delay alarm è settato a false **************");
+            //System.out.println("is delay alarm è settato a false **************");
             isDelayAlarm = false;
         }
 
@@ -175,7 +173,7 @@ db_manager.close();
         startPrincipalAlarmIntent.putExtra("maps_direction_request", maps_direction_request);
         startPrincipalAlarmIntent.putExtra("isFirstTimeAlarm", true);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
          * ------> ******* Qui bisogna salavare la sveglia nel database *******
@@ -363,7 +361,7 @@ db_manager.close();
                 startRepeatAlarmIntent.putExtra("isFirstTimeAlarm", true);
                 startRepeatAlarmIntent.putExtra("alarm_ID", ALARM_ID);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 
                 // Salvo id sveglia in vector_id_sveglia -----------------------------
                 vector_id_sveglia.add(ALARM_ID);

@@ -87,7 +87,7 @@ public class CustomAdapterDriving extends RecyclerView.Adapter<CustomAdapterDriv
                 String dest_loc = dataSet.get(listPosition).getDestination_location();
                 String waypoint = dataSet.get(listPosition).getGoogleMapsRequest();
 
-                System.out.println("Path_" + listPosition + ": " + origin_loc + " - " + dest_loc + " - " + waypoint);
+                //System.out.println("Path_" + listPosition + ": " + origin_loc + " - " + dest_loc + " - " + waypoint);
 
                 String maps_direction_request = "https://www.google.com/maps/dir/?api=1" + origin_loc + dest_loc + waypoint + "&travelmode=driving&dir_action=navigate";
 

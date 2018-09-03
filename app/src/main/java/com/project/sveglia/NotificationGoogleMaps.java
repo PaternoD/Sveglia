@@ -22,8 +22,6 @@ public class NotificationGoogleMaps extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.e("NOT_GOOGLE_MAPS", "onReceive: sono entrato in notification google maps ");
-
         String maps_direction_request = intent.getExtras().getString("maps_direction_request");
         boolean isDelayAlarm = intent.getExtras().getBoolean("isDelayAlarm");
         String alarmName = intent.getExtras().getString("alarm_name");

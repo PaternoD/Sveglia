@@ -26,7 +26,7 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
-        System.out.println("start class cancel notification receiver______________________________");
+        //System.out.println("start class cancel notification receiver______________________________");
 
         // Recupero id notifica da intent chiamante ----------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
@@ -39,8 +39,6 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
         int repeatAlarmNumberTimes = intent.getExtras().getInt("repeatAlarmNumberTimes");
         long alarmTimeForGoogleMaps = intent.getExtras().getLong("alarmTimeForGoogleMaps");
         int ALARM_ID = intent.getExtras().getInt("alarm_ID");
-
-        Log.e("REBOOT TEST CANCEL NOT", "onReceive: ++++++++++++++ Not_id - Reboot = " + notification_ID);
 
         DB_Manager db_manager = new DB_Manager(context);
         db_manager.open();
@@ -57,15 +55,14 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             SetViewSveglie.aggiornaAdapter_disattiva(position);
         }
 
-        int id_travel_to = 0;
+        int id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));;
         //elimino sveglia con il travel to dopo che ha suonato
         if (db_manager.getAllTravelTO().get(position).charAt(0)==(Character)'1'){
             alarmTimeForGoogleMaps = Long.parseLong(db_manager.getAllTimeView().get(position));
-            id_travel_to = Integer.parseInt(db_manager.getAllID().get(position));
             SetViewSveglie.aggiornaAdapter_rimuovi(position);
         }
 
-        System.out.println("ID_travel_to 1 = " + id_travel_to);
+        //System.out.println("ID_travel_to 1 = " + id_travel_to);
 
         db_manager.close();
 
@@ -114,12 +111,19 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             startRepetitionAlarm.putExtra("isFirstTimeAlarm", false);
             startRepetitionAlarm.putExtra("alarmTimeInMillis", newAlarmTimeInMillis);
             PendingIntent startRepetitionAlarm_PendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startRepetitionAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, newAlarmTimeInMillis, startRepetitionAlarm_PendingIntent);
 
         }
 
         DB_Manager db_manager_1 = new DB_Manager(context);
         db_manager_1.open();
+
+        ArrayList<String> allMezzoTravelTo = db_manager_1.getAllMezzo();
+        String mezzo = allMezzoTravelTo.get(position);
+
+        if(mezzo != null){
+            db_manager_1.setVisibleAlarm(id_travel_to);
+        }
 
         if(maps_direction_request != null){
 
@@ -130,19 +134,16 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
             long timeForFirenotification;
 
             if(allAddFromBedToCar.get(position).charAt(0) == (Character)'1'){
-                //timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
-                timeForFirenotification = alarmTimeForGoogleMaps + 180000;
+                timeForFirenotification = alarmTimeForGoogleMaps + googleMapsTime;
 
-                System.out.println("Dal database risulta che add_from_bed_to_car = true");
-                System.out.println("timeForFireNotification = " + timeForFirenotification);
+                //System.out.println("Dal database risulta che add_from_bed_to_car = true");
+                //System.out.println("timeForFireNotification = " + timeForFirenotification);
             }else {
                 timeForFirenotification = calendar.getTimeInMillis() + 60000;
-                System.out.println("Dal database risulta che add_from_bed_to_car = false");
+                //System.out.println("Dal database risulta che add_from_bed_to_car = false");
             }
 
             if(calendar.getTimeInMillis() < timeForFirenotification) {
-
-                db_manager_1.setVisibleAlarm(id_travel_to);
 
                 // Setto la notifica per aprire google maps ---------------
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -157,12 +158,12 @@ public class CancelNotificationReceiver extends BroadcastReceiver {
                 popUPGoogleMapsAPP.putExtra("alarm_ID", ALARM_ID);
                 popUPGoogleMapsAPP.putExtra("id_travel_to", id_travel_to);
                 PendingIntent startGoogleMapsNavigation = PendingIntent.getBroadcast(context, ALARM_ID, popUPGoogleMapsAPP, 0);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeForFirenotification, startGoogleMapsNavigation);
             }else {
                 Log.i("MAPS_RESULT_INFO", "L'ora corrente è maggiore dell'ora in cui l'utente dovrebbe partire, quindi non posso aggiungere la notifica per aprire google maps");
                 Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager_1,true);
             }
-        }else {
+        }else if(mezzo != null) {
             Log.i("MAPS_RESULT_INFO", "onReceive: maps_direction_result is null");
             Cancel_Alarm_Class.cancel_Alarm(id_travel_to,context,db_manager_1,true);
         }

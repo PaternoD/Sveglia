@@ -71,11 +71,11 @@ public class Sensor_Setting_PopUp extends Activity {
                 if(radioButtonValue.equals("Ritarda")){
                     db_manager.setSensoriOpzione("ritarda");
                     res_sensor_active = "Ritarda";
-                    System.out.println("Opzione sensore: " + radioButtonValue);
+                    //System.out.println("Opzione sensore: " + radioButtonValue);
                 }else{
                     db_manager.setSensoriOpzione("elimina");
                     res_sensor_active = "Elimina";
-                    System.out.println("Opzione sensore: " + radioButtonValue);
+                    //System.out.println("Opzione sensore: " + radioButtonValue);
                 }
 
                 Intent resIntent = new Intent();

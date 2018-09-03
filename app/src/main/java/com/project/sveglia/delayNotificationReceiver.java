@@ -29,7 +29,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         AlarmReceiver.mySensorManager.unregisterListener(AlarmReceiver.proximitySensorEventListener);
-        System.out.println("Sono entrato in delay notification receiver");
+        //System.out.println("Sono entrato in delay notification receiver");
 
         // Recupero dati da intent --------------------------
         int notification_ID = intent.getExtras().getInt("notification_ID");
@@ -71,7 +71,6 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         int repeatAlarmID = createID(timeDelayAlarm);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-        Log.e("REBOOT TEST DELAY NOT", "onReceive: ++++++++++++++ Position - Reboot = " + position);
 
         Intent startRepeatAlarm = new Intent(context, AlarmReceiver.class);
         startRepeatAlarm.putExtra("View_ID", 0);
@@ -86,7 +85,7 @@ public class delayNotificationReceiver extends BroadcastReceiver {
         startRepeatAlarm.putExtra("maps_direction_request", maps_direction_request);
 
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, repeatAlarmID, startRepeatAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeDelayAlarm, alarmPendingIntent);
 
         // Attivo notifica con CountDown Timer del tempo di Delay --
         int countDownNotification_ID = notification_ID + 10;

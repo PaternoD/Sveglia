@@ -58,8 +58,6 @@ public class StartApplication extends BroadcastReceiver {
             String from_bed_to_car_added = all_from_bed_to_car_added.get(i);
             String maps_direction_request = all_maps_direction_request.get(i);
 
-            //test
-            Log.e("MAPS_REQUEST_REBOOT", "onReceive: maps direction request database = " + maps_direction_request);
 
             if(all_ritarda.get(i).equals("1")){
                 is_delay_alarm = true;
@@ -343,7 +341,7 @@ public class StartApplication extends BroadcastReceiver {
         startPrincipalAlarmIntent.putExtra("alarm_ID", ALARM_ID);
         startPrincipalAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, ALARM_ID, startPrincipalAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
         /**
          * ------> ******* Qui bisogna salavare la sveglia nel database *******
@@ -533,7 +531,7 @@ public class StartApplication extends BroadcastReceiver {
                 startRepeatAlarmIntent.putExtra("alarm_ID", ALARM_ID);
                 startRepeatAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context,ALARM_ID, startRepeatAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, repeatTimeInMillis, alarmPendingIntent);
 
                 // Salvo id sveglia in vector_id_sveglia -----------------------------
                 vector_id_sveglia.add(ALARM_ID);

@@ -121,6 +121,7 @@ public class DB_Manager {
 
         String str = array_vector.get(0);
 
+
         String str_no_parentesi = str.substring(1,str.length()-1);
         String [] array = str_no_parentesi.split(", ");
         for (int i=0;i<array.length ;i++ ) {
@@ -467,7 +468,7 @@ public class DB_Manager {
                 str=str+"0";
             }
         }
-        System.out.println(str);
+        //System.out.println(str);
         return str;
     }
 

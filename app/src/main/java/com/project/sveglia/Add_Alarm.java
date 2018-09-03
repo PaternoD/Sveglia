@@ -138,7 +138,7 @@ public class Add_Alarm extends Activity {
 
         if(modify_alarm) {
             modify_alarm_position = getIntent().getExtras().getInt("position");
-            System.out.println("Alarm_position_modify:" + modify_alarm_position);
+            //System.out.println("Alarm_position_modify:" + modify_alarm_position);
         }
 
         // Setto testo bottone salva/modifica allarme e titolo classe--------------
@@ -166,7 +166,7 @@ public class Add_Alarm extends Activity {
             String time_day=getDayTimeFromMillis(alarm_time);
             day_info.setText(time_day);
             time.setText(getFormattedTimeFromMillis(alarm_time));
-            System.out.println(getFormattedTimeFromMillis(alarm_time));
+            //System.out.println(getFormattedTimeFromMillis(alarm_time));
             Card_Day_Info.setVisibility(View.INVISIBLE);
 //SETTO MUSICHE SUONERIE
             alarm_music_name=getMusicData.getMusicName(Integer.parseInt(db.getAllPosSuoneria().get(modify_alarm_position))+1);
@@ -403,7 +403,7 @@ public class Add_Alarm extends Activity {
 
                 }
 
-                System.out.println("Add_Alarm_Class alarmMusicID = " + alarm_music_ID);
+                //System.out.println("Add_Alarm_Class alarmMusicID = " + alarm_music_ID);
 
                 SetAlarmManager.SetAlarmManager(Add_Alarm.this,
                         alarm_time,
@@ -504,7 +504,7 @@ public class Add_Alarm extends Activity {
         if (requestCode == 4) {
             if (resultCode == Activity.RESULT_OK) {
 
-                System.out.println("Sono entrato in addAlarm nella sezione di MapsActivity");
+                //System.out.println("Sono entrato in addAlarm nella sezione di MapsActivity");
 
                 //setto a 0 il vettore di booleani
                 repetitionsArray = fill_Ripetition_Array(modify_alarm);
